@@ -86,16 +86,16 @@ install %{SOURCE3} .
 	docdir=%{_datadir}/doc/%{name}-%{version} \
 	DEVICE_DEVS16="`/bin/sh %{SOURCE3} devs.mak \
 %ifarch sparc sparc64 alpha
-		libvga \
+		vgalib \
 %else
-		%{?!svgalib:libvga} \
+		%{?!svgalib:vgalib} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
 %ifarch sparc sparc64 alpha
-		libvga \
+		vgalib \
 %else
-		%{?!svgalib:libvga} \
+		%{?!svgalib:vgalib} \
 %endif
 		`"
 
