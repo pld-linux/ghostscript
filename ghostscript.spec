@@ -1,10 +1,10 @@
 #
 # Conditional build:
-%bcond_without cups	# without CUPS support
-%bcond_with gimpprint	# with gimp-print support (requires gimp-print < 2.3)
-%bcond_with svga	# with svgalib display support (vgalib and lvga256 devices)
-%bcond_without omni	# without omni support
-
+%bcond_without	cups		# without CUPS support
+%bcond_with	gimpprint	# with gimp-print support (requires gimp-print < 2.3)
+%bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
+%bcond_without	omni		# without omni support
+#
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -34,20 +34,21 @@ URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+%{?with_cups:BuildRequires:	cups-devel}
+BuildRequires:	docbook-style-dsssl
+%{?with_gimpprint:BuildRequires:	gimp-print-devel}
+BuildRequires:	glib2-devel
 # for gsx
 #BuildRequires:	gtk+-devel
-BuildRequires:	glib2-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
+BuildRequires:	pkgconfig
 # Required by 'gdevvglb' device.
 %ifarch %{ix86} alpha ppc
 %{?with_svga:BuildRequires:	svgalib-devel}
 %endif
 # for documentation regeneration
 BuildRequires:	tetex
-%{?with_cups:BuildRequires:	cups-devel}
-BuildRequires:	docbook-style-dsssl
-%{?with_gimpprint:BuildRequires:	gimp-print-devel}
 BuildRequires:	tetex-dvips
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
