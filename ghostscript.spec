@@ -1,8 +1,6 @@
 #
 # Conditional build:
-%bcond_without	cups		# without CUPS support
 %bcond_with		svga		# with svgalib display support (vgalib and lvga256 devices)
-%bcond_without	omni		# without omni support
 
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
@@ -11,13 +9,12 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-%define gnu_ver 7.07
-Version:	%{gnu_ver}.1
-Release:	1
-License:	GPL
+Version:	8.50
+Release:	0.1
+License:	AFPL
 Group:		Applications/Graphics
-Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}-source.tar.bz2
-# Source0-md5:	d30bf5c09f2c7caa8291f6305cf03044
+Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
+# Source0-md5:	bd49a30d7485ad382f69b49a06d045fd
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
@@ -33,7 +30,6 @@ URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-%{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	glib2-devel
 # for gsx
@@ -131,30 +127,20 @@ Static libijs library.
 %description ijs-static -l pl
 Statyczna wersja biblioteki IJS.
 
-%package -n cups-filter-pstoraster
-Summary:	CUPS filter for support non-postscript printers
-Summary(pl):	Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe
-Group:		Applications/Printing
-Requires:	cups >= 1:1.1.16
-Requires:	%{name} = %{version}
-
-%description -n cups-filter-pstoraster
-CUPS filter for support non-postscript printers.
-
-%description -n cups-filter-pstoraster -l pl
-Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
-
 %prep
-%setup -q -n espgs-%{version} -a2
-%patch0 -p1
+%setup -q -a2
+#%patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+#%patch3 -p1
+#%patch4 -p1
+#%patch5 -p1
 ln -sf jp* jpeg
 
 %build
+# workarounds
+touch ijs/ijs-config.1
+#
 cp -f %{_datadir}/automake/config.sub .
 %{__aclocal}
 %{__autoconf}
@@ -164,10 +150,14 @@ export CFLAGS
 	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
-	--without-gimp-print \
-	%{!?with_cups:--disable-cups} \
-	--with%{!?with_omni:out}-omni \
+	--with-jbig2dec \
+	--with-jasper
 	--with-x
+
+# NEEDS patch because no such configure options
+#        --with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
+#        --with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
+
 cd ijs
 %{__autoconf}
 %configure
@@ -241,17 +231,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gs[^x]*
 %attr(755,root,root) %{_bindir}/ijs_client_example
 #%attr(755,root,root) %{_libdir}/libgs.so.*.*
-%attr(755,root,root) %{_libdir}/libijs.so
+#%attr(755,root,root) %{_libdir}/libijs.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
 %{_datadir}/%{name}/lib/*.*
-%dir %{_datadir}/%{name}/%{gnu_ver}
-%dir %{_datadir}/%{name}/%{gnu_ver}/lib
+%dir %{_datadir}/%{name}/%{version}
+%dir %{_datadir}/%{name}/%{version}/lib
 # "*.*" will not match "Fontmap". It is OK.
-%{_datadir}/%{name}/%{gnu_ver}/lib/*.*
-%{_datadir}/%{name}/%{gnu_ver}/lib/CIDFnmap
-%config %verify(not size md5 mtime) %{_datadir}/%{name}/%{gnu_ver}/lib/Fontmap
-%{_datadir}/%{name}/%{gnu_ver}/examples
+%{_datadir}/%{name}/%{version}/lib/*.*
+%{_datadir}/%{name}/%{version}/lib/*map
+%config %verify(not size md5 mtime) %{_datadir}/%{name}/%{version}/lib/Fontmap
+%{_datadir}/%{name}/%{version}/Resource
+%{_datadir}/%{name}/%{version}/examples
 %{_mandir}/man*/*
 %lang(cs) %{_mandir}/cs/man*/*
 %lang(de) %{_mandir}/de/man*/*
@@ -272,14 +263,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/ijs-config
 %{_includedir}/ijs
+%{_libdir}/libijs.la
+%{_pkgconfigdir}/*.pc
 
 %files ijs-static
 %defattr(644,root,root,755)
 %{_libdir}/libijs.a
-
-%if %{with cups}
-%files -n cups-filter-pstoraster
-%defattr(644,root,root,755)
-%(cups-config --serverroot)/*
-%attr(755,root,root) %(cups-config --serverbin)/filter/*
-%endif
