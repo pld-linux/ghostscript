@@ -78,7 +78,7 @@ install %{SOURCE3} .
 
 %build
 %{__make} \
-	XCFLAGS="$RPM_OPT_FLAGS -DA4=1 -w" \
+	XCFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -DA4=1 -w" \
 	XLDFLAGS="-s" \
 	prefix=%{_prefix} \
 	datadir=%{_datadir}/%{name} \
@@ -118,8 +118,8 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
 echo .so gs.1     > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 echo .so ps2pdf.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf12.1
 echo .so ps2pdf.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf13.1
+
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
