@@ -88,24 +88,3 @@ diff -Nur gs7.00.orig/lib/ps2epsi gs7.00/lib/ps2epsi
  fi
  
  ls -l "${infile}" |
-diff -Nur gs7.00.orig/lib/ps2pdfwr gs7.00/lib/ps2pdfwr
---- gs7.00.orig/lib/ps2pdfwr	Fri May 19 08:38:25 2000
-+++ gs7.00/lib/ps2pdfwr	Sun Apr 15 23:37:27 2001
-@@ -17,7 +17,7 @@
- 	exit 1
- fi
- 
--infile=$1;
-+infile="$1";
- 
- if [ $# -eq 1 ]
- then
-@@ -29,7 +29,7 @@
- 	  *)		base=`basename "${infile}"`; outfile="${base}.pdf" ;;
- 	esac
- else
--	outfile=$2
-+	outfile="$2"
- fi
- 
- # We have to include the options twice because -I only takes effect if it

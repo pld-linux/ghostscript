@@ -2,7 +2,6 @@
 # Conditional build:
 # _with_svgalib
 #
-%define		gp_version	4.2.0
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -11,7 +10,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.04
-Release:	1.2
+Release:	1.3
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -25,8 +24,7 @@ Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
 #Patch3:		%{name}-nosafer.patch
-# fixed in 7.04
-#Patch4:		%{name}-missquotes.patch
+Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
 URL:		http://www.ghostscript.com/
@@ -81,19 +79,27 @@ biçime getirebilir.
 
 %package ijs-devel
 Summary:	IJS development files
-Group:		.
+Summary(pl):	Pliki dla programistów IJS
+Group:		Development/Libraries
 Requires:	%{name} = %{version}
 
 %description ijs-devel
-IJS development files
+IJS development files.
+
+%description ijs-devel -l pl
+Pliki do tworzenia programów z u¿yciem biblioteki IJS.
 
 %package ijs-static
 Summary:	Static libijs
-Group:		.
+Summary(pl):	Statyczna biblioteka IJS
+Group:		Development/Libraries
 Requires:	%{name}-ijs-devel = %{version}
 
 %description ijs-static
-Static libijs
+Static libijs.
+
+%description ijs-static
+Statyczna wersja biblioteki IJS.
 
 %prep
 %setup -q -n gs%{version} -a2
@@ -102,7 +108,7 @@ ln -sf src/unix-gcc.mak Makefile
 %patch1 -p1
 %patch2 -p1
 ##%patch3 -p1
-##%patch4 -p1
+%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 ln -sf jp* jpeg
