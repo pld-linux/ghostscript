@@ -4,7 +4,6 @@
 # _without_gimp		- without gimp-print support
 # _with_svgalib		- with svgalib display support (vgalib and lvga256 devices)
 #
-%define gnu_ver		7.07
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -12,26 +11,24 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	%{gnu_ver}.1rc1
-Release:	3
+%define gnu_ver 7.07
+%define	rcver	rc1
+Version:	%{gnu_ver}.1
+Release:	0.%{rcver}.1
 License:	GPL
 Group:		Applications/Graphics
-Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}-source.tar.bz2
+Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}%{rcver}-source.tar.bz2
 # Source0-md5:	c140f57c680b0b07c27ea3665d5ca277
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source5-md5:	9b5953aa0cc155f4364f20036b848585
-#Patch0:		%{name}-config.patch
-#Patch1:		%{name}-hpdj_driver.patch
-#Patch2:		%{name}-cdj880.patch
-#Patch3:		%{name}-nosafer.patch
-Patch4:		%{name}-missquotes.patch
-Patch5:		%{name}-setuid.patch
-Patch6:		%{name}-time_h.patch
-Patch7:		%{name}-ijs_cflags.patch
-Patch8:		%{name}-gdevcd8-fixes.patch
+Patch0:		%{name}-missquotes.patch
+Patch1:		%{name}-setuid.patch
+Patch2:		%{name}-time_h.patch
+Patch3:		%{name}-ijs_cflags.patch
+Patch4:		%{name}-gdevcd8-fixes.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -123,13 +120,13 @@ IJS development files.
 Pliki do tworzenia programów z u¿yciem biblioteki IJS.
 
 %package ijs-static
-Summary:	Static libijs
+Summary:	Static libijs library
 Summary(pl):	Statyczna biblioteka IJS
 Group:		Development/Libraries
 Requires:	%{name}-ijs-devel = %{version}
 
 %description ijs-static
-Static libijs.
+Static libijs library.
 
 %description ijs-static -l pl
 Statyczna wersja biblioteki IJS.
@@ -148,12 +145,12 @@ CUPS filter for support non-postscript printers.
 Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 
 %prep
-%setup -q -a2 -n espgs-%{version}
+%setup -q -n espgs-%{version}%{rcver} -a2
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
 ln -sf jp* jpeg
 
 %build
