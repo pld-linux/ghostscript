@@ -5,7 +5,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu
 Summary(tr):	PostScript yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	5.50
-Release:	5
+Release:	6
 Vendor:		Aladdin Enterprises
 Copyright:	GPL
 Group:		Applications/Graphics
@@ -69,18 +69,20 @@ install %{SOURCE1}  $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 echo .so gs.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 
-ln -sf gs 	$RPM_BUILD_ROOT%{_bindir}/ghostscript
+ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
-strip 		$RPM_BUILD_ROOT%{_bindir}/gs
+strip --strip-unneeded $RPM_BUILD_ROOT%{_bindir}/gs
 
-gzip -9nf 	$RPM_BUILD_ROOT%{_mandir}/man1/*
+for i in *.htm ; do mv $i "$i"l ; done
+
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(644,root,root) %{_datadir}/doc/%{name}-%{version}
+%doc *.html
 
 %attr(755,root,root) %{_bindir}/*
 
