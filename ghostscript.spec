@@ -6,7 +6,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	6.22
-Release:	3
+Release: 4
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -24,7 +24,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	svgalib-devel
 %endif
 BuildRequires:	zlib-devel
-BuildRequires:	libpng-devel
+BuildRequires:	libpng >= 1.0.8
 BuildRequires:	patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
