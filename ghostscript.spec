@@ -15,7 +15,7 @@ Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 %define gnu_ver 7.07
 Version:	%{gnu_ver}.1
-Release:	0.5
+Release:	0.6
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}-source.tar.bz2
