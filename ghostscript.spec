@@ -83,12 +83,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %attr(755,root,root) /usr/bin/*
 
-%dir /usr/share/%{name}
-/usr/share/%{name}/%{version}/*.ps
-%config %verify(not size md5 mtime) /usr/share/%{name}/%{version}/Fontmap
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/%{version}/*.ps
+%config %verify(not size md5 mtime) %{_datadir}/%{name}/%{version}/Fontmap
 
-%dir /usr/share/%{name}/%{version}/examples
-/usr/share/%{name}/%{version}/examples/*.ps
+%dir %{_datadir}/%{name}/%{version}/examples
+%{_datadir}/%{name}/%{version}/examples/*.ps
 
 %{_mandir}/man1/*
 
@@ -128,4 +128,4 @@ updated to 5.10
 - translations modified for de, fr, tr
 
 * Mon Mar 03 1997 Erik Troan <ewt@redhat.com>
-- Made /usr/share/ghostscript/3.33/Fontmap a config file.
+- Made %{_datadir}/ghostscript/3.33/Fontmap a config file.
