@@ -23,15 +23,15 @@ Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5: dbd5f3b47ed13132f04c685d608a7547
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source5-md5: 9b5953aa0cc155f4364f20036b848585
-Patch0:		%{name}-config.patch
-Patch1:		%{name}-hpdj_driver.patch
-Patch2:		%{name}-cdj880.patch
+#Patch0:		%{name}-config.patch
+#Patch1:		%{name}-hpdj_driver.patch
+#Patch2:		%{name}-cdj880.patch
 #Patch3:		%{name}-nosafer.patch
 Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
 Patch7:		%{name}-ijs_cflags.patch
-Patch8:		%{name}-cdj670-fix.patch
+Patch8:		%{name}-gdevcd8-fixes.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -151,7 +151,7 @@ Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p0
+%patch7 -p1
 %patch8 -p1
 ln -sf jp* jpeg
 
@@ -169,11 +169,7 @@ export CFLAGS
 	--with-x
 cd ijs
 %{__autoconf}
-%ifarch alpha
-%configure CFLAGS="%{rpmcflags} -fPIC"
-%else
-%configure CFLAGS="%{rpmcflags}"
-%endif
+%configure
 cd ..
 
 #%%{__make} so \
