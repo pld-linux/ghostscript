@@ -1,6 +1,6 @@
-diff -Nur gs7.00.orig/lib/dvipdf gs7.00/lib/dvipdf
---- gs7.00.orig/lib/dvipdf	Thu Mar  9 09:40:39 2000
-+++ gs7.00/lib/dvipdf	Sun Apr 15 23:31:36 2001
+diff -urN espgs-7.07.1rc2.org/lib/dvipdf espgs-7.07.1rc2/lib/dvipdf
+--- espgs-7.07.1rc2.org/lib/dvipdf	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/dvipdf	Sun Sep 14 18:43:26 2003
 @@ -22,7 +22,7 @@
  	exit 1
  fi
@@ -10,18 +10,18 @@ diff -Nur gs7.00.orig/lib/dvipdf gs7.00/lib/dvipdf
  
  if [ $# -eq 1 ]
  then
-@@ -33,7 +33,7 @@
+@@ -32,7 +32,7 @@
  	esac
- 	outfile="${base}.pdf"
+ 	outfile="${base}".pdf
  else
 -	outfile=$2
 +	outfile="$2"
  fi
  
- # Doing an initial 'save' helps keep fonts from being flushed between pages.
-diff -Nur gs7.00.orig/lib/pdf2dsc gs7.00/lib/pdf2dsc
---- gs7.00.orig/lib/pdf2dsc	Fri Dec 29 06:03:49 2000
-+++ gs7.00/lib/pdf2dsc	Sun Apr 15 23:32:43 2001
+ # We have to include the options twice because -I only takes effect if it
+diff -urN espgs-7.07.1rc2.org/lib/pdf2dsc espgs-7.07.1rc2/lib/pdf2dsc
+--- espgs-7.07.1rc2.org/lib/pdf2dsc	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/pdf2dsc	Sun Sep 14 18:43:26 2003
 @@ -20,7 +20,7 @@
  
  pdffile=$1
@@ -31,9 +31,9 @@ diff -Nur gs7.00.orig/lib/pdf2dsc gs7.00/lib/pdf2dsc
  
  exec gs -q -dNODISPLAY -dSAFER -dDELAYSAFER\
      -sPDFname="$pdffile" -sDSCname="$dscfile" pdf2dsc.ps -c quit
-diff -Nur gs7.00.orig/lib/pdf2ps gs7.00/lib/pdf2ps
---- gs7.00.orig/lib/pdf2ps	Fri May 19 08:38:25 2000
-+++ gs7.00/lib/pdf2ps	Sun Apr 15 23:33:20 2001
+diff -urN espgs-7.07.1rc2.org/lib/pdf2ps espgs-7.07.1rc2/lib/pdf2ps
+--- espgs-7.07.1rc2.org/lib/pdf2ps	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/pdf2ps	Sun Sep 14 18:43:26 2003
 @@ -14,7 +14,7 @@
  
  if [ $# -eq 2 ] 
@@ -43,9 +43,9 @@ diff -Nur gs7.00.orig/lib/pdf2ps gs7.00/lib/pdf2ps
  elif [ $# -eq 1 ]
  then
      outfile=`basename "$1" \.pdf`.ps
-diff -Nur gs7.00.orig/lib/pfbtopfa gs7.00/lib/pfbtopfa
---- gs7.00.orig/lib/pfbtopfa	Wed Apr 12 19:41:41 2000
-+++ gs7.00/lib/pfbtopfa	Sun Apr 15 23:33:52 2001
+diff -urN espgs-7.07.1rc2.org/lib/pfbtopfa espgs-7.07.1rc2/lib/pfbtopfa
+--- espgs-7.07.1rc2.org/lib/pfbtopfa	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/pfbtopfa	Sun Sep 14 18:43:26 2003
 @@ -4,7 +4,7 @@
  
  if [ $# -eq 2 ] 
@@ -55,19 +55,25 @@ diff -Nur gs7.00.orig/lib/pfbtopfa gs7.00/lib/pfbtopfa
  elif [ $# -eq 1 ]
  then
      outfile=`basename "$1" \.pfb`.pfa
-diff -Nur gs7.00.orig/lib/ps2epsi gs7.00/lib/ps2epsi
---- gs7.00.orig/lib/ps2epsi	Wed Apr  4 23:05:00 2001
-+++ gs7.00/lib/ps2epsi	Sun Apr 15 23:36:15 2001
-@@ -1,7 +1,7 @@
+diff -urN espgs-7.07.1rc2.org/lib/ps2epsi espgs-7.07.1rc2/lib/ps2epsi
+--- espgs-7.07.1rc2.org/lib/ps2epsi	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/ps2epsi	Sun Sep 14 18:48:42 2003
+@@ -1,13 +1,7 @@
  #!/bin/sh
  # $Id$
  
 -tmpfile=/tmp/ps2epsi$$
+-rm -f $tmpfile
+-if test -e $tmpfile; then
+-	echo "$0: Our temporary file $tmpfile already exists." 1>&2
+-	exit 1
+-fi
+-trap "rm -rf $tmpfile" 0 1 2 3 7 13 15
 +tmpfile=`mktemp /tmp/ps2epsi.XXXXXX` || exit 1
  
  export outfile
  
-@@ -10,7 +10,7 @@
+@@ -16,7 +10,7 @@
  	exit 1
  fi
  
@@ -76,7 +82,7 @@ diff -Nur gs7.00.orig/lib/ps2epsi gs7.00/lib/ps2epsi
  
  if [ $# -eq 1 ]
  then
-@@ -22,9 +22,9 @@
+@@ -27,9 +21,9 @@
  	  *.epsf)	base=`basename "${infile}" .epsf` ;;
  	  *)		base=`basename "${infile}"` ;;
  	esac
