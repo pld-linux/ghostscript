@@ -6,7 +6,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	6.20
-Release:	1
+Release:	2
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -16,7 +16,9 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Patch0:		ghostscript-config.patch
+Patch1:		ghostscript-deviceslist.patch
 URL:		http://www.ghostscript.com/
+BuildRequires:	XFree86-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	patch
@@ -59,6 +61,7 @@ ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði biçime getirebilir.
 %setup -q -n gs%{version}
 ln -s src/unix-gcc.mak Makefile
 %patch0 -p1 
+%patch1 -p1
 %setup -q -T -D -a 2 -n gs%{version}
 ln -s jp* jpeg
 
@@ -73,12 +76,14 @@ make \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_datadir}
+install -d $RPM_BUILD_ROOT%{_datadir}
 
 make install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
+
+install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 
 install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 rm -rf	  $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
@@ -99,6 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
+# "*.*" will not match "Fontmap". It is OK.
 %{_datadir}/%{name}/lib/*.*
 %dir %{_datadir}/%{name}/examples
 %{_datadir}/%{name}/examples/*
