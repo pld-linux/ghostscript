@@ -1,5 +1,27 @@
---- gs7.04/src/unix-gcc.mak.wiget	Fri Feb  1 07:27:58 2002
-+++ gs7.04/src/unix-gcc.mak	Wed Feb  6 12:31:59 2002
+diff -Nur gs7.04.orig/Makefile.in gs7.04/Makefile.in
+--- gs7.04.orig/Makefile.in	Fri Feb  1 04:30:13 2002
++++ gs7.04/Makefile.in	Thu Mar 14 12:23:23 2002
+@@ -63,7 +63,7 @@
+ man1ext = 1
+ datadir = @datadir@
+ gsdir = $(datadir)/ghostscript
+-gsdatadir = $(gsdir)/$(GS_DOT_VERSION)
++gsdatadir = $(gsdir)
+ 
+ docdir=$(gsdatadir)/doc
+ exdir=$(gsdatadir)/examples
+@@ -72,7 +72,7 @@
+ # Define the default directory/ies for the runtime
+ # initialization and font files.  Separate multiple directories with a :.
+ 
+-GS_LIB_DEFAULT=$(gsdatadir)/lib:$(gsdir)/fonts
++GS_LIB_DEFAULT=$(datadir)/lib:$(datadir)/fonts:/usr/share/fonts/Type1
+ 
+ # Define whether or not searching for initialization files should always
+ # look in the current directory first.  This leads to well-known security
+diff -Nur gs7.04.orig/src/unix-gcc.mak gs7.04/src/unix-gcc.mak
+--- gs7.04.orig/src/unix-gcc.mak	Fri Feb  1 07:27:58 2002
++++ gs7.04/src/unix-gcc.mak	Thu Mar 14 12:21:57 2002
 @@ -65,7 +65,7 @@
  man1ext = 1
  datadir = $(prefix)/share
