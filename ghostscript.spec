@@ -23,7 +23,7 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
 Source4:	ftp://download.sourceforge.net/pub/sourceforge/gimp-print/gimp-print-%{gp_version}.tar.gz
-Source5:	http://216.136.171.200/hpinkjet/hpijs0.93.tar.gz
+Source5:	http://216.136.171.200/hpinkjet/hpijs0.94.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
@@ -92,8 +92,8 @@ ln -s src/unix-gcc.mak Makefile
 %setup -q -T -D -a 2 -a 4 -a 5 -n gs%{version}
 ln -s jp* jpeg
 install %{SOURCE3} .
-mv hpijs0.93 hpijs
-cp hpijs/gdevhpijs.c src
+mv hpijs0.94 hpijs
+cp hpijs/gdevhpij.? src
 %patch7 -p0
 
 %build
@@ -162,10 +162,10 @@ echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gslj.1
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
 install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
+# install -d $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
 
 install hpijs/hpijs $RPM_BUILD_ROOT%{_bindir}
-install hpijs/*.html hpijs/*.jpg $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
+# install hpijs/*.html hpijs/*.jpg $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
@@ -173,7 +173,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc doc/*.htm
-%doc %{_datadir}/doc/%{name}-%{version}/*
+# %doc %{_datadir}/doc/%{name}-%{version}/*
 %attr(755,root,root) %{_bindir}/*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
