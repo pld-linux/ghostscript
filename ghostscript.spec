@@ -2,6 +2,8 @@
 # Conditional build:
 # _with_svgalib
 #
+%define gnu_ver		7.05
+%define	pcl3_ver	3.3
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -9,17 +11,19 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	7.05
-Release:	2
+Version:	%{gnu_ver}.5
+Release:	1
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
-Source0:	ftp://download.sourceforge.net/pub/sourceforge/ghostscript/%{name}-%{version}.tar.bz2
+Source0:	http://unc.dl.sourceforge.net/sourceforge/espgs/espgs-7.05.5-source.tar.bz2
 Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
+Source4:	http://www.linuxprinting.org/download/printing/GS-7,05-MissingDrivers-1.tar.gz
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
+Source6:	http://home.t-online.de/home/Martin.Lottermoser/pcl3dist/pcl3-%{pcl3_ver}.tar.bz2
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
@@ -127,11 +131,11 @@ Static libijs.
 Statyczna wersja biblioteki IJS.
 
 %prep
-%setup -q -a2
+%setup -q -a2 -a4 -n espgs-%{version}
 ln -sf src/unix-gcc.mak Makefile
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+#%patch0 -p1
+###%patch1 -p1
+###%patch2 -p1
 ##%patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -139,12 +143,28 @@ ln -sf src/unix-gcc.mak Makefile
 ln -sf jp* jpeg
 install %{SOURCE3} .
 
+# PCL
+mkdir -p pcl3
+bzip2 -cd %{SOURCE5} | tar xfO - pcl3-%{pcl3ver}/pcl3.tar | \
+        tar xf - -C pcl3
+cat pcl3/src/contrib.mak-6.50.add >> src/contrib.mak
+mv pcl3/lib pcl3/doc/
+mv pcl3/ps pcl3/doc/
+cp -ax pcl3/doc doc/pcl3
+cp pcl3/README doc/README.pcl3
+cp pcl3/BUGS doc/BUGS.pcl3
+cp pcl3/NEWS doc/NEWS.pcl3
+
 %build
 # NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
 # drivers to make!
 %configure \
-	--with-x \
-	--with-ijs
+	--with-drivers=ALL,hl7x0,hl1240,hl1250,cdj670,cdj850,cdj880,cdj890,cdj970,cdj1600,ln03,xes,t4693d2,t4693d4,t4693d8,lips3,dl2100,la50,la70,la75,la75plus,lj4dith,sxlcrt,chp2200,pcl3,hpdjplus,hpdjportable,hpdj310,hpdj320,hpdj340,hpdj400,hpdj500,hpdj500c,hpdj510,hpdj520,hpdj540,hpdj550c,hpdj560c,hpdj600,hpdj660c,hpdj670c,hpdj680c,hpdj690c,hpdj850c,hpdj855c,hpdj870c,hpdj890c,hpdj1120c,lxm3200,lx5000,lex5700,lex7000,md2k,md5k,gdi,alc8500,alc4000,alc2000,epl5900,epl5800,epl2050,epl2050p,epl2120,bjcmono,bjcgray,bjccmyk,bjccolor,pngmono,pnggray,png16,png256,png16m \
+	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
+	--with-ijs \
+	--with-gimp-print \
+	--with-omni \
+	--with-x
 cd ijs
 %{__autoconf}
 %configure
