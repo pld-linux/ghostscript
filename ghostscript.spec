@@ -133,6 +133,15 @@ Static libijs.
 %description ijs-static
 Statyczna wersja biblioteki IJS.
 
+%package -n cups-filter-pstoraster
+Summary:	CUPS filter for support non-postscript printers
+Group:		Applications/Printing
+Requires:	cups >= 1.1.16
+Requires:	%{name} = %{version}
+
+%description -n cups-filter-pstoraster
+CUPS filter for support non-postscript printers.
+
 %prep
 %setup -q -a2 -n espgs-%{version}
 #ln -sf src/unix-gcc.mak Makefile
@@ -173,18 +182,22 @@ cd ijs
 %configure
 cd ..
 
-%{__make} so \
-	docdir=%{_datadir}/doc/%{name}-%{version} 
+#%%{__make} so \
+%{__make}  \
+	docdir=%{_defaultdocdir}/%{name}-%{version} 
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir},%{_libdir},%{_includedir}}
+install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}}
 
-%{__make} soinstall \
+#%%{__make} soinstall \
+%{__make} install \
+	install_prefix=$RPM_BUILD_ROOT \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
+	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-%{version} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 cd ijs
@@ -215,12 +228,12 @@ echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gslj.1
 
 bzip2 -dc %{SOURCE5} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
-mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
+#mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
 install -d $RPM_BUILD_ROOT%{_includedir}/ps
-install src/{iapi,errors}.h $RPM_BUILD_ROOT%{_includedir}/ps
+#install src/{iapi,errors}.h $RPM_BUILD_ROOT%{_includedir}/ps
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -230,34 +243,39 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc doc/*.htm
+%doc %{_defaultdocdir}/%{name}-%{version}
 %attr(755,root,root) %{_bindir}/[bdeflpsux]*
 %attr(755,root,root) %{_bindir}/gs
+%attr(755,root,root) %{_bindir}/wftopfa
 %attr(755,root,root) %{_bindir}/gs[^x]*
 %attr(755,root,root) %{_bindir}/ijs_client_example
-%attr(755,root,root) %{_libdir}/libgs.so.*.*
+#%attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %{_libdir}/libijs.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
-# "*.*" will not match "Fontmap". It is OK.
 %{_datadir}/%{name}/lib/*.*
-%dir %{_datadir}/%{name}/examples
-%{_datadir}/%{name}/examples/*
-%config %verify(not size md5 mtime) %{_datadir}/%{name}/lib/Fontmap
+%dir %{_datadir}/%{name}/%{gnu_ver}
+%dir %{_datadir}/%{name}/%{gnu_ver}/lib
+# "*.*" will not match "Fontmap". It is OK.
+%{_datadir}/%{name}/%{gnu_ver}/lib/*.*
+%{_datadir}/%{name}/%{gnu_ver}/lib/CIDFnmap
+%config %verify(not size md5 mtime) %{_datadir}/%{name}/%{gnu_ver}/lib/Fontmap
+%{_datadir}/%{name}/%{gnu_ver}/examples
 %{_mandir}/man*/*
 %lang(cs) %{_mandir}/cs/man*/*
 %lang(es) %{_mandir}/es/man*/*
 %lang(fr) %{_mandir}/fr/man*/*
 %lang(pl) %{_mandir}/pl/man*/*
+%lang(de) %{_mandir}/de/man*/*
 
-%files gtk
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gsx
+#%files gtk
+#%defattr(644,root,root,755)
+#%attr(755,root,root) %{_bindir}/gsx
 
-%files devel
-%defattr(644,root,root,755)
-%{_includedir}/ps
-%{_libdir}/libgs.so
+#%files devel
+#%defattr(644,root,root,755)
+#%{_includedir}/ps
+#%{_libdir}/libgs.so
 
 %files ijs-devel
 %defattr(644,root,root,755)
@@ -265,4 +283,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/ijs
 
 %files ijs-static
+%defattr(644,root,root,755)
 %{_libdir}/libijs.a
+
+%files -n cups-filter-pstoraster
+%defattr(644,root,root,755)
+%(cups-config --serverroot)/*
+%attr(755,root,root) %(cups-config --serverbin)/filter/*
