@@ -1,24 +1,25 @@
-Summary:	PostScript interpreter and renderer
-Summary(de):	PostScript-Interpreter und Renderer
-Summary(fr):	Interpréteur et visualisateur PostScript
-Summary(pl):	Bezp³atny interpreter PostScriptu
-Summary(tr):	PostScript yorumlayýcý ve gösterici
+Summary:	PostScript & PDF interpreter and renderer
+Summary(de):	PostScript & PDF Interpreter und Renderer
+Summary(fr):	Interpréteur et visualisateur PostScript & PDF
+Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
+Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	5.50
-Release:	6
-Vendor:		Aladdin Enterprises
-Copyright:	GPL
+Version:	6.20
+Release:	1
+Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
+Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
 Group(pl):	Aplikacje/Grafika
-Source0:	ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
+Source0:	http://download.sourceforge.net/ghostscript/%{name}-%{version}.tar.gz
 Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
-#Icon:		ghost.gif
+# we need to link with libjpeg recompiled with our parameters
+Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Patch0:		ghostscript-config.patch
-Patch1:		ghostscript-post.TL.patch
-Patch2:		ghostscript-shared_jpeg.patch
-URL:		http://www.cs.wisc.edu/~ghost/
+URL:		http://www.ghostscript.com/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-BuildRequires:	zlib-devel, libpng-devel, patch
+BuildRequires:	zlib-devel
+BuildRequires:	libpng-devel
+BuildRequires:	patch
 
 %description
 Ghostscript is a PostScript interpretor. It can render both PostScript
@@ -41,7 +42,7 @@ formats de fichiers graphiques populaires.
 %description -l pl
 Ghostcript jest interpreterem PostScriptu, jêzyku u¿ywanego do opisu formatu
 dokumentu. Ghostscript potrafi przetworzyæ dokument w formacie PostScript
-i PDF %{name} szereg postaci wyj¶ciowych: drukarki (w³±czaj±c kolorowe), okno
+i PDF na szereg postaci wyj¶ciowych: drukarki (w³±czaj±c kolorowe), okno
 X-Window i popularne formaty graficzne.
 
 %description -l tr
@@ -50,31 +51,38 @@ ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði biçime getirebilir.
 
 %prep
 %setup -q -n gs%{version}
-ln -s unix-gcc.mak Makefile
+ln -s src/unix-gcc.mak Makefile
 %patch0 -p1 
-%patch1 -p1 
-%patch2 -p1 
+%setup -q -T -D -a 2 -n gs%{version}
+ln -s jp* jpeg
 
 %build
-make XCFLAGS="$RPM_OPT_FLAGS -DA4 -w" XLDFLAGS="-s"
+make \
+	XCFLAGS="$RPM_OPT_FLAGS -DA4=1 -w" \
+	XLDFLAGS="-s" \
+	prefix=%{_prefix} \
+	datadir=%{_datadir}/%{name} \
+	mandir=%{_mandir} \
+	docdir=%{_datadir}/doc/%{name}-%{version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_datadir}/doc
-install -d $RPM_BUILD_ROOT/%{_mandir}
-install -d $RPM_BUILD_ROOT/%{_bindir}
+install -d $RPM_BUILD_ROOT/%{_datadir}
 
-make install prefix=$RPM_BUILD_ROOT/usr
-install %{SOURCE1}  $RPM_BUILD_ROOT%{_datadir}/%{name}/
+make \
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	datadir=$RPM_BUILD_ROOT%{_datadir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir} \
+	install
 
-echo .so gs.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
-
+install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
+rm -rf	  $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
+rm -rf    $RPM_BUILD_ROOT%{_bindir}/*.sh
+rm -f     $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf1{2,3}.1
+echo .so gs.1     > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
+echo .so ps2pdf.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf12.1
+echo .so ps2pdf.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf13.1
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
-
-strip --strip-unneeded $RPM_BUILD_ROOT%{_bindir}/gs
-
-for i in *.htm ; do mv $i "$i"l ; done
-
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
 
 %clean 
@@ -82,15 +90,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.html
-
+%doc doc/*.htm
 %attr(755,root,root) %{_bindir}/*
-
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/*.ps
-%config %verify(not size md5 mtime) %{_datadir}/%{name}/Fontmap
-
+%dir %{_datadir}/%{name}/lib
+%{_datadir}/%{name}/lib/*.*
 %dir %{_datadir}/%{name}/examples
-%{_datadir}/%{name}/examples/*.ps
-
-%{_mandir}/man1/*
+%{_datadir}/%{name}/examples/*
+%config %verify(not size md5 mtime) %{_datadir}/%{name}/lib/Fontmap
+%{_mandir}/man*/*
