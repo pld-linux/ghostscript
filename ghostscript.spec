@@ -32,7 +32,7 @@ URL:		http://www.ghostscript.com/
 BuildRequires:	awk
 BuildRequires:	XFree86-devel
 # Required by 'gdevvglb' device.
-%ifnarch sparc sparc64 alpha
+%ifarch %{ix86} alpha ppc
 %{?_with_svgalib:BuildRequires:	svgalib-devel}
 %endif
 BuildRequires:	libpng-devel >= 1.0.8
@@ -159,14 +159,14 @@ cd ..
 	mandir=%{_mandir} \
 	docdir=%{_datadir}/doc/%{name}-%{version} \
 	DEVICE_DEVS16="`/bin/sh %{SOURCE3} devs.mak \
-%ifarch sparc sparc64 alpha
+%ifnarch %{ix86} alpha ppc
 		vgalib lvga256\
 %else
 		%{!?_with_svgalib:vgalib lvga256} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
-%ifarch sparc sparc64 alpha
+%ifnarch %{ix86} alpha ppc
 		vgalib lvga256\
 %else
 		%{!?_with_svgalib:vgalib lvga256} \
