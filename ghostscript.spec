@@ -152,7 +152,7 @@ autoconf
 cd ..
 
 %{__make} so \
-	XCFLAGS="%{rpmcflags} -DA4=1 -w" \
+	XCFLAGS="%{rpmcflags} -DA4=1 -w `pkg-config --cflags libpng12 2>/dev/null`" \
 	XLDFLAGS="%{rpmldflags}" \
 	prefix=%{_prefix} \
 	datadir=%{_datadir}/%{name} \

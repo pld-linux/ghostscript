@@ -46,7 +46,7 @@ diff -Nur gs7.04.orig/src/unix-gcc.mak gs7.04/src/unix-gcc.mak
  
 -PSRCDIR=libpng
 +PSRCDIR=/usr/include
- PVERSION=10201
+ PVERSION=10202
  
  # Choose whether to use a shared version of the PNG library, and if so,
  # what its name is.
