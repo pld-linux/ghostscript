@@ -1,4 +1,11 @@
 #
+# TODO:
+#	- fix svga bcond
+#	- create shared libijs
+#	- link with dynamic jasper and jbig2dec
+#	- update patches
+#
+
 # Conditional build:
 %bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
 #
@@ -141,6 +148,8 @@ ln -sf jp* jpeg
 # workarounds
 touch ijs/ijs-config.1
 #
+sed -i -e 's#:$(gsdir)/fonts#:$(gsdir)/fonts:%{_datadir}/fonts:%{_datadir}/fonts/Type1#g' src/Makefile.in
+#
 cp -f %{_datadir}/automake/config.sub .
 %{__aclocal}
 %{__autoconf}
@@ -148,10 +157,9 @@ CFLAGS="%{rpmcflags} -DA4"
 export CFLAGS
 %configure \
 	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
-	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with-jbig2dec \
-	--with-jasper
+	--with-jasper \
 	--with-x
 
 # NEEDS patch because no such configure options
