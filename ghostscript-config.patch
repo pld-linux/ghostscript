@@ -25,7 +25,7 @@ diff -Nur gs7.00.orig/Makefile gs7.00/Makefile
  
 -PSRCDIR=libpng
 +PSRCDIR=/usr/include
- PVERSION=10010
+ PVERSION=10012
  
  # Choose whether to use a shared version of the PNG library, and if so,
  # what its name is.
@@ -113,7 +113,7 @@ diff -Nur gs7.00.orig/src/unix-gcc.mak gs7.00/src/unix-gcc.mak
  
 -PSRCDIR=libpng
 +PSRCDIR=/usr/include
- PVERSION=10010
+ PVERSION=10012
  
  # Choose whether to use a shared version of the PNG library, and if so,
  # what its name is.
