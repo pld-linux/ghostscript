@@ -11,7 +11,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	6.50
-Release:	6hp
+Release:	6
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -23,7 +23,7 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
 Source4:	ftp://download.sourceforge.net/pub/sourceforge/gimp-print/gimp-print-%{gp_version}.tar.gz
-Source5:	hpijs0.93.tar.gz
+Source5:	http://216.136.171.200/hpinkjet/hpijs0.93.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
