@@ -1,24 +1,21 @@
-Summary:	PostScript interpreter and renderer
-Summary(de):	PostScript-Interpreter und Renderer
-Summary(fr):	Interpréteur et visualisateur PostScript
-Summary(pl):	Bezp³atny interpreter PostScriptu
-Summary(tr):	PostScript yorumlayýcý ve gösterici
-Name:		ghostscript
-Version:	5.10
-Release:	3
-Group:		Applications/Graphics
-Group(pl):	Aplikacje/Grafika
-Copyright:	GPL
-URL:		http://www.cs.wisc.edu/~ghost/
-Source0:	ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
-Source1:	pdf_sec.ps
-Icon:		ghost.gif
-Patch0:		%{name}-%{version}-config.patch
-Patch1:		%{name}-%{version}-post.patch
-Patch2:		%{name}-%{version}-devices.patch
-Patch3:		%{name}-%{version}-shared_libs.patch
-Vendor:		Aladdin Enterprises
-BuildRoot:	/tmp/%{name}-%{version}-root
+Summary:     PostScript interpreter and renderer
+Summary(de): PostScript-Interpreter und Renderer
+Summary(fr): Interpréteur et visualisateur PostScript
+Summary(pl): Bezp³atny interpreter PostScriptu
+Summary(tr): PostScript yorumlayýcý ve gösterici
+Name:        ghostscript
+Version:     5.50
+Release:     1
+Group:       Applications/Graphics
+Group(pl):   Aplikacje/Grafika
+Copyright:   GPL
+URL:         http://www.cs.wisc.edu/~ghost/
+Source0:     ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
+Icon:        ghost.gif
+Patch0:      %{name}-config.patch
+Vendor:      Aladdin Enterprises
+BuildRoot:   /tmp/%{name}-%{version}-root
+BuildPrereq: zlib-devel, libjpeg-devel, libtiff-devel, libpng-devel, patch
 
 %description
 Ghostscript is a PostScript interpretor. It can render both PostScript
@@ -52,17 +49,15 @@ ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði biçime getirebilir.
 %setup -q -n gs%{version}
 ln -s unix-gcc.mak Makefile
 %patch0 -p1 
-%patch1 -p1 
-%patch2 -p1
-%patch3 -p1
 
 %build
-install %SOURCE1 .
-make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -w" prefix=/usr
+make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -DA4 -w" prefix=/usr
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/usr/{bin,man,doc}
+install -d $RPM_BUILD_ROOT/%{_datadir}/doc
+install -d $RPM_BUILD_ROOT/%{_mandir}
+install -d $RPM_BUILD_ROOT/%{_bindir}
 
 make install prefix=$RPM_BUILD_ROOT/usr
 
@@ -79,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(644,root,root) %docdir /usr/doc/%{name}-%{version}
+%attr(644,root,root) %{_datadir}/doc/%{name}-%{version}
 
 %attr(755,root,root) %{_bindir}/*
 
@@ -93,6 +88,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 
 %changelog
+* Fri Jun 18 1999 Artur Wróblewski <wrobell@posexperts.com.pl>
+[5.50-1]
+- FHS-2.0
+- papersize A4 is default now
+
 * Tue Feb 16 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
 - added support for encrypted PDFs
 
