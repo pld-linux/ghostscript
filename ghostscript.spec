@@ -2,7 +2,7 @@
 # Conditional build:
 # bcond_on_svgalib
 #
-%define		gp_version	4.1.5
+%define		gp_version	4.1.6
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
