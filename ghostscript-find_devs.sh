@@ -28,7 +28,7 @@ BLACKLIST="$BLACKLIST cdj880"			# There is no driver in *.c?!
 BLACKLIST_sparc="vgalib"
 BLACKLIST_sparc64="vgalib"
 export BLACKLIST_{sparc,sparc64}
-BLACKLIST="$BLACKLIST `sh -c "echo \\$BLACKLIST_$1"`"
+eval BLACKLIST='"$BLACKLIST "$BLACKLIST_'$2
 
 MAKEFILE="src/unix-gcc.mak"
 
@@ -46,7 +46,7 @@ scan_file() {
 		| while read DEV; do
 			is_on_blacklist $DEV || continue
 			# grep -q $DEV $MAKEFILE, but who needs grep?! ;)
-			awk -v DEV="$DEV" '/$DEV/ { exit 1 }' < $MAKEFILE && echo -n "$DEV "
+			awk -v DEV="$DEV" '/^DEVICE_DEVS/ { if(index($0, DEV) > 0) exit 1 }' < $MAKEFILE && echo -n "$DEV "
 		done
 }
 
