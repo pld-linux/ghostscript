@@ -10,7 +10,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.04
-Release:	1.3
+Release:	1.5
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -37,6 +37,8 @@ BuildRequires:	XFree86-devel
 %endif
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
+# for gsx
+BuildRequires:	gtk+-devel
 # for documentation regeneration
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	/usr/bin/texi2html
@@ -76,6 +78,30 @@ kolorowe), okno X-Window i popularne formaty graficzne.
 GhostScript, PostScript ve PDF uyumlu dosyalarý, X penceresinde
 gösterebilir ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði
 biçime getirebilir.
+
+%package gtk
+Summary:	Ghostscript with Gtk+ console
+Summary(pl):	Ghostscript z konsol± Gtk+
+Group:		Applications/Graphics
+Requires:	%{name} = %{version}
+
+%description gtk
+Ghostscript with Gtk+ console.
+
+%description gtk -l pl
+Ghostscript z konsol± Gtk+.
+
+%package devel
+Summary:	libgs header files
+Summary(pl):	Pliki nag³ówkowe libgs
+Group:		Development/Libraries
+Requires:	%{name} = %{version}
+
+%description devel
+Header files for libgs - ghostscript shared library.
+
+%description devel -l pl
+Pliki nag³ówkowe libgs - wspó³dzielonej biblioteki ghostscript.
 
 %package ijs-devel
 Summary:	IJS development files
@@ -125,7 +151,7 @@ autoconf
 %configure
 cd ..
 
-%{__make} \
+%{__make} so \
 	XCFLAGS="%{rpmcflags} -DA4=1 -w" \
 	XLDFLAGS="%{rpmldflags}" \
 	prefix=%{_prefix} \
@@ -151,12 +177,14 @@ cd ..
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_datadir},%{_libdir},%{_includedir}}
 
-%{__make} install \
+%{__make} soinstall \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
+	libdir=$RPM_BUILD_ROOT%{_libdir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
-cd ijs	
+
+cd ijs
 %{__make} install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
@@ -184,20 +212,27 @@ echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gslj.1
 
 bzip2 -dc %{SOURCE5} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
+mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
+ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
-install -d $RPM_BUILD_ROOT%{_bindir}
-# install -d $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
+install -d $RPM_BUILD_ROOT%{_includedir}/ps
+install src/{iapi,errors}.h $RPM_BUILD_ROOT%{_includedir}/ps
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc doc/*.htm
-# %doc %{_datadir}/doc/%{name}-%{version}/*
-%attr(755,root,root) %{_bindir}/[bdefglpsux]*
+%attr(755,root,root) %{_bindir}/[bdeflpsux]*
+%attr(755,root,root) %{_bindir}/gs
+%attr(755,root,root) %{_bindir}/gs[^x]*
 %attr(755,root,root) %{_bindir}/ijs_client_example
+%attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %{_libdir}/libijs.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
@@ -211,6 +246,15 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_mandir}/es/man*/*
 %lang(fr) %{_mandir}/fr/man*/*
 %lang(pl) %{_mandir}/pl/man*/*
+
+%files gtk
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/gsx
+
+%files devel
+%defattr(644,root,root,755)
+%{_includedir}/ps
+%{_libdir}/libgs.so
 
 %files ijs-devel
 %defattr(644,root,root,755)
