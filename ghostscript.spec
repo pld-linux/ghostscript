@@ -49,6 +49,8 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	/usr/bin/texi2html
 BuildRequires:	tetex-dvips
+BuildRequires:	cups-devel
+BuildRequires:	gimp-print-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
