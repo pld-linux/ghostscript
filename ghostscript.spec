@@ -13,7 +13,7 @@ Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	%{gnu_ver}.5
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://unc.dl.sourceforge.net/sourceforge/espgs/espgs-%{version}-source.tar.bz2
