@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# _with_svgalib
+# _with_svgalib	- build with svgalib output driver
 #
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
@@ -14,12 +14,15 @@ Release:	2
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
-Source0:	ftp://download.sourceforge.net/pub/sourceforge/ghostscript/%{name}-%{version}.tar.bz2
+Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
+# Source0-md5:	821caada7e265ea5b698a78e6b029734
 Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
+# Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
 Source3:	%{name}-find_devs.sh
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
+# Source5-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
