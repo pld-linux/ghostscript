@@ -5,8 +5,8 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	6.20
-Release:	2
+Version:	6.21
+Release:	1
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
