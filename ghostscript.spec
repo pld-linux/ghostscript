@@ -2,6 +2,7 @@
 # Conditional build:
 # bcond_on_svgalib
 #
+%define		gp_version	4.1.4
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -10,7 +11,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	6.50
-Release:	3
+Release:	4
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -21,12 +22,14 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
+Source4:	ftp://download.sourceforge.net/pub/sourceforge/gimp-print/gimp-print-%{gp_version}.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
 Patch3:		%{name}-nosafer.patch
 Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
+Patch6:		%{name}-time_h.patch
 URL:		http://www.ghostscript.com/
 # Required by ghostscript-find_devs.sh
 BuildRequires:	awk
@@ -83,11 +86,24 @@ ln -s src/unix-gcc.mak Makefile
 %patch3 -p1 
 %patch4 -p1
 %patch5 -p1
-%setup -q -T -D -a 2 -n gs%{version}
+%patch6 -p1
+%setup -q -T -D -a 2 -a 4 -n gs%{version}
 ln -s jp* jpeg
 install %{SOURCE3} .
 
 %build
+# prepare gimp-print driver
+cd gimp-print-%{gp_version}
+%configure \
+	--with-ghost \
+	--without-gimp \
+	--disable-escputil \
+	--disable-libgimpprint
+%{__make}
+cp src/ghost/*.[ch] ../src/
+sed -e 's/stp.dev:/stp.dev :/'< src/ghost/contrib.mak.addon >> ../src/contrib.mak
+cd ..
+
 %{__make} \
 	XCFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -DA4=1 -w" \
 	XLDFLAGS="-s" \
@@ -99,14 +115,14 @@ install %{SOURCE3} .
 %ifarch sparc sparc64 alpha
 		vgalib lvga256\
 %else
-		%{!?bcond_on_svgalib:vgalib lvga256} \
+		%{?bcond_on_svgalib:vgalib lvga256} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
 %ifarch sparc sparc64 alpha
 		vgalib lvga256\
 %else
-		%{!?bcond_on_svgalib:vgalib lvga256} \
+		%{?bcond_on_svgalib:vgalib lvga256} \
 %endif
 		`"
 
