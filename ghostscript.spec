@@ -13,7 +13,6 @@ Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	%{gnu_ver}.5
 Release:	1
-Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://unc.dl.sourceforge.net/sourceforge/espgs/espgs-%{version}-source.tar.bz2
@@ -39,11 +38,11 @@ BuildRequires:	libstdc++-devel
 %{?_with_svgalib:BuildRequires:	svgalib-devel}
 %endif
 # for documentation regeneration
-BuildRequires:	docbook-style-dsssl
 BuildRequires:	/usr/bin/texi2html
-BuildRequires:	tetex-dvips
 BuildRequires:	cups-devel
+BuildRequires:	docbook-style-dsssl
 BuildRequires:	gimp-print-devel
+BuildRequires:	tetex-dvips
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -125,7 +124,7 @@ Requires:	%{name}-ijs-devel = %{version}
 %description ijs-static
 Static libijs.
 
-%description ijs-static
+%description ijs-static -l pl
 Statyczna wersja biblioteki IJS.
 
 %package -n cups-filter-pstoraster
@@ -165,7 +164,7 @@ cd ..
 
 #%%{__make} so \
 %{__make}  \
-	docdir=%{_defaultdocdir}/%{name}-%{version} 
+	docdir=%{_defaultdocdir}/%{name}-%{version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -244,10 +243,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{gnu_ver}/examples
 %{_mandir}/man*/*
 %lang(cs) %{_mandir}/cs/man*/*
+%lang(de) %{_mandir}/de/man*/*
 %lang(es) %{_mandir}/es/man*/*
 %lang(fr) %{_mandir}/fr/man*/*
 %lang(pl) %{_mandir}/pl/man*/*
-%lang(de) %{_mandir}/de/man*/*
 
 #%files gtk
 #%defattr(644,root,root,755)
