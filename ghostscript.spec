@@ -29,7 +29,7 @@ Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
 Patch3:		%{name}-ijs_cflags.patch
 Patch4:		%{name}-gdevcd8-fixes.patch
-Patch5:		%{name}-gtk+2.patch
+Patch5:		%{name}-glib.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
