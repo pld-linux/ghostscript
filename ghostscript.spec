@@ -26,36 +26,37 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Ghostscript is a PostScript interpretor. It can render both PostScript
-and PDF compliant files to devices which include an X window, many printer
-formats (including support for color printers), and popular graphics
-file formats.
+and PDF compliant files to devices which include an X window, many
+printer formats (including support for color printers), and popular
+graphics file formats.
 
 %description -l de
-Ghostscipt ist ein PostScript-Interpretierer. Er kann sowohl PostScript als
-auch PDF-konforme Dateien an Geräte ausgeben, zu denen ein X-Fenster, 
-viele Druckerformate (einschließlich Support für Farbdrucker) und gängige
-Grafikdateiformate zählen.
+Ghostscipt ist ein PostScript-Interpretierer. Er kann sowohl
+PostScript als auch PDF-konforme Dateien an Geräte ausgeben, zu denen
+ein X-Fenster, viele Druckerformate (einschließlich Support für
+Farbdrucker) und gängige Grafikdateiformate zählen.
 
 %description -l fr
-Ghostscript est un interpréteur PostScript. Il peut rendre des fichiers
-PostScript ou PDF sur des périphériques dont une fenêtre X,de nombreux
-types d'imprimantes (dont un support pour imprimantes couleur), et des
-formats de fichiers graphiques populaires.
+Ghostscript est un interpréteur PostScript. Il peut rendre des
+fichiers PostScript ou PDF sur des périphériques dont une fenêtre X,de
+nombreux types d'imprimantes (dont un support pour imprimantes
+couleur), et des formats de fichiers graphiques populaires.
 
 %description -l ja
-Ghostscript ¤Ï PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¤Ç¤¹¡£¥Ý¥¹¥È¥¹¥¯¥ê¥×¥È¤È
-PDF ¤ò¥ì¥ó¥À¥ê¥ó¥°¤·¡¢X window ¤äÂ¾¤Î¥×¥ê¥ó¥¿¥Õ¥©¡¼¥Þ¥Ã¥È¤Ç½ÐÎÏ
+Ghostscript ¤Ï PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¤Ç¤¹¡£¥Ý¥¹¥È¥¹¥¯¥ê¥×¥È¤È PDF
+¤ò¥ì¥ó¥À¥ê¥ó¥°¤·¡¢X window ¤äÂ¾¤Î¥×¥ê¥ó¥¿¥Õ¥©¡¼¥Þ¥Ã¥È¤Ç½ÐÎÏ
 ¤·¤Þ¤¹¡£¤³¤Î¥Ñ¥Ã¥±¡¼¥¸¤ÏÆüËÜ¸ìÂÐ±þ¤·¤Æ¤¤¤Þ¤¹¡£
 
 %description -l pl
-Ghostcript jest interpreterem PostScriptu, jêzyku u¿ywanego do opisu formatu
-dokumentu. Ghostscript potrafi przetworzyæ dokument w formacie PostScript
-i PDF na szereg postaci wyj¶ciowych: drukarki (w³±czaj±c kolorowe), okno
-X-Window i popularne formaty graficzne.
+Ghostcript jest interpreterem PostScriptu, jêzyku u¿ywanego do opisu
+formatu dokumentu. Ghostscript potrafi przetworzyæ dokument w formacie
+PostScript i PDF na szereg postaci wyj¶ciowych: drukarki (w³±czaj±c
+kolorowe), okno X-Window i popularne formaty graficzne.
 
 %description -l tr
-GhostScript, PostScript ve PDF uyumlu dosyalarý, X penceresinde gösterebilir
-ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði biçime getirebilir.
+GhostScript, PostScript ve PDF uyumlu dosyalarý, X penceresinde
+gösterebilir ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði
+biçime getirebilir.
 
 %prep
 %setup -q -n gs%{version}
@@ -85,7 +86,7 @@ make install \
 
 install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 
-install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
+install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 rm -rf	  $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
 rm -rf    $RPM_BUILD_ROOT%{_bindir}/*.sh
 rm -f     $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf1{2,3}.1
