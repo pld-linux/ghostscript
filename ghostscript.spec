@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/%{version}/*.ps
+%{_datadir}/%{name}/*.ps
 %config %verify(not size md5 mtime) %{_datadir}/%{name}/Fontmap
 
 %dir %{_datadir}/%{name}/examples
