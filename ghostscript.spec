@@ -11,7 +11,7 @@ Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
 Group(pl):	Aplikacje/Grafika
-Source0:	http://download.sourceforge.net/ghostscript/%{name}-%{version}.tar.gz
+Source0:	ftp://download.sourceforge.net/pub/sourceforge/ghostscript/%{name}-%{version}.tar.gz
 Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
