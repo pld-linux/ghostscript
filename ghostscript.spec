@@ -31,6 +31,7 @@ Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
 Patch7:		%{name}-ijs_cflags.patch
+Patch8:		%{name}-cdj670-fix.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -150,12 +151,11 @@ Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7
+%patch7 -p0
+%patch8 -p1
 ln -sf jp* jpeg
 
 %build
-# NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
-# drivers to make!
 CFLAGS="%{rpmcflags} -DA4"
 export CFLAGS
 %configure \
