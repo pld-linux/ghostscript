@@ -17,16 +17,9 @@ Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://unc.dl.sourceforge.net/sourceforge/espgs/espgs-%{version}-source.tar.bz2
-# included in 6.51
-#Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-#Source3:	%{name}-find_devs.sh
-# included in 7.05.4
-#Source4:	http://www.linuxprinting.org/download/printing/GS-7,05-MissingDrivers-1.tar.gz
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
-# included in 7.05.4
-#Source6:	http://home.t-online.de/home/Martin.Lottermoser/pcl3dist/pcl3-%{pcl3_ver}.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
@@ -38,7 +31,7 @@ URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 # for gsx
-BuildRequires:	gtk+-devel
+#BuildRequires:	gtk+-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 # Required by 'gdevvglb' device.
@@ -150,28 +143,10 @@ Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 
 %prep
 %setup -q -a2 -n espgs-%{version}
-#ln -sf src/unix-gcc.mak Makefile
-#%patch0 -p1
-###%patch1 -p1
-###%patch2 -p1
-##%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
 ln -sf jp* jpeg
-#install %{SOURCE3} .
-
-# PCL
-#mkdir -p pcl3
-#tar xzf %{SOURCE6} pcl3-%{pcl3_ver}/pcl3.tar
-#tar xf pcl3-%{pcl3_ver}/pcl3.tar -C pcl3
-#cat pcl3/src/contrib.mak-6.50.add >> src/contrib.mak
-#mv pcl3/lib pcl3/doc/
-#mv pcl3/ps pcl3/doc/
-#cp -ax pcl3/doc doc/pcl3
-#cp pcl3/README doc/README.pcl3
-#cp pcl3/BUGS doc/BUGS.pcl3
-#cp pcl3/NEWS doc/NEWS.pcl3
 
 %build
 # NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
