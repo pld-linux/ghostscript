@@ -95,7 +95,10 @@ install %{SOURCE3} .
 %build
 # prepare gimp-print driver
 cd gimp-print-%{gp_version}
-%configure \
+#libtoolize --copy --force
+#aclocal
+#autoconf
+%configure2_13 \
 	--with-ghost \
 	--without-gimp \
 	--disable-escputil \
