@@ -155,6 +155,8 @@ ln -sf jp* jpeg
 %build
 # NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
 # drivers to make!
+CFLAGS="%{rpmcflags} -DA4"
+export CFLAGS
 %configure \
 	--with-drivers=ALL%{?_with_svgalib:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
