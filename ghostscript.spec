@@ -2,7 +2,7 @@
 # Conditional build:
 %bcond_without cups	# without CUPS support
 %bcond_with gimpprint	# with gimp-print support (requires gimp-print < 2.3)
-%bcond_with svgalib	# with svgalib display support (vgalib and lvga256 devices)
+%bcond_with svga	# with svgalib display support (vgalib and lvga256 devices)
 %bcond_without omni	# without omni support
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
@@ -39,7 +39,7 @@ BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 # Required by 'gdevvglb' device.
 %ifarch %{ix86} alpha ppc
-%{?with_svgalib:BuildRequires:	svgalib-devel}
+%{?with_svga:BuildRequires:	svgalib-devel}
 %endif
 # for documentation regeneration
 BuildRequires:	/usr/bin/texi2html
@@ -157,7 +157,7 @@ ln -sf jp* jpeg
 CFLAGS="%{rpmcflags} -DA4"
 export CFLAGS
 %configure \
-	--with-drivers=ALL%{?with_svgalib:,vgalib,lvga256} \
+	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with%{!?with_gimpprint:out}-gimp-print \
@@ -170,7 +170,7 @@ cd ijs
 cd ..
 
 #%%{__make} so \
-%{__make}  \
+%{__make} \
 	docdir=%{_defaultdocdir}/%{name}-%{version}
 
 %install
