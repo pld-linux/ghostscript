@@ -1,9 +1,9 @@
 #
 # Conditional build:
-# _without_cups		- without CUPS support
-# _without_gimp		- without gimp-print support
-# _with_svgalib		- with svgalib display support (vgalib and lvga256 devices)
-#
+%bcond_without cups	# without CUPS support
+%bcond_with gimpprint	# with gimp-print support (requires gimp-print < 2.3)
+%bcond_with svgalib	# with svgalib display support (vgalib and lvga256 devices)
+%bcond_without omni	# without omni support
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -14,7 +14,7 @@ Name:		ghostscript
 %define gnu_ver 7.07
 %define	rcver	rc1
 Version:	%{gnu_ver}.1
-Release:	0.%{rcver}.2
+Release:	0.%{rcver}.3
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}%{rcver}-source.tar.bz2
@@ -39,13 +39,13 @@ BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 # Required by 'gdevvglb' device.
 %ifarch %{ix86} alpha ppc
-%{?_with_svgalib:BuildRequires:	svgalib-devel}
+%{?with_svgalib:BuildRequires:	svgalib-devel}
 %endif
 # for documentation regeneration
 BuildRequires:	/usr/bin/texi2html
-%{!?_without_cups:BuildRequires:	cups-devel}
+%{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-style-dsssl
-%{!?_without_gimp:BuildRequires:	gimp-print-devel}
+%{?with_gimpprint:BuildRequires:	gimp-print-devel}
 BuildRequires:	tetex-dvips
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -157,13 +157,12 @@ ln -sf jp* jpeg
 CFLAGS="%{rpmcflags} -DA4"
 export CFLAGS
 %configure \
-	--with-drivers=ALL%{?_with_svgalib:,vgalib,lvga256} \
+	--with-drivers=ALL%{?with_svgalib:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
-	%{!?_without_gimp:--with-gimp-print} \
-	%{?_without_gimp:--without-gimp-print} \
-	%{?_without_cups:--disable-cups} \
-	--with-omni \
+	--with%{!?with_gimpprint:out}-gimp-print \
+	%{!?with_cups:--disable-cups} \
+	--with%{!?with_omni:out}-omni \
 	--with-x
 cd ijs
 %{__autoconf}
@@ -274,7 +273,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libijs.a
 
-%if 0%{!?_without_cups:1}
+%if %{with cups}
 %files -n cups-filter-pstoraster
 %defattr(644,root,root,755)
 %(cups-config --serverroot)/*
