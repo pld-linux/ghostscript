@@ -10,7 +10,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	6.50
-Release:	2
+Release:	3
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -23,6 +23,9 @@ Source3:	%{name}-find_devs.sh
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
+Patch3:		%{name}-nosafer.patch
+Patch4:		%{name}-missquotes.patch
+Patch5:		%{name}-setuid.patch
 URL:		http://www.ghostscript.com/
 # Required by ghostscript-find_devs.sh
 BuildRequires:	awk
@@ -76,6 +79,9 @@ ln -s src/unix-gcc.mak Makefile
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1 
+%patch4 -p1
+%patch5 -p1
 %setup -q -T -D -a 2 -n gs%{version}
 ln -s jp* jpeg
 install %{SOURCE3} .
