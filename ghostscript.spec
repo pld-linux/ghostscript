@@ -79,8 +79,8 @@ gösterebilir ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði
 biçime getirebilir.
 
 %prep
-%setup -q -n gs%{version}
-ln -s src/unix-gcc.mak Makefile
+%setup -q -n gs%{version} -a2 -a4
+ln -sf src/unix-gcc.mak Makefile
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -88,8 +88,7 @@ ln -s src/unix-gcc.mak Makefile
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%setup -q -T -D -a 2 -a 4 -n gs%{version}
-ln -s jp* jpeg
+ln -sf jp* jpeg
 install %{SOURCE3} .
 
 %build
@@ -104,7 +103,7 @@ cd gimp-print-%{gp_version}
 	--disable-escputil \
 	--disable-libgimpprint
 %{__make}
-cp src/ghost/*.[ch] ../src/
+cp -f src/ghost/*.[ch] ../src/
 sed -e 's/stp.dev:/stp.dev :/'< src/ghost/contrib.mak.addon >> ../src/contrib.mak
 cd ..
 
