@@ -145,6 +145,7 @@ install -d $RPM_BUILD_ROOT%{_datadir}
 
 %{__make} install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
