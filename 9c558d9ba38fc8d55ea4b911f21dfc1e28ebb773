@@ -1,0 +1,46 @@
+- added using CVS keywords in %changelog (for automating them).
+
+* Fri Jun 18 1999 Artur Wróblewski <wrobell@posexperts.com.pl>
+[5.50-1]
+- FHS-2.0
+- papersize A4 is default now
+- ghostscript is not dynamicaly linked with libjpeg (read about
+  D_MAX_BLOCKS_IN_MCU in Install.htm (ghostscript) and in libjpeg.h (libjpeg)).
+- devices patch integrated with config patch
+
+* Tue Feb 16 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
+- added support for encrypted PDFs
+
+* Sat Feb 13 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
+[5.10-2d]
+- added devices patch (more drivers - i.e. for Epson Stylus Color)
+- added shared_libs patch (now gs is dynamicly linked with
+  existing libjpeg, libpng and libz)
+- gzipping man pages instead bzip2ing
+- removed copying makefile from %setup section (ln -s instead)
+
+* Sun Jan 10 1999 Ziemek Borowski <ziembor@faq-bot.ziembor.waw.pl> 
+[5.10] 
+- based on Russell Lang   http://www.cs.wisc.edu/~ghost/rjl.html spec 
+updated to 5.10 
+
+* Sun Nov 15 1998 Marcin Korzonek <mkorz@shadow.eu.org>
+- build agains glibc 2.1,
+- fixed files permission according to PLD-devel policy,
+- translations modified for pl,
+- spec rewritten with usage of %%name and %%version macros,
+  for easy upgrade.
+- location of source files changed to regular URL expression 
+
+* Thu Jul  2 1998 Jeff Johnson <jbj@redhat.com>
+- updated to 4.03.
+
+* Tue May 05 1998 Cristian Gafton <gafton@redhat.com>
+- enabled more printer drivers
+- buildroot
+
+* Mon Apr 27 1998 Prospector System <bugs@redhat.com>
+- translations modified for de, fr, tr
+
+* Mon Mar 03 1997 Erik Troan <ewt@redhat.com>
+- Made %{_datadir}/ghostscript/3.33/Fontmap a config file.
