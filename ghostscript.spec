@@ -11,7 +11,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.04
-Release:	1
+Release:	1.2
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -20,7 +20,6 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
-Source4:	ftp://download.sourceforge.net/pub/sourceforge/gimp-print/gimp-print-%{gp_version}.tar.gz
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
@@ -40,7 +39,6 @@ BuildRequires:	XFree86-devel
 %endif
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
-BuildRequires:	gimp-print-devel
 # for documentation regeneration
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	/usr/bin/texi2html
@@ -81,8 +79,24 @@ GhostScript, PostScript ve PDF uyumlu dosyalarý, X penceresinde
 gösterebilir ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði
 biçime getirebilir.
 
+%package ijs-devel
+Summary:	IJS development files
+Group:		.
+Requires:	%{name} = %{version}
+
+%description ijs-devel
+IJS development files
+
+%package ijs-static
+Summary:	Static libijs
+Group:		.
+Requires:	%{name}-ijs-devel = %{version}
+
+%description ijs-static
+Static libijs
+
 %prep
-%setup -q -n gs%{version} -a2 -a4
+%setup -q -n gs%{version} -a2
 ln -sf src/unix-gcc.mak Makefile
 %patch0 -p1
 %patch1 -p1
@@ -95,27 +109,15 @@ ln -sf jp* jpeg
 install %{SOURCE3} .
 
 %build
-# prepare gimp-print driver
-cd gimp-print-%{gp_version}
-#libtoolize --copy --force
-#aclocal
-#autoconf
-CPPFLAGS=-I`pwd`/include ; export CPPFLAGS
-%configure2_13 \
-	--with-ghost \
-	--without-gimp \
-	--disable-escputil \
-	--disable-libgimpprint
-%{__make}
-cp -f src/ghost/*.[ch] ../src/
-sed -e 's/stp.dev:/stp.dev :/'< src/ghost/contrib.mak.addon >> ../src/contrib.mak
-cd ..
-
 # NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
 # drivers to make!
 %configure \
 	--with-x \
 	--with-ijs
+cd ijs
+autoconf
+%configure
+cd ..
 
 %{__make} \
 	XCFLAGS="%{rpmcflags} -DA4=1 -w" \
@@ -141,13 +143,22 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_datadir}
+install -d $RPM_BUILD_ROOT{%{_datadir},%{_libdir},%{_includedir}}
 
 %{__make} install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
+cd ijs	
+%{__make} install \
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	bindir=$RPM_BUILD_ROOT%{_bindir} \
+	datadir=$RPM_BUILD_ROOT%{_datadir} \
+	libdir=$RPM_BUILD_ROOT%{_libdir} \
+	includedir=$RPM_BUILD_ROOT%{_includedir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir}
+cd ..
 
 install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 
@@ -179,7 +190,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc doc/*.htm
 # %doc %{_datadir}/doc/%{name}-%{version}/*
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/[bdefglpsux]*
+%attr(755,root,root) %{_bindir}/ijs_client_example
+%attr(755,root,root) %{_libdir}/libijs.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
 # "*.*" will not match "Fontmap". It is OK.
@@ -192,3 +205,11 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_mandir}/es/man*/*
 %lang(fr) %{_mandir}/fr/man*/*
 %lang(pl) %{_mandir}/pl/man*/*
+
+%files ijs-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/ijs-config
+%{_includedir}/ijs
+
+%files ijs-static
+%{_libdir}/libijs.a
