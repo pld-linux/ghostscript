@@ -82,7 +82,7 @@ ln -sf src/unix-gcc.mak Makefile
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-##%patch3 -p1 
+##%patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
@@ -162,7 +162,7 @@ ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 install -d $RPM_BUILD_ROOT%{_bindir}
 # install -d $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
 
-%clean 
+%clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
