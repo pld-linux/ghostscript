@@ -6,7 +6,7 @@ Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
 Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
-Summary(pl):	Bezp³atny interpreter i renderer PostScriptu & PDF
+Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.04
