@@ -66,13 +66,13 @@ install -d $RPM_BUILD_ROOT/usr/{bin,man,doc}
 
 make install prefix=$RPM_BUILD_ROOT/usr
 
-echo .so gs.1 > $RPM_BUILD_ROOT/usr/man/man1/ghostscript.1
+echo .so gs.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 
 ln -sf gs 	$RPM_BUILD_ROOT/usr/bin/ghostscript
 
 strip 		$RPM_BUILD_ROOT/usr/bin/gs
 
-gzip -9nf 	$RPM_BUILD_ROOT/usr/man/man1/*
+gzip -9nf 	$RPM_BUILD_ROOT%{_mandir}/man1/*
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
@@ -90,7 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/share/%{name}/%{version}/examples
 /usr/share/%{name}/%{version}/examples/*.ps
 
-/usr/man/man1/*
+%{_mandir}/man1/*
 
 %changelog
 * Tue Feb 16 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
