@@ -37,6 +37,7 @@ BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 # for gsx
 #BuildRequires:	gtk+-devel
+BuildRequires:	glib-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 # Required by 'gdevvglb' device.
