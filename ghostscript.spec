@@ -16,10 +16,10 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Patch0:		ghostscript-config.patch
 URL:		http://www.ghostscript.com/
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	patch
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Ghostscript is a PostScript interpretor. It can render both PostScript
@@ -69,11 +69,10 @@ make \
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/%{_datadir}
 
-make \
+make install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir} \
-	install
+	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 install -m644 %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 rm -rf	  $RPM_BUILD_ROOT%{_datadir}/%{name}/doc
