@@ -1,6 +1,6 @@
 #
 # Conditional build:
-# bcond_on_svgalib
+# _with_svgalib
 #
 %define		gp_version	4.1.7
 Summary:	PostScript & PDF interpreter and renderer
@@ -38,7 +38,7 @@ BuildRequires:	awk
 BuildRequires:	XFree86-devel
 # Required by 'gdevvglb' device.
 %ifnarch sparc sparc64 alpha
-%{?bcond_on_svgalib:BuildRequires:	svgalib-devel}
+%{?_with_svgalib:BuildRequires:	svgalib-devel}
 %endif
 BuildRequires:	libpng >= 1.0.8
 BuildRequires:	libstdc++-devel
@@ -122,14 +122,14 @@ cd ..
 %ifarch sparc sparc64 alpha
 		vgalib lvga256\
 %else
-		%{!?bcond_on_svgalib:vgalib lvga256} \
+		%{!?_with_svgalib:vgalib lvga256} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
 %ifarch sparc sparc64 alpha
 		vgalib lvga256\
 %else
-		%{!?bcond_on_svgalib:vgalib lvga256} \
+		%{!?_with_svgalib:vgalib lvga256} \
 %endif
 		`"
 
