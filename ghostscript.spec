@@ -23,7 +23,7 @@ Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
 Source4:	http://www.linuxprinting.org/download/printing/GS-7,05-MissingDrivers-1.tar.gz
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
-Source6:	http://home.t-online.de/home/Martin.Lottermoser/pcl3dist/pcl3-%{pcl3_ver}.tar.bz2
+Source6:	http://home.t-online.de/home/Martin.Lottermoser/pcl3dist/pcl3-%{pcl3_ver}.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
