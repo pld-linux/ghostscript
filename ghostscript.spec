@@ -145,8 +145,8 @@ install %{SOURCE3} .
 
 # PCL
 mkdir -p pcl3
-bzip2 -cd %{SOURCE5} | tar xfO - pcl3-%{pcl3ver}/pcl3.tar | \
-        tar xf - -C pcl3
+tar xzf %{SOURCE6} pcl3-%{pcl3_ver}/pcl3.tar
+tar xf pcl3-%{pcl3_ver}/pcl3.tar -C pcl3
 cat pcl3/src/contrib.mak-6.50.add >> src/contrib.mak
 mv pcl3/lib pcl3/doc/
 mv pcl3/ps pcl3/doc/
