@@ -5,7 +5,6 @@
 # _with_svgalib		- with svgalib display support (vgalib and lvga256 devices)
 #
 %define gnu_ver		7.05
-%define	pcl3_ver	3.3
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
