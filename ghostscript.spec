@@ -5,17 +5,18 @@ Summary(pl):	Bezp³atny interpreter PostScriptu
 Summary(tr):	PostScript yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	5.50
-Release:	1
+Release:	5
+Vendor:		Aladdin Enterprises
+Copyright:	GPL
 Group:		Applications/Graphics
 Group(pl):	Aplikacje/Grafika
-Copyright:	GPL
-URL:		http://www.cs.wisc.edu/~ghost/
 Source0:	ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
-Source1:	jpegsrc.v6b.tar.gz
-Source2:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
+Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 #Icon:		ghost.gif
-Patch0:		%{name}-config.patch
-Vendor:		Aladdin Enterprises
+Patch0:		ghostscript-config.patch
+Patch1:		ghostscript-post.TL.patch
+Patch2:		ghostscript-shared_jpeg.patch
+URL:		http://www.cs.wisc.edu/~ghost/
 BuildRoot:	/tmp/%{name}-%{version}-root
 BuildRequires:	zlib-devel, libpng-devel, patch
 
@@ -51,11 +52,11 @@ ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði biçime getirebilir.
 %setup -q -n gs%{version}
 ln -s unix-gcc.mak Makefile
 %patch0 -p1 
-tar zxf %{SOURCE1}
-mv jpeg-6b jpeg
+%patch1 -p1 
+%patch2 -p1 
 
 %build
-make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -DA4 -w" prefix=/usr
+make XCFLAGS="$RPM_OPT_FLAGS -DA4 -w" XLDFLAGS="-s"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -64,7 +65,7 @@ install -d $RPM_BUILD_ROOT/%{_mandir}
 install -d $RPM_BUILD_ROOT/%{_bindir}
 
 make install prefix=$RPM_BUILD_ROOT/usr
-install %{SOURCE2}  $RPM_BUILD_ROOT%{_datadir}/%{name}/
+install %{SOURCE1}  $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 echo .so gs.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 
@@ -85,9 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/%{version}/*.ps
-%config %verify(not size md5 mtime) %{_datadir}/%{name}/%{version}/Fontmap
+%config %verify(not size md5 mtime) %{_datadir}/%{name}/Fontmap
 
-%dir %{_datadir}/%{name}/%{version}/examples
-%{_datadir}/%{name}/%{version}/examples/*.ps
+%dir %{_datadir}/%{name}/examples
+%{_datadir}/%{name}/examples/*.ps
 
 %{_mandir}/man1/*
