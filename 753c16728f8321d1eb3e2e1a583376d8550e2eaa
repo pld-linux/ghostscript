@@ -1,0 +1,4 @@
+- added oob-66421 patch - SEGV fix from RH
+- added zfine patch - security fix from RH (CAN-2003-0354, BTS#699)
+- cleanups in spec, added missing de manuals, removed all ansi2knr(1)
+- release 3
