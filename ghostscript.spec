@@ -147,7 +147,7 @@ install %{SOURCE3} .
 	--with-x \
 	--with-ijs
 cd ijs
-autoconf
+%{__autoconf}
 %configure
 cd ..
 
