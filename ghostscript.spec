@@ -13,7 +13,7 @@ Name:		ghostscript
 Version:	7.03
 Release:	1
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
-Copyright:	Aladdin Free Public License
+License:	Aladdin Free Public License
 Group:		Applications/Graphics
 Group(de):	Applikationen/Grafik
 Group(pl):	Aplikacje/Grafika
