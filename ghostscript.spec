@@ -2,7 +2,7 @@
 # Conditional build:
 # _with_svgalib
 #
-%define		gp_version	4.1.9
+%define		gp_version	4.2.0
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -11,7 +11,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.03
-Release:	2
+Release:	3
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -41,6 +41,7 @@ BuildRequires:	XFree86-devel
 %endif
 BuildRequires:	libpng >= 1.0.8
 BuildRequires:	libstdc++-devel
+BuildRequires:	gimp-print-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
