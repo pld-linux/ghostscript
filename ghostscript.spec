@@ -43,9 +43,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
 BuildRequires:	libtiff-devel
 # Required by 'gdevvglb' device.
-%ifarch %{ix86} alpha ppc
 %{?with_svga:BuildRequires:	svgalib-devel}
-%endif
 # for documentation regeneration
 BuildRequires:	tetex
 BuildRequires:	tetex-dvips
