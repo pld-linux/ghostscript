@@ -41,6 +41,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	pkgconfig
+BuildRequires:	libtiff-devel
 # Required by 'gdevvglb' device.
 %ifarch %{ix86} alpha ppc
 %{?with_svga:BuildRequires:	svgalib-devel}
