@@ -16,7 +16,7 @@ Source1:	jpegsrc.v6b.tar.gz
 Patch0:		%{name}-config.patch
 Vendor:		Aladdin Enterprises
 BuildRoot:	/tmp/%{name}-%{version}-root
-BuildPrereq:	zlib-devel, libpng-devel, patch
+BuildRequires:	zlib-devel, libpng-devel, patch
 
 %description
 Ghostscript is a PostScript interpretor. It can render both PostScript
