@@ -12,13 +12,13 @@ Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 %define gnu_ver 7.07
-%define	rcver	rc1
+%define	rcver	rc2
 Version:	%{gnu_ver}.1
 Release:	0.%{rcver}.4
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}%{rcver}-source.tar.bz2
-# Source0-md5:	c140f57c680b0b07c27ea3665d5ca277
+# Source0-md5:	3c7352bece55fbd7656b91396150d49f
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
