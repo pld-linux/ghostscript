@@ -1,6 +1,6 @@
 diff -Nur gs5.50.orig/unix-gcc.mak gs5.50/unix-gcc.mak
 --- gs5.50.orig/unix-gcc.mak	Thu Sep 17 06:06:06 1998
-+++ gs5.50/unix-gcc.mak	Fri Jun 18 01:10:11 1999
++++ gs5.50/unix-gcc.mak	Fri Jun 18 16:31:56 1999
 @@ -53,18 +53,19 @@
  INSTALL_PROGRAM = $(INSTALL) -m 755
  INSTALL_DATA = $(INSTALL) -m 644
@@ -25,24 +25,6 @@ diff -Nur gs5.50.orig/unix-gcc.mak gs5.50/unix-gcc.mak
  exdir=$(gsdatadir)/examples
  GS_DOCDIR=$(docdir)
  
-@@ -116,7 +117,7 @@
- # You may need to change this if the IJG library version changes.
- # See jpeg.mak for more information.
- 
--JSRCDIR=jpeg
-+JSRCDIR=/usr/include
- JVERSION=6
- 
- # Choose whether to use a shared version of the IJG JPEG library (-ljpeg).
-@@ -126,7 +127,7 @@
- # incompatible with the JPEG standard.  See Make.htm for more details.
- 
- # DON'T SET THIS TO 1!  See the comment just above.
--SHARE_JPEG=0
-+SHARE_JPEG=1
- JPEG_NAME=jpeg
- 
- # Define the directory where the PNG library sources are stored,
 @@ -134,26 +135,26 @@
  # You may need to change this if the libpng version changes.
  # See libpng.mak for more information.
@@ -115,3 +97,26 @@ diff -Nur gs5.50.orig/unix-gcc.mak gs5.50/unix-gcc.mak
  
  # Choose whether to compile the .ps initialization files into the executable.
  # See gs.mak for details.
+@@ -298,16 +299,19 @@
+ DEVICE_DEVS=x11.dev x11alpha.dev x11cmyk.dev x11gray2.dev x11gray4.dev x11mono.dev
+ #DEVICE_DEVS1=bmpmono.dev bmpamono.dev posync.dev
+ DEVICE_DEVS1=
+-DEVICE_DEVS2=
++#DEVICE_DEVS2=
++DEVICE_DEVS2=epson.dev eps9mid.dev eps9high.dev
+ DEVICE_DEVS3=deskjet.dev djet500.dev laserjet.dev ljetplus.dev ljet2p.dev ljet3.dev ljet4.dev
+ DEVICE_DEVS4=cdeskjet.dev cdjcolor.dev cdjmono.dev cdj550.dev pj.dev pjxl.dev pjxl300.dev
+ DEVICE_DEVS5=uniprint.dev
+-DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
++#DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
++DEVICE_DEVS6=stcolor.dev st800.dev bj10e.dev bj200.dev bjc600.dev bjc800.dev epsonc.dev lp8000.dev lq850.dev
+ DEVICE_DEVS7=faxg3.dev faxg32d.dev faxg4.dev
+ DEVICE_DEVS8=pcxmono.dev pcxgray.dev pcx16.dev pcx256.dev pcx24b.dev pcxcmyk.dev
+ DEVICE_DEVS9=pbm.dev pbmraw.dev pgm.dev pgmraw.dev pgnm.dev pgnmraw.dev pnm.dev pnmraw.dev ppm.dev ppmraw.dev pkm.dev pkmraw.dev
+ DEVICE_DEVS10=tiffcrle.dev tiffg3.dev tiffg32d.dev tiffg4.dev tifflzw.dev tiffpack.dev
+-DEVICE_DEVS11=tiff12nc.dev tiff24nc.dev
++#DEVICE_DEVS11=tiff12nc.dev tiff24nc.dev
++DEVICE_DEVS11=tiff12nc.dev tiff24nc.dev miff24.dev
+ DEVICE_DEVS12=psmono.dev psgray.dev psrgb.dev bit.dev bitrgb.dev bitcmyk.dev
+ DEVICE_DEVS13=pngmono.dev pnggray.dev png16.dev png256.dev png16m.dev
+ DEVICE_DEVS14=jpeg.dev jpeggray.dev
