@@ -11,7 +11,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.03
-Release:	1
+Release:	2
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -23,6 +23,7 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
 Source4:	ftp://download.sourceforge.net/pub/sourceforge/gimp-print/gimp-print-%{gp_version}.tar.gz
+Source5:	%{name}-non-english-man-pages.tar.bz2
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
@@ -156,6 +157,8 @@ echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsdj.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsdj500.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gslj.1
 
+bzip2 -dc %{SOURCE5} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
 install -d $RPM_BUILD_ROOT%{_bindir}
@@ -177,3 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/examples/*
 %config %verify(not size md5 mtime) %{_datadir}/%{name}/lib/Fontmap
 %{_mandir}/man*/*
+%lang(cs) %{_mandir}/cs/man*/*
+%lang(es) %{_mandir}/es/man*/*
+%lang(fr) %{_mandir}/fr/man*/*
+%lang(pl) %{_mandir}/pl/man*/*
