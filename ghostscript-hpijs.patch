@@ -8,10 +8,10 @@ diff -Nur src.orig/contrib.mak src/contrib.mak
 +
 +### ------------- Hewlett-Packard Co. Inkjet Driver -------------- ###
 +
-+hpijs_=$(GLOBJ)gdevhpijs.$(OBJ)
++hpijs_=$(GLOBJ)gdevhpij.$(OBJ)
 +
-+$(GLOBJ)gdevhpijs.$(OBJ): $(GLSRC)gdevhpijs.c $(PDEVH)
-+	$(GLCC) $(GLO_)gdevhpijs.$(OBJ) $(C_) $(GLSRC)gdevhpijs.c
++$(GLOBJ)gdevhpij.$(OBJ): $(GLSRC)gdevhpij.c $(PDEVH)
++	$(GLCC) $(GLO_)gdevhpij.$(OBJ) $(C_) $(GLSRC)gdevhpij.c
 +
 +$(DD)DJ630.dev : $(hpijs_) $(DD)page.dev
 +	$(SETPDEV) $(DD)DJ630 $(hpijs_)
