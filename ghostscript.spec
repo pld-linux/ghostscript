@@ -45,7 +45,7 @@ BuildRequires:	libstdc++-devel
 %{?with_svga:BuildRequires:	svgalib-devel}
 %endif
 # for documentation regeneration
-BuildRequires:	/usr/bin/texi2html
+BuildRequires:	tetex
 %{?with_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-style-dsssl
 %{?with_gimpprint:BuildRequires:	gimp-print-devel}
