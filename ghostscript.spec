@@ -137,12 +137,16 @@ Statyczna wersja biblioteki IJS.
 
 %package -n cups-filter-pstoraster
 Summary:	CUPS filter for support non-postscript printers
+Summary(pl):	Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe
 Group:		Applications/Printing
 Requires:	cups >= 1.1.16
 Requires:	%{name} = %{version}
 
 %description -n cups-filter-pstoraster
 CUPS filter for support non-postscript printers.
+
+%description -n cups-filter-pstoraster -l pl
+Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 
 %prep
 %setup -q -a2 -n espgs-%{version}
