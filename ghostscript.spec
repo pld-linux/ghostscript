@@ -14,7 +14,7 @@ Name:		ghostscript
 %define gnu_ver 7.07
 %define	rcver	rc1
 Version:	%{gnu_ver}.1
-Release:	0.%{rcver}.1
+Release:	0.%{rcver}.2
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}%{rcver}-source.tar.bz2
