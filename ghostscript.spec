@@ -1,6 +1,7 @@
 #
 # Conditional build:
 # _with_svgalib
+# _without_gimp
 #
 %define gnu_ver		7.05
 %define	pcl3_ver	3.3
@@ -41,7 +42,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	/usr/bin/texi2html
 BuildRequires:	cups-devel
 BuildRequires:	docbook-style-dsssl
-BuildRequires:	gimp-print-devel
+%{!?_without_gimp:BuildRequires:	gimp-print-devel}
 BuildRequires:	tetex-dvips
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -154,7 +155,8 @@ ln -sf jp* jpeg
 	--with-drivers=ALL \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
-	--with-gimp-print \
+	%{!?_without_gimp:--with-gimp-print} \
+	%{?_without_gimp:--without-gimp-print} \
 	--with-omni \
 	--with-x
 cd ijs
