@@ -15,7 +15,7 @@ diff -urN gs6.01.org/src/unix-gcc.mak gs6.01/src/unix-gcc.mak
  # initialization and font files.  Separate multiple directories with a :.
  
 -GS_LIB_DEFAULT=$(gsdatadir)/lib:$(gsdir)/fonts
-+GS_LIB_DEFAULT=$(datadir)/lib:$(datadir)/fonts:/usr/share/fonts/Type1
++GS_LIB_DEFAULT=$(datadir)/lib:$(datadir)/fonts:/usr/share/fonts/type1
  
  # Define whether or not searching for initialization files should always
  # look in the current directory first.  This leads to well-known security
