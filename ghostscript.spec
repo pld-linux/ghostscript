@@ -78,7 +78,7 @@ install %{SOURCE3} .
 
 %build
 %{__make} \
-	XCFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -DA4=1 -w" \
+	XCFLAGS="%{?debug:-O -g}%{!?debug:$RPM_OPT_FLAGS} -DA4=1 -w" \
 	XLDFLAGS="-s" \
 	prefix=%{_prefix} \
 	datadir=%{_datadir}/%{name} \
