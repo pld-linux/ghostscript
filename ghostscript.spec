@@ -69,7 +69,7 @@ Ghostscript ¤Ï PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¤Ç¤¹¡£¥Ý¥¹¥È¥¹¥¯¥ê¥×¥È¤È PDF
 ¤·¤Þ¤¹¡£¤³¤Î¥Ñ¥Ã¥±¡¼¥¸¤ÏÆüËÜ¸ìÂÐ±þ¤·¤Æ¤¤¤Þ¤¹¡£
 
 %description -l pl
-Ghostcript jest interpreterem PostScriptu, jêzyku u¿ywanego do opisu
+Ghostcript jest interpreterem PostScriptu, jêzyka u¿ywanego do opisu
 formatu dokumentu. Ghostscript potrafi przetworzyæ dokument w formacie
 PostScript i PDF na szereg postaci wyj¶ciowych: drukarki (w³±czaj±c
 kolorowe), okno X-Window i popularne formaty graficzne.
