@@ -1,0 +1,27 @@
+--- ghostscript-7.05/src/gdevx.c.sopwith	2003-02-21 13:02:17.000000000 -0500
++++ ghostscript-7.05/src/gdevx.c	2003-02-21 13:09:16.000000000 -0500
+@@ -1042,6 +1042,7 @@
+ 		/* Copy from memory image to X server. */
+ 		const gx_device_memory *mdev =
+ 		    (const gx_device_memory *)xdev->target;
++		int modw = w, modh = h;
+ 
+ 		/*
+ 		 * The bbox device may have set the target to NULL
+@@ -1050,8 +1051,14 @@
+ 		 */
+ 		if (mdev == NULL)
+ 		    return;	/* don't reset */
+-		x_copy_image(xdev, mdev->line_ptrs[y], x, mdev->raster,
+-			     x, y, w, h);
++		if(x < mdev->width
++		   && y < mdev->height)
++		  {
++		    modh = min(mdev->height - y, h);
++		    modw = min(mdev->width - x, w);
++		    x_copy_image(xdev, mdev->line_ptrs[y], x, mdev->raster,
++				 x, y, modw, modh);
++		  }
+ 	    }
+ 	    if (xdev->bpixmap) {
+ 		/* Copy from X backing pixmap to screen. */
