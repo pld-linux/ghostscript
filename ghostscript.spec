@@ -28,7 +28,7 @@ URL:		http://www.ghostscript.com/
 BuildRequires:	awk
 BuildRequires:	XFree86-devel
 # Required by 'gdevvglb' device.
-%ifnarch sparc sparc64
+%ifnarch sparc sparc64 alpha
 %{?bcond_on_svgalib:BuildRequires:	svgalib-devel}
 %endif
 BuildRequires:	zlib-devel
@@ -92,14 +92,14 @@ install %{SOURCE3} .
 %ifarch sparc sparc64 alpha
 		vgalib \
 %else
-		%{?bcond_on_svgalib:vgalib} \
+		%{!?bcond_on_svgalib:vgalib} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
 %ifarch sparc sparc64 alpha
 		vgalib \
 %else
-		%{?bcond_on_svgalib:vgalib} \
+		%{!?bcond_on_svgalib:vgalib} \
 %endif
 		`"
 
