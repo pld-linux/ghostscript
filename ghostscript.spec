@@ -84,16 +84,16 @@ gösterebilir ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði
 biçime getirebilir.
 
 %package gtk
-Summary:	Ghostscript with Gtk+ console
-Summary(pl):	Ghostscript z konsol± Gtk+
+Summary:	Ghostscript with GTK+ console
+Summary(pl):	Ghostscript z konsol± GTK+
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}
 
 %description gtk
-Ghostscript with Gtk+ console.
+Ghostscript with GTK+ console.
 
 %description gtk -l pl
-Ghostscript z konsol± Gtk+.
+Ghostscript z konsol± GTK+.
 
 %package devel
 Summary:	libgs header files
