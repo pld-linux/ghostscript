@@ -21,7 +21,7 @@ shift
 BLACKLIST="$@"
 BLACKLIST="$BLACKLIST ali atiw cirr tseng tvga" # MSDOS - direct hw access.
 BLACKLIST="$BLACKLIST vesa s3vga"
-BLACKLIST="$BLACKLIST lvga256 herc ega vga svga16 pe"
+BLACKLIST="$BLACKLIST herc ega vga svga16 pe"
 BLACKLIST="$BLACKLIST att3b1"			# Console - who needs it?!
 BLACKLIST="$BLACKLIST sonyfb"			# Sony Frame Buffer device.
 BLACKLIST="$BLACKLIST nwp533"			# Sony NWP-533.

@@ -14,6 +14,7 @@ Release:	3
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
+Group(de):	Applikationen/Grafik
 Group(pl):	Aplikacje/Grafika
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/ghostscript/%{name}-%{version}.tar.bz2
 Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
@@ -96,16 +97,16 @@ install %{SOURCE3} .
 	docdir=%{_datadir}/doc/%{name}-%{version} \
 	DEVICE_DEVS16="`/bin/sh %{SOURCE3} devs.mak \
 %ifarch sparc sparc64 alpha
-		vgalib \
+		vgalib lvga256\
 %else
-		%{!?bcond_on_svgalib:vgalib} \
+		%{!?bcond_on_svgalib:vgalib lvga256} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
 %ifarch sparc sparc64 alpha
-		vgalib \
+		vgalib lvga256\
 %else
-		%{!?bcond_on_svgalib:vgalib} \
+		%{!?bcond_on_svgalib:vgalib lvga256} \
 %endif
 		`"
 
