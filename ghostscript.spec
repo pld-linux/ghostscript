@@ -12,13 +12,12 @@ Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 %define gnu_ver 7.07
-%define	rcver	rc2
 Version:	%{gnu_ver}.1
-Release:	0.%{rcver}.4
+Release:	0.5
 License:	GPL
 Group:		Applications/Graphics
-Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}%{rcver}-source.tar.bz2
-# Source0-md5:	3c7352bece55fbd7656b91396150d49f
+Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}-source.tar.bz2
+# Source0-md5:	d30bf5c09f2c7caa8291f6305cf03044
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
@@ -145,7 +144,7 @@ CUPS filter for support non-postscript printers.
 Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 
 %prep
-%setup -q -n espgs-%{version}%{rcver} -a2
+%setup -q -n espgs-%{version} -a2
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
