@@ -28,17 +28,18 @@ Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
 URL:		http://www.ghostscript.com/
+BuildRequires:	XFree86-devel
+BuildRequires:	autoconf
 # Required by ghostscript-find_devs.sh
 BuildRequires:	awk
-BuildRequires:	XFree86-devel
-# Required by 'gdevvglb' device.
-%ifnarch sparc sparc64 alpha
-%{?_with_svgalib:BuildRequires:	svgalib-devel}
-%endif
-BuildRequires:	libpng-devel >= 1.0.8
-BuildRequires:	libstdc++-devel
 # for gsx
 BuildRequires:	gtk+-devel
+BuildRequires:	libpng-devel >= 1.0.8
+BuildRequires:	libstdc++-devel
+# Required by 'gdevvglb' device.
+%ifarch %{ix86} alpha ppc
+%{?_with_svgalib:BuildRequires:	svgalib-devel}
+%endif
 # for documentation regeneration
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	/usr/bin/texi2html
@@ -124,7 +125,7 @@ Requires:	%{name}-ijs-devel = %{version}
 %description ijs-static
 Static libijs.
 
-%description ijs-static
+%description ijs-static -l pl
 Statyczna wersja biblioteki IJS.
 
 %prep
@@ -159,14 +160,14 @@ cd ..
 	mandir=%{_mandir} \
 	docdir=%{_datadir}/doc/%{name}-%{version} \
 	DEVICE_DEVS16="`/bin/sh %{SOURCE3} devs.mak \
-%ifarch sparc sparc64 alpha
+%ifnarch %{ix86} alpha ppc
 		vgalib lvga256\
 %else
 		%{!?_with_svgalib:vgalib lvga256} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
-%ifarch sparc sparc64 alpha
+%ifnarch %{ix86} alpha ppc
 		vgalib lvga256\
 %else
 		%{!?_with_svgalib:vgalib lvga256} \
@@ -262,4 +263,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/ijs
 
 %files ijs-static
+%defattr(644,root,root,755)
 %{_libdir}/libijs.a
