@@ -1,24 +1,24 @@
-Summary:     PostScript interpreter and renderer
-Name:        ghostscript
-Version:     5.10
-Release:     2d
-Copyright:   GPL
-Icon:        ghost.gif
-Group:       Applications/Graphics
-Group(pl):   Aplikacje/Grafika
-Source0:     ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
-Source1:     pdf_sec.ps
-Patch:       %{name}-%{version}-config.patch
-Patch1:      %{name}-%{version}-post.patch
-Patch2:	     %{name}-%{version}-devices.patch
-Patch3:	     %{name}-%{version}-shared_libs.patch
-URL:         http://www.cs.wisc.edu/~ghost/
-Vendor:      Aladdin Enterprises
-BuildRoot:   /tmp/buildroot-%{name}-%{version}
-Summary(de): PostScript-Interpreter und Renderer
-Summary(fr): Interpréteur et visualisateur PostScript
-Summary(pl): Bezp³atny interpreter PostScriptu
-Summary(tr): PostScript yorumlayýcý ve gösterici
+Summary:	PostScript interpreter and renderer
+Summary(de):	PostScript-Interpreter und Renderer
+Summary(fr):	Interpréteur et visualisateur PostScript
+Summary(pl):	Bezp³atny interpreter PostScriptu
+Summary(tr):	PostScript yorumlayýcý ve gösterici
+Name:		ghostscript
+Version:	5.10
+Release:	3
+Group:		Applications/Graphics
+Group(pl):	Aplikacje/Grafika
+Copyright:	GPL
+URL:		http://www.cs.wisc.edu/~ghost/
+Source0:	ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
+Source1:	pdf_sec.ps
+Icon:		ghost.gif
+Patch0:		%{name}-%{version}-config.patch
+Patch1:		%{name}-%{version}-post.patch
+Patch2:		%{name}-%{version}-devices.patch
+Patch3:		%{name}-%{version}-shared_libs.patch
+Vendor:		Aladdin Enterprises
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 Ghostscript is a PostScript interpretor. It can render both PostScript
@@ -51,7 +51,7 @@ ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði biçime getirebilir.
 %prep
 %setup -q -n gs%{version}
 ln -s unix-gcc.mak Makefile
-%patch  -p1 
+%patch0 -p1 
 %patch1 -p1 
 %patch2 -p1
 %patch3 -p1
@@ -61,9 +61,8 @@ install %SOURCE1 .
 make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -w" prefix=/usr
 
 %install
-rm -rf 		$RPM_BUILD_ROOT
-
-install -d 	$RPM_BUILD_ROOT/usr/{bin,man,doc}
+rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/usr/{bin,man,doc}
 
 make install prefix=$RPM_BUILD_ROOT/usr
 
@@ -91,7 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/share/%{name}/%{version}/examples
 /usr/share/%{name}/%{version}/examples/*.ps
 
-%attr(644,root, man) /usr/man/man1/*
+/usr/man/man1/*
 
 %changelog
 * Tue Feb 16 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
