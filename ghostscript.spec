@@ -30,6 +30,7 @@ Patch2:		%{name}-cdj880.patch
 Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
+Patch7:		%{name}-ijs_cflags.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -149,6 +150,7 @@ Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7
 ln -sf jp* jpeg
 
 %build
@@ -167,7 +169,11 @@ export CFLAGS
 	--with-x
 cd ijs
 %{__autoconf}
-%configure
+%ifarch alpha
+%configure CFLAGS="%{rpmcflags} -fPIC"
+%else
+%configure CFLAGS="%{rpmcflags}"
+%endif
 cd ..
 
 #%%{__make} so \
