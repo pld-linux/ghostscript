@@ -10,8 +10,8 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	7.03
-Release:	3
+Version:	7.04
+Release:	0.1
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -26,7 +26,8 @@ Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
 #Patch3:		%{name}-nosafer.patch
-Patch4:		%{name}-missquotes.patch
+# fixed in 7.04
+#Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
 URL:		http://www.ghostscript.com/
@@ -37,9 +38,13 @@ BuildRequires:	XFree86-devel
 %ifnarch sparc sparc64 alpha
 %{?_with_svgalib:BuildRequires:	svgalib-devel}
 %endif
-BuildRequires:	libpng >= 1.0.8
+BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	gimp-print-devel
+# for documentation regeneration
+BuildRequires:	docbook-style-dsssl
+BuildRequires:	/usr/bin/texi2html
+BuildRequires:	tetex-dvips
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -83,7 +88,7 @@ ln -sf src/unix-gcc.mak Makefile
 %patch1 -p1
 %patch2 -p1
 ##%patch3 -p1
-%patch4 -p1
+##%patch4 -p1
 %patch5 -p1
 %patch6 -p1
 ln -sf jp* jpeg
@@ -95,6 +100,7 @@ cd gimp-print-%{gp_version}
 #libtoolize --copy --force
 #aclocal
 #autoconf
+CPPFLAGS=-I`pwd`/include ; export CPPFLAGS
 %configure2_13 \
 	--with-ghost \
 	--without-gimp \
@@ -107,6 +113,9 @@ cd ..
 
 # NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
 # drivers to make!
+%configure \
+	--with-x \
+	--with-ijs
 
 %{__make} \
 	XCFLAGS="%{rpmcflags} -DA4=1 -w" \
