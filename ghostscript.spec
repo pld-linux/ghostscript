@@ -6,7 +6,8 @@ Copyright:   GPL
 Icon:        ghost.gif
 Group:       Applications/Graphics
 Group(pl):   Aplikacje/Grafika
-Source:	     ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
+Source0:     ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
+Source1:     pdf_sec.ps
 Patch:       %{name}-%{version}-config.patch
 Patch1:      %{name}-%{version}-post.patch
 Patch2:	     %{name}-%{version}-devices.patch
@@ -56,6 +57,7 @@ ln -s unix-gcc.mak Makefile
 %patch3 -p1
 
 %build
+install %SOURCE1 .
 make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -w" prefix=/usr
 
 %install
@@ -92,6 +94,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root, man) /usr/man/man1/*
 
 %changelog
+* Tue Feb 16 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
+- added support for encrypted PDFs
+
 * Sat Feb 13 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
 [5.10-2d]
 - added devices patch (more drivers - i.e. for Epson Stylus Color)
