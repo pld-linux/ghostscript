@@ -28,17 +28,16 @@ Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
 URL:		http://www.ghostscript.com/
-# Required by ghostscript-find_devs.sh
-BuildRequires:	awk
 BuildRequires:	XFree86-devel
+BuildRequires:	autoconf
+# for gsx
+BuildRequires:	gtk+-devel
+BuildRequires:	libpng-devel >= 1.0.8
+BuildRequires:	libstdc++-devel
 # Required by 'gdevvglb' device.
 %ifarch %{ix86} alpha ppc
 %{?_with_svgalib:BuildRequires:	svgalib-devel}
 %endif
-BuildRequires:	libpng-devel >= 1.0.8
-BuildRequires:	libstdc++-devel
-# for gsx
-BuildRequires:	gtk+-devel
 # for documentation regeneration
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	/usr/bin/texi2html
