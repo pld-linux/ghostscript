@@ -15,7 +15,7 @@ Source0:	ftp://download.sourceforge.net/pub/sourceforge/ghostscript/%{name}-%{ve
 Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-Source3:	ghostscript-find_devs.sh
+Source3:	%{name}-find_devs.sh
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 URL:		http://www.ghostscript.com/
