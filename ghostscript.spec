@@ -1,7 +1,7 @@
 #
 # Conditional build:
-%bcond_with		svga		# with svgalib display support (vgalib and lvga256 devices)
-
+%bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
+#
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -36,8 +36,8 @@ BuildRequires:	glib2-devel
 #BuildRequires:	gtk+-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
-BuildRequires:	pkgconfig
 BuildRequires:	libtiff-devel
+BuildRequires:	pkgconfig
 # Required by 'gdevvglb' device.
 %{?with_svga:BuildRequires:	svgalib-devel}
 # for documentation regeneration
@@ -83,7 +83,7 @@ biçime getirebilir.
 Summary:	Ghostscript with GTK+ console
 Summary(pl):	Ghostscript z konsol± GTK+
 Group:		Applications/Graphics
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description gtk
 Ghostscript with GTK+ console.
@@ -95,7 +95,7 @@ Ghostscript z konsol± GTK+.
 Summary:	libgs header files
 Summary(pl):	Pliki nag³ówkowe libgs
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for libgs - ghostscript shared library.
@@ -107,7 +107,7 @@ Pliki nag³ówkowe libgs - wspó³dzielonej biblioteki ghostscript.
 Summary:	IJS development files
 Summary(pl):	Pliki dla programistów IJS
 Group:		Development/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description ijs-devel
 IJS development files.
@@ -119,7 +119,7 @@ Pliki do tworzenia programów z u¿yciem biblioteki IJS.
 Summary:	Static libijs library
 Summary(pl):	Statyczna biblioteka IJS
 Group:		Development/Libraries
-Requires:	%{name}-ijs-devel = %{version}
+Requires:	%{name}-ijs-devel = %{version}-%{release}
 
 %description ijs-static
 Static libijs library.
@@ -228,7 +228,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/[bdeflpsux]*
 %attr(755,root,root) %{_bindir}/gs
 %attr(755,root,root) %{_bindir}/wftopfa
-%attr(755,root,root) %{_bindir}/gs[^x]*
+%attr(755,root,root) %{_bindir}/gs[!x]*
 %attr(755,root,root) %{_bindir}/ijs_client_example
 #%attr(755,root,root) %{_libdir}/libgs.so.*.*
 #%attr(755,root,root) %{_libdir}/libijs.so
