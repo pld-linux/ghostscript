@@ -258,8 +258,8 @@ rm -rf $RPM_BUILD_ROOT
 
 #%files devel
 #%defattr(644,root,root,755)
-#%{_includedir}/ps
-#%{_libdir}/libgs.so
+#%%{_includedir}/ps
+#%%{_libdir}/libgs.so
 
 %files ijs-devel
 %defattr(644,root,root,755)
