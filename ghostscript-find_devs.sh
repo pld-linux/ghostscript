@@ -41,7 +41,7 @@ is_on_blacklist() {
 }
 
 scan_file() {
-	awk 'BEGIN { FS="[: ]+" } $1 ~ /^\$\(DD\).*:/ { print $1 }' \
+	awk 'BEGIN { FS="[: ]+" } /^\$\(DD\).*:/ { print $1 }' \
 		< $1 \
 		| while read DEV; do
 			is_on_blacklist $DEV || continue
