@@ -6,7 +6,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	6.22
-Release:	1
+Release:	2
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -16,8 +16,12 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Patch0:		ghostscript-config.patch
+Patch1:		ghostscript-devicelist.patch
+Patch2:		ghostscript-hpdj_driver.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
+# Required by 'gdevvglb' device.
+BuildRequires:	svgalib-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libpng-devel
 BuildRequires:	patch
@@ -60,7 +64,9 @@ biçime getirebilir.
 %prep
 %setup -q -n gs%{version}
 ln -s src/unix-gcc.mak Makefile
-%patch0 -p1 
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 %setup -q -T -D -a 2 -n gs%{version}
 ln -s jp* jpeg
 
