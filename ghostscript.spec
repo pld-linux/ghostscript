@@ -9,10 +9,10 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	7.04
-Release:	1.5
+Version:	7.05
+Release:	0.1
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
-License:	Aladdin Free Public License
+License:	GPL
 Group:		Applications/Graphics
 Source0:	ftp://download.sourceforge.net/pub/sourceforge/ghostscript/%{name}-%{version}.tar.bz2
 Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
@@ -128,7 +128,7 @@ Static libijs.
 Statyczna wersja biblioteki IJS.
 
 %prep
-%setup -q -n gs%{version} -a2
+%setup -q -a2
 ln -sf src/unix-gcc.mak Makefile
 %patch0 -p1
 %patch1 -p1
