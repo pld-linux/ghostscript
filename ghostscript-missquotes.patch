@@ -63,7 +63,7 @@ diff -Nur gs7.00.orig/lib/ps2epsi gs7.00/lib/ps2epsi
  # $Id$
  
 -tmpfile=/tmp/ps2epsi$$
-+tmpfile=`mktemp /tmp/$0.XXXXXX` || exit 1
++tmpfile=`mktemp /tmp/ps2epsi.XXXXXX` || exit 1
  
  export outfile
  

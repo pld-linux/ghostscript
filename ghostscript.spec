@@ -10,7 +10,7 @@ Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.05
-Release:	1
+Release:	2
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
@@ -152,7 +152,7 @@ cd ijs
 cd ..
 
 %{__make} so \
-	XCFLAGS="%{rpmcflags} -DA4=1 -w `pkg-config --cflags libpng12 2>/dev/null`" \
+	XCFLAGS="%{rpmcflags} -DA4=1 -w" \
 	XLDFLAGS="%{rpmldflags}" \
 	prefix=%{_prefix} \
 	datadir=%{_datadir}/%{name} \
