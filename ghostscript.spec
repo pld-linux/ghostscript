@@ -67,7 +67,7 @@ ln -s src/unix-gcc.mak Makefile
 ln -s jp* jpeg
 
 %build
-make \
+%{__make} \
 	XCFLAGS="$RPM_OPT_FLAGS -DA4=1 -w" \
 	XLDFLAGS="-s" \
 	prefix=%{_prefix} \
@@ -79,7 +79,7 @@ make \
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}
 
-make install \
+%{__make} install \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
