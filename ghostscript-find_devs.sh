@@ -20,7 +20,7 @@ BLACKLIST="$BLACKLIST sonyfb"			# Sony Frame Buffer device.
 BLACKLIST="$BLACKLIST nwp533"			# Sony NWP-533.
 BLACKLIST="$BLACKLIST sunview sunhmono"		# Sun-specific.
 BLACKLIST="$BLACKLIST sparc"			# Sparc printer - no headers.
-BLACKLIST="$BLACKLIST cdj880"			# There is no driver in *.c?!
+# BLACKLIST="$BLACKLIST cdj880"			# There is no driver in *.c?!
 
 # Architecture-specific blacklists. These variables are included in main
 # BLACKLIST if string following underscore matches first argument given
