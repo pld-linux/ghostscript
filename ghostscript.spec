@@ -17,7 +17,7 @@ Patch0:		ghostscript-config.patch
 Patch1:		ghostscript-post.TL.patch
 Patch2:		ghostscript-shared_jpeg.patch
 URL:		http://www.cs.wisc.edu/~ghost/
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 BuildRequires:	zlib-devel, libpng-devel, patch
 
 %description
