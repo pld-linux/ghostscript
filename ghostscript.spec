@@ -11,11 +11,12 @@ Group(pl):   Aplikacje/Grafika
 Copyright:   GPL
 URL:         http://www.cs.wisc.edu/~ghost/
 Source0:     ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
+Source1:     jpegsrc.v6b.tar.gz
 Icon:        ghost.gif
 Patch0:      %{name}-config.patch
 Vendor:      Aladdin Enterprises
 BuildRoot:   /tmp/%{name}-%{version}-root
-BuildPrereq: zlib-devel, libjpeg-devel, libtiff-devel, libpng-devel, patch
+BuildPrereq: zlib-devel, libpng-devel, patch
 
 %description
 Ghostscript is a PostScript interpretor. It can render both PostScript
@@ -49,6 +50,8 @@ ve birçok yazýcýnýn (renkli yazýcýlar dahil) basabileceði biçime getirebilir.
 %setup -q -n gs%{version}
 ln -s unix-gcc.mak Makefile
 %patch0 -p1 
+tar zxf %{SOURCE1}
+mv jpeg-6b jpeg
 
 %build
 make RPM_OPT_FLAGS="$RPM_OPT_FLAGS -DA4 -w" prefix=/usr
@@ -92,6 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 [5.50-1]
 - FHS-2.0
 - papersize A4 is default now
+- ghostscript is not dynamicaly linked with libjpeg (read about
+  D_MAX_BLOCKS_IN_MCU in Install.htm (ghostscript) and in libjpeg.h (libjpeg)).
+- devices patch integrated with config patch
 
 * Tue Feb 16 1999 Arkadiusz Mi¶kiewicz <misiek@misiek.eu.org>
 - added support for encrypted PDFs
