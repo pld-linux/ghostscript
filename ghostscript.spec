@@ -6,7 +6,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	6.23
-Release:	2
+Release:	3
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -25,7 +25,7 @@ BuildRequires:	awk
 BuildRequires:	XFree86-devel
 # Required by 'gdevvglb' device.
 %ifnarch sparc sparc64
-BuildRequires:	svgalib-devel
+%{?svgalib:BuildRequires:	svgalib-devel}
 %endif
 BuildRequires:	zlib-devel
 BuildRequires:	libpng >= 1.0.8
@@ -84,8 +84,20 @@ install %{SOURCE3} .
 	datadir=%{_datadir}/%{name} \
 	mandir=%{_mandir} \
 	docdir=%{_datadir}/doc/%{name}-%{version} \
-	DEVICE_DEVS16="`/bin/sh %{SOURCE3} devs.mak %{_arch}`" \
-	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak %{_arch}`"
+	DEVICE_DEVS16="`/bin/sh %{SOURCE3} devs.mak \
+%ifarch sparc sparc64
+		libvga \
+%else
+		%{?!svgalib:libvga} \
+%endif
+		`" \
+	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
+%ifarch sparc sparc64
+		libvga \
+%else
+		%{?!svgalib:libvga} \
+%endif
+		`"
 
 %install
 rm -rf $RPM_BUILD_ROOT
