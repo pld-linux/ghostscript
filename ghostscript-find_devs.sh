@@ -5,15 +5,22 @@
 # This scripts scans devs.mak and contrib.mak provided with
 # Ghostsctipt and prints list of devices which aren't present in
 # master Makefile.
-# Expects two parameters: name (without path!) of makefile to scan and
-# system architecture, as returned by rpm's {%_arch} macro (will work
-# without second arg).
-# Author:
+# Expects parameters: name (without path!) of makefile to scan and
+# additional list of drivers that won't be built.
+# 
+# Authors:
 #   Michal Kochanowicz <mkochano@pld.org.pl>
+#   Sebastian Zagrodzki <zagrodzki@pld.org.pl>
 ######################################################################
 
+# MAKENAME is a name of makefile to scan
+MAKENAME="$1"
+shift
+
 # BLACKLIST contains list of drivers which should *not* be activated.
-BLACKLIST="ali atiw cirr tseng tvga vesa s3vga"	# MSDOS - direct hw access.
+BLACKLIST="$@"
+BLACKLIST="$BLACKLIST ali atiw cirr tseng tvga" # MSDOS - direct hw access.
+BLACKLIST="$BLACKLIST vesa s3vga"
 BLACKLIST="$BLACKLIST lvga256 herc ega vga svga16 pe"
 BLACKLIST="$BLACKLIST att3b1"			# Console - who needs it?!
 BLACKLIST="$BLACKLIST sonyfb"			# Sony Frame Buffer device.
@@ -21,14 +28,6 @@ BLACKLIST="$BLACKLIST nwp533"			# Sony NWP-533.
 BLACKLIST="$BLACKLIST sunview sunhmono"		# Sun-specific.
 BLACKLIST="$BLACKLIST sparc"			# Sparc printer - no headers.
 # BLACKLIST="$BLACKLIST cdj880"			# There is no driver in *.c?!
-
-# Architecture-specific blacklists. These variables are included in main
-# BLACKLIST if string following underscore matches first argument given
-# to the script (usualy value of rpm's %{_arch} macro).
-BLACKLIST_sparc="vgalib"
-BLACKLIST_sparc64="vgalib"
-export BLACKLIST_{sparc,sparc64}
-eval BLACKLIST='"$BLACKLIST "$BLACKLIST_'$2
 
 MAKEFILE="src/unix-gcc.mak"
 
@@ -50,4 +49,4 @@ scan_file() {
 		done
 }
 
-scan_file "src/$1"
+scan_file "src/$MAKENAME"
