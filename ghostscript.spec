@@ -115,14 +115,14 @@ cd ..
 %ifarch sparc sparc64 alpha
 		vgalib lvga256\
 %else
-		%{?bcond_on_svgalib:vgalib lvga256} \
+		%{!?bcond_on_svgalib:vgalib lvga256} \
 %endif
 		`" \
 	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
 %ifarch sparc sparc64 alpha
 		vgalib lvga256\
 %else
-		%{?bcond_on_svgalib:vgalib lvga256} \
+		%{!?bcond_on_svgalib:vgalib lvga256} \
 %endif
 		`"
 
