@@ -4,6 +4,8 @@
 %bcond_with gimpprint	# with gimp-print support (requires gimp-print < 2.3)
 %bcond_with svga	# with svgalib display support (vgalib and lvga256 devices)
 %bcond_without omni	# without omni support
+%bcond_with gtk2	# experimental GTK+ 2 support
+
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -28,12 +30,14 @@ Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
 Patch3:		%{name}-ijs_cflags.patch
 Patch4:		%{name}-gdevcd8-fixes.patch
+Patch5:		%{name}-gtk+2.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
+BuildRequires:	automake
 # for gsx
 #BuildRequires:	gtk+-devel
-BuildRequires:	glib-devel
+BuildRequires:	glib%{?with_gtk2:2}-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 # Required by 'gdevvglb' device.
@@ -150,9 +154,15 @@ Filtr CUPS-a obs³uguj±cy drukarki niepostscriptowe.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%if %{with gtk2}
+%patch5 -p1
+%endif
 ln -sf jp* jpeg
 
 %build
+cp -f %{_datadir}/automake/config.sub .
+%{__aclocal}
+%{__autoconf}
 CFLAGS="%{rpmcflags} -DA4"
 export CFLAGS
 %configure \
