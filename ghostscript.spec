@@ -9,8 +9,8 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	7.05
-Release:	2
+Version:	7.07
+Release:	0.1
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
@@ -175,7 +175,7 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir},%{_libdir},%{_includedir}}
+install -d $RPM_BUILD_ROOT{%{_datadir}/%{name}/lib,%{_libdir},%{_includedir},}
 
 %{__make} soinstall \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
@@ -238,9 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/lib
 # "*.*" will not match "Fontmap". It is OK.
 %{_datadir}/%{name}/lib/*.*
-%dir %{_datadir}/%{name}/examples
-%{_datadir}/%{name}/examples/*
-%config %verify(not size md5 mtime) %{_datadir}/%{name}/lib/Fontmap
+%dir %{_datadir}/%{name}/%{version}/examples
+%{_datadir}/%{name}/%{version}/examples/*
+%config %verify(not size md5 mtime) %{_datadir}/%{name}/%{version}/lib/Fontmap
 %{_mandir}/man*/*
 %lang(cs) %{_mandir}/cs/man*/*
 %lang(es) %{_mandir}/es/man*/*
