@@ -17,7 +17,7 @@ Version:	%{gnu_ver}.6
 Release:	1
 License:	GPL
 Group:		Applications/Graphics
-Source0:	http://unc.dl.sourceforge.net/sourceforge/espgs/espgs-%{version}-source.tar.bz2
+Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}-source.tar.bz2
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
