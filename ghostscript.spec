@@ -1,7 +1,8 @@
 #
 # Conditional build:
-# _with_svgalib
-# _without_gimp
+# _without_cups		- without CUPS support
+# _without_gimp		- without gimp-print support
+# _with_svgalib		- with svgalib display support (vgalib and lvga256 devices)
 #
 %define gnu_ver		7.05
 %define	pcl3_ver	3.3
@@ -40,7 +41,7 @@ BuildRequires:	libstdc++-devel
 %endif
 # for documentation regeneration
 BuildRequires:	/usr/bin/texi2html
-BuildRequires:	cups-devel
+%{!?_without_cups:BuildRequires:	cups-devel}
 BuildRequires:	docbook-style-dsssl
 %{!?_without_gimp:BuildRequires:	gimp-print-devel}
 BuildRequires:	tetex-dvips
@@ -152,11 +153,12 @@ ln -sf jp* jpeg
 # NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
 # drivers to make!
 %configure \
-	--with-drivers=ALL \
+	--with-drivers=ALL%{?_with_svgalib:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	%{!?_without_gimp:--with-gimp-print} \
 	%{?_without_gimp:--without-gimp-print} \
+	%{?_without_cups:--disable-cups} \
 	--with-omni \
 	--with-x
 cd ijs
@@ -268,7 +270,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libijs.a
 
+%if 0%{!?_without_cups:1}
 %files -n cups-filter-pstoraster
 %defattr(644,root,root,755)
 %(cups-config --serverroot)/*
 %attr(755,root,root) %(cups-config --serverbin)/filter/*
+%endif
