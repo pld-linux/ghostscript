@@ -27,7 +27,7 @@ Source5:	http://216.136.171.200/hpinkjet/hpijs0.94.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
-Patch3:		%{name}-nosafer.patch
+#Patch3:		%{name}-nosafer.patch
 Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
@@ -40,9 +40,8 @@ BuildRequires:	XFree86-devel
 %ifnarch sparc sparc64 alpha
 %{?bcond_on_svgalib:BuildRequires:	svgalib-devel}
 %endif
-BuildRequires:	zlib-devel
 BuildRequires:	libpng >= 1.0.8
-BuildRequires:	patch
+BuildRequires:	libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -85,7 +84,7 @@ ln -s src/unix-gcc.mak Makefile
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1 
+##%patch3 -p1 
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
@@ -109,9 +108,12 @@ cp src/ghost/*.[ch] ../src/
 sed -e 's/stp.dev:/stp.dev :/'< src/ghost/contrib.mak.addon >> ../src/contrib.mak
 cd ..
 
+# NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
+# drivers to make!
+
 %{__make} \
-	XCFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -DA4=1 -w" \
-	XLDFLAGS="-s" \
+	XCFLAGS="%{rpmcflags} -DA4=1 -w" \
+	XLDFLAGS="%{rpmldflags}" \
 	prefix=%{_prefix} \
 	datadir=%{_datadir}/%{name} \
 	mandir=%{_mandir} \
@@ -149,11 +151,12 @@ install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
 	$RPM_BUILD_ROOT%{_bindir}/*.sh \
-	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},gsbj,gsdj,gsdj500,gslj}.1
+	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},gsbj,gsdj,gsdj500,gslj,eps2eps}.1
 
 echo ".so gs.1"     > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf12.1
 echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf13.1
+echo ".so ps2ps.1"  > $RPM_BUILD_ROOT%{_mandir}/man1/eps2eps.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsbj.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsdj.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsdj500.1

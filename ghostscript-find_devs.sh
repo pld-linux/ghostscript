@@ -27,6 +27,7 @@ BLACKLIST="$BLACKLIST sonyfb"			# Sony Frame Buffer device.
 BLACKLIST="$BLACKLIST nwp533"			# Sony NWP-533.
 BLACKLIST="$BLACKLIST sunview sunhmono"		# Sun-specific.
 BLACKLIST="$BLACKLIST sparc"			# Sparc printer - no headers.
+BLACKLIST="$BLACKLIST omni"			# omni - no source in 7.00
 # BLACKLIST="$BLACKLIST cdj880"			# There is no driver in *.c?!
 
 MAKEFILE="src/unix-gcc.mak"

@@ -1,5 +1,6 @@
---- gs6.50/lib/dvipdf.wiget	Thu Mar  9 09:40:39 2000
-+++ gs6.50/lib/dvipdf	Thu Jan 25 17:56:54 2001
+diff -Nur gs7.00.orig/lib/dvipdf gs7.00/lib/dvipdf
+--- gs7.00.orig/lib/dvipdf	Thu Mar  9 09:40:39 2000
++++ gs7.00/lib/dvipdf	Sun Apr 15 23:31:36 2001
 @@ -22,18 +22,18 @@
  	exit 1
  fi
@@ -25,16 +26,18 @@
  # Doing an initial 'save' helps keep fonts from being flushed between pages.
 -exec dvips -q -f $infile | gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=$outfile $OPTIONS -c save pop -
 +exec dvips -q -f "$infile" | gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="$outfile" $OPTIONS -c save pop -
---- gs6.50/lib/eps2eps.wiget	Fri May 19 08:38:25 2000
-+++ gs6.50/lib/eps2eps	Thu Jan 25 17:57:50 2001
+diff -Nur gs7.00.orig/lib/eps2eps gs7.00/lib/eps2eps
+--- gs7.00.orig/lib/eps2eps	Fri May 19 08:38:25 2000
++++ gs7.00/lib/eps2eps	Sun Apr 15 23:32:13 2001
 @@ -17,4 +17,4 @@
  	exit 1
  fi
  
 -exec gs -q -sDEVICE=epswrite -sOutputFile=$2 -dNOPAUSE -dBATCH -dSAFER $OPTIONS $1
 +exec gs -q -sDEVICE=epswrite -sOutputFile="$2" -dNOPAUSE -dBATCH -dSAFER $OPTIONS "$1"
---- gs6.50/lib/pdf2dsc.wiget	Thu Jan 25 17:56:54 2001
-+++ gs6.50/lib/pdf2dsc	Thu Jan 25 17:56:54 2001
+diff -Nur gs7.00.orig/lib/pdf2dsc gs7.00/lib/pdf2dsc
+--- gs7.00.orig/lib/pdf2dsc	Fri Dec 29 06:03:49 2000
++++ gs7.00/lib/pdf2dsc	Sun Apr 15 23:32:43 2001
 @@ -20,7 +20,7 @@
  
  pdffile=$1
@@ -42,10 +45,11 @@
 -: ${dscfile:=`echo $pdffile | sed 's,\.[^/.]*,,'`.dsc}
 +: ${dscfile:=`echo "$pdffile" | sed 's,\.[^/.]*,,'`.dsc}
  
- exec gs -q -dNODISPLAY \
+ exec gs -q -dNODISPLAY -dSAFER -dDELAYSAFER\
      -sPDFname="$pdffile" -sDSCname="$dscfile" pdf2dsc.ps -c quit
---- gs6.50/lib/pdf2ps.wiget	Fri May 19 08:38:25 2000
-+++ gs6.50/lib/pdf2ps	Thu Jan 25 18:01:05 2001
+diff -Nur gs7.00.orig/lib/pdf2ps gs7.00/lib/pdf2ps
+--- gs7.00.orig/lib/pdf2ps	Fri May 19 08:38:25 2000
++++ gs7.00/lib/pdf2ps	Sun Apr 15 23:33:20 2001
 @@ -14,10 +14,10 @@
  
  if [ $# -eq 2 ] 
@@ -55,7 +59,7 @@
  elif [ $# -eq 1 ]
  then
 -    outfile=`basename $1 \.pdf`.ps
-+    outfile="`basename "$1" \.pdf`.ps"
++    outfile=`basename "$1" \.pdf`.ps
  else
      echo "Usage: `basename $0` [-dASCII85EncodePages=false] [-dLanguageLevel=1|2|3] input.pdf [output.ps]" 1>&2
      exit 1
@@ -65,8 +69,9 @@
  # appears before other options.
 -exec gs $OPTIONS -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pswrite -sOutputFile=$outfile $OPTIONS -c save pop -f $1
 +exec gs $OPTIONS -q -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pswrite -sOutputFile="$outfile" $OPTIONS -c save pop -f "$1"
---- gs6.50/lib/pfbtopfa.wiget	Wed Apr 12 19:41:41 2000
-+++ gs6.50/lib/pfbtopfa	Thu Jan 25 18:05:55 2001
+diff -Nur gs7.00.orig/lib/pfbtopfa gs7.00/lib/pfbtopfa
+--- gs7.00.orig/lib/pfbtopfa	Wed Apr 12 19:41:41 2000
++++ gs7.00/lib/pfbtopfa	Sun Apr 15 23:33:52 2001
 @@ -4,13 +4,13 @@
  
  if [ $# -eq 2 ] 
@@ -76,7 +81,7 @@
  elif [ $# -eq 1 ]
  then
 -    outfile=`basename $1 \.pfb`.pfa
-+    outfile="`basename "$1" \.pfb`.pfa"
++    outfile=`basename "$1" \.pfb`.pfa
  else
      echo "Usage: `basename $0` input.pfb [output.pfa]" 1>&2
      exit 1
@@ -84,8 +89,9 @@
  
 -exec gs -q -dNODISPLAY -- pfbtopfa.ps $1 $outfile
 +exec gs -q -dNODISPLAY -- pfbtopfa.ps "$1" "$outfile"
---- gs6.50/lib/ps2epsi.wiget	Thu Jan 25 17:56:54 2001
-+++ gs6.50/lib/ps2epsi	Thu Jan 25 18:02:18 2001
+diff -Nur gs7.00.orig/lib/ps2epsi gs7.00/lib/ps2epsi
+--- gs7.00.orig/lib/ps2epsi	Wed Apr  4 23:05:00 2001
++++ gs7.00/lib/ps2epsi	Sun Apr 15 23:36:15 2001
 @@ -1,7 +1,7 @@
  #!/bin/sh
  # $Id$
@@ -95,7 +101,13 @@
  
  export outfile
  
-@@ -15,18 +15,18 @@
+@@ -10,23 +10,23 @@
+ 	exit 1
+ fi
+ 
+-infile=$1;
++infile="$1";
+ 
  if [ $# -eq 1 ]
  then
  	case "${infile}" in
@@ -113,7 +125,8 @@
 -	outfile=${base}.epsi
 +	outfile="${base}.epsi"
  else
- 	outfile=$2
+-	outfile=$2
++	outfile="$2"
  fi
  
 -ls -l ${infile} |
@@ -128,8 +141,8 @@
 -	' U="$USERNAME$LOGNAME"  F=1 - F=2 ${infile} >$tmpfile
 +	' U="$USERNAME$LOGNAME"  F=1 - F=2 "${infile}" >$tmpfile
  
--gs -q -dNOPAUSE -r72 -sDEVICE=bit -sOutputFile=/dev/null $tmpfile ps2epsi.ps $tmpfile <${infile} 1>&2
-+gs -q -dNOPAUSE -r72 -sDEVICE=bit -sOutputFile=/dev/null "$tmpfile" ps2epsi.ps "$tmpfile" <"${infile}" 1>&2
+-gs -q -dNOPAUSE -dSAFER -dDELAYSAFER -r72 -sDEVICE=bit -sOutputFile=/dev/null $tmpfile ps2epsi.ps $tmpfile <${infile} 1>&2
++gs -q -dNOPAUSE -dSAFER -dDELAYSAFER -r72 -sDEVICE=bit -sOutputFile=/dev/null $tmpfile ps2epsi.ps $tmpfile <"${infile}" 1>&2
  rm -f $tmpfile
  
  (
@@ -139,8 +152,8 @@
  
 -cat ${infile} |
 +cat "${infile}" |
- sed -e '/^%%BeginPreview:/,/^%%EndPreview[\n]*$/d' -e '/^%!PS-Adobe/d'\
- 	-e '/^%%[A-Za-z][A-Za-z]*[\n]*$/d' -e '/^%%[A-Za-z][A-Za-z]*: /d'
+ sed -e '/^%%BeginPreview:/,/^%%EndPreview[^!-~]*$/d' -e '/^%!PS-Adobe/d'\
+ 	-e '/^%%[A-Za-z][A-Za-z]*[^!-~]*$/d' -e '/^%%[A-Za-z][A-Za-z]*: /d'
  
 @@ -71,6 +71,6 @@
  %%EOF
@@ -150,8 +163,9 @@
 +) >> "${outfile}"
  
  exit 0
---- gs6.50/lib/ps2pdfwr.wiget	Fri May 19 08:38:25 2000
-+++ gs6.50/lib/ps2pdfwr	Thu Jan 25 18:04:27 2001
+diff -Nur gs7.00.orig/lib/ps2pdfwr gs7.00/lib/ps2pdfwr
+--- gs7.00.orig/lib/ps2pdfwr	Fri May 19 08:38:25 2000
++++ gs7.00/lib/ps2pdfwr	Sun Apr 15 23:37:27 2001
 @@ -17,20 +17,20 @@
  	exit 1
  fi
@@ -166,9 +180,9 @@
 -	  *.eps)	base=`basename ${infile} .eps`; outfile=${base}.pdf ;;
 -	  *.ps)		base=`basename ${infile} .ps`; outfile=${base}.pdf ;;
 -	  *)		base=`basename ${infile}`; outfile=${base}.pdf ;;
-+	  *.eps)	base="`basename "${infile}" .eps`"; outfile="${base}.pdf" ;;
-+	  *.ps)		base="`basename "${infile}" .ps`"; outfile="${base}.pdf" ;;
-+	  *)		base="`basename "${infile}"`"; outfile="${base}.pdf" ;;
++	  *.eps)	base=`basename "${infile}" .eps`; outfile="${base}.pdf" ;;
++	  *.ps)		base=`basename "${infile}" .ps`; outfile="${base}.pdf" ;;
++	  *)		base=`basename "${infile}"`; outfile="${base}.pdf" ;;
  	esac
  else
 -	outfile=$2
@@ -179,8 +193,9 @@
  # appears before other options.
 -exec gs $OPTIONS -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=$outfile $OPTIONS -c .setpdfwrite -f $infile
 +exec gs $OPTIONS -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile="$outfile" $OPTIONS -c .setpdfwrite -f "$infile"
---- gs6.50/lib/ps2ps.wiget	Fri May 19 08:38:25 2000
-+++ gs6.50/lib/ps2ps	Thu Jan 25 17:56:54 2001
+diff -Nur gs7.00.orig/lib/ps2ps gs7.00/lib/ps2ps
+--- gs7.00.orig/lib/ps2ps	Fri May 19 08:38:25 2000
++++ gs7.00/lib/ps2ps	Sun Apr 15 23:37:48 2001
 @@ -17,4 +17,4 @@
  	exit 1
  fi
