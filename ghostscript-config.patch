@@ -1,27 +1,5 @@
-diff -Nur gs7.04.orig/Makefile.in gs7.04/Makefile.in
---- gs7.04.orig/Makefile.in	Fri Feb  1 04:30:13 2002
-+++ gs7.04/Makefile.in	Thu Mar 14 12:23:23 2002
-@@ -63,7 +63,7 @@
- man1ext = 1
- datadir = @datadir@
- gsdir = $(datadir)/ghostscript
--gsdatadir = $(gsdir)/$(GS_DOT_VERSION)
-+gsdatadir = $(gsdir)
- 
- docdir=$(gsdatadir)/doc
- exdir=$(gsdatadir)/examples
-@@ -72,7 +72,7 @@
- # Define the default directory/ies for the runtime
- # initialization and font files.  Separate multiple directories with a :.
- 
--GS_LIB_DEFAULT=$(gsdatadir)/lib:$(gsdir)/fonts
-+GS_LIB_DEFAULT=$(datadir)/lib:$(datadir)/fonts:/usr/share/fonts/Type1
- 
- # Define whether or not searching for initialization files should always
- # look in the current directory first.  This leads to well-known security
-diff -Nur gs7.04.orig/src/unix-gcc.mak gs7.04/src/unix-gcc.mak
---- gs7.04.orig/src/unix-gcc.mak	Fri Feb  1 07:27:58 2002
-+++ gs7.04/src/unix-gcc.mak	Thu Mar 14 12:21:57 2002
+--- ghostscript-7.07/src/unix-gcc.mak.orig	Tue Mar 11 12:59:10 2003
++++ ghostscript-7.07/src/unix-gcc.mak	Wed Jun  4 13:06:24 2003
 @@ -65,7 +65,7 @@
  man1ext = 1
  datadir = $(prefix)/share
@@ -40,13 +18,13 @@ diff -Nur gs7.04.orig/src/unix-gcc.mak gs7.04/src/unix-gcc.mak
  
  # Define whether or not searching for initialization files should always
  # look in the current directory first.  This leads to well-known security
-@@ -157,26 +157,26 @@
+@@ -152,26 +152,26 @@
  # You may need to change this if the libpng version changes.
  # See libpng.mak for more information.
  
 -PSRCDIR=libpng
 +PSRCDIR=/usr/include
- PVERSION=10202
+ PVERSION=10205
  
  # Choose whether to use a shared version of the PNG library, and if so,
  # what its name is.
@@ -71,7 +49,7 @@ diff -Nur gs7.04.orig/src/unix-gcc.mak gs7.04/src/unix-gcc.mak
  #ZLIB_NAME=gz
  ZLIB_NAME=z
  
-@@ -220,7 +220,7 @@
+@@ -215,7 +215,7 @@
  # Define the added flags for standard, debugging, profiling 
  # and shared object builds.
  
@@ -80,7 +58,7 @@ diff -Nur gs7.04.orig/src/unix-gcc.mak gs7.04/src/unix-gcc.mak
  CFLAGS_DEBUG=-g -O
  CFLAGS_PROFILE=-pg -O2
  CFLAGS_SO=-fPIC
-@@ -236,7 +236,7 @@
+@@ -231,7 +231,7 @@
  # We don't include -ansi, because this gets in the way of the platform-
  #   specific stuff that <math.h> typically needs; nevertheless, we expect
  #   gcc to accept ANSI-style function prototypes and function definitions.
@@ -89,16 +67,16 @@ diff -Nur gs7.04.orig/src/unix-gcc.mak gs7.04/src/unix-gcc.mak
  
  CFLAGS=$(CFLAGS_STANDARD) $(GCFLAGS) $(XCFLAGS)
  
-@@ -247,7 +247,7 @@
+@@ -242,7 +242,7 @@
  #	-R /usr/local/xxx/lib:/usr/local/lib
  # giving the full path names of the shared library directories.
  # XLDFLAGS can be set from the command line.
 -XLDFLAGS=
 +#XLDFLAGS=
  
- LDFLAGS=$(XLDFLAGS) -fno-common
+ LDFLAGS=$(XLDFLAGS)
  
-@@ -324,7 +324,7 @@
+@@ -322,7 +322,7 @@
  
  # Choose the language feature(s) to include.  See gs.mak for details.
  
