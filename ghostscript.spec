@@ -4,7 +4,7 @@
 # _without_gimp		- without gimp-print support
 # _with_svgalib		- with svgalib display support (vgalib and lvga256 devices)
 #
-%define gnu_ver		7.05
+%define gnu_ver		7.07
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
@@ -12,12 +12,11 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	%{gnu_ver}.6
+Version:	%{gnu_ver}.1rc1
 Release:	3
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/espgs/espgs-%{version}-source.tar.bz2
-# Source0-md5: 991cbd7bafc6917a19abf9df3ecad58e
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5: dbd5f3b47ed13132f04c685d608a7547
