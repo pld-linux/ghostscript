@@ -16,14 +16,17 @@ Release:	1
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
-Source0:	http://unc.dl.sourceforge.net/sourceforge/espgs/espgs-7.05.5-source.tar.bz2
-Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
+Source0:	http://unc.dl.sourceforge.net/sourceforge/espgs/espgs-%{version}-source.tar.bz2
+# included in 6.51
+#Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-Source3:	%{name}-find_devs.sh
-Source4:	http://www.linuxprinting.org/download/printing/GS-7,05-MissingDrivers-1.tar.gz
+#Source3:	%{name}-find_devs.sh
+# included in 7.05.4
+#Source4:	http://www.linuxprinting.org/download/printing/GS-7,05-MissingDrivers-1.tar.gz
 Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
-Source6:	http://home.t-online.de/home/Martin.Lottermoser/pcl3dist/pcl3-%{pcl3_ver}.tar.gz
+# included in 7.05.4
+#Source6:	http://home.t-online.de/home/Martin.Lottermoser/pcl3dist/pcl3-%{pcl3_ver}.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
@@ -131,8 +134,8 @@ Static libijs.
 Statyczna wersja biblioteki IJS.
 
 %prep
-%setup -q -a2 -a4 -n espgs-%{version}
-ln -sf src/unix-gcc.mak Makefile
+%setup -q -a2 -n espgs-%{version}
+#ln -sf src/unix-gcc.mak Makefile
 #%patch0 -p1
 ###%patch1 -p1
 ###%patch2 -p1
@@ -141,25 +144,25 @@ ln -sf src/unix-gcc.mak Makefile
 %patch5 -p1
 %patch6 -p1
 ln -sf jp* jpeg
-install %{SOURCE3} .
+#install %{SOURCE3} .
 
 # PCL
-mkdir -p pcl3
-tar xzf %{SOURCE6} pcl3-%{pcl3_ver}/pcl3.tar
-tar xf pcl3-%{pcl3_ver}/pcl3.tar -C pcl3
-cat pcl3/src/contrib.mak-6.50.add >> src/contrib.mak
-mv pcl3/lib pcl3/doc/
-mv pcl3/ps pcl3/doc/
-cp -ax pcl3/doc doc/pcl3
-cp pcl3/README doc/README.pcl3
-cp pcl3/BUGS doc/BUGS.pcl3
-cp pcl3/NEWS doc/NEWS.pcl3
+#mkdir -p pcl3
+#tar xzf %{SOURCE6} pcl3-%{pcl3_ver}/pcl3.tar
+#tar xf pcl3-%{pcl3_ver}/pcl3.tar -C pcl3
+#cat pcl3/src/contrib.mak-6.50.add >> src/contrib.mak
+#mv pcl3/lib pcl3/doc/
+#mv pcl3/ps pcl3/doc/
+#cp -ax pcl3/doc doc/pcl3
+#cp pcl3/README doc/README.pcl3
+#cp pcl3/BUGS doc/BUGS.pcl3
+#cp pcl3/NEWS doc/NEWS.pcl3
 
 %build
 # NOTE: %%{SOURCE3} takes _blacklist_ as arguments, not the list of
 # drivers to make!
 %configure \
-	--with-drivers=ALL,hl7x0,hl1240,hl1250,cdj670,cdj850,cdj880,cdj890,cdj970,cdj1600,ln03,xes,t4693d2,t4693d4,t4693d8,lips3,dl2100,la50,la70,la75,la75plus,lj4dith,sxlcrt,chp2200,pcl3,hpdjplus,hpdjportable,hpdj310,hpdj320,hpdj340,hpdj400,hpdj500,hpdj500c,hpdj510,hpdj520,hpdj540,hpdj550c,hpdj560c,hpdj600,hpdj660c,hpdj670c,hpdj680c,hpdj690c,hpdj850c,hpdj855c,hpdj870c,hpdj890c,hpdj1120c,lxm3200,lx5000,lex5700,lex7000,md2k,md5k,gdi,alc8500,alc4000,alc2000,epl5900,epl5800,epl2050,epl2050p,epl2120,bjcmono,bjcgray,bjccmyk,bjccolor,pngmono,pnggray,png16,png256,png16m \
+	--with-drivers=ALL \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with-gimp-print \
@@ -171,26 +174,7 @@ cd ijs
 cd ..
 
 %{__make} so \
-	XCFLAGS="%{rpmcflags} -DA4=1 -w" \
-	XLDFLAGS="%{rpmldflags}" \
-	prefix=%{_prefix} \
-	datadir=%{_datadir}/%{name} \
-	mandir=%{_mandir} \
-	docdir=%{_datadir}/doc/%{name}-%{version} \
-	DEVICE_DEVS16="`/bin/sh %{SOURCE3} devs.mak \
-%ifnarch %{ix86} alpha ppc
-		vgalib lvga256\
-%else
-		%{!?_with_svgalib:vgalib lvga256} \
-%endif
-		`" \
-	DEVICE_DEVS17="`/bin/sh %{SOURCE3} contrib.mak \
-%ifnarch %{ix86} alpha ppc
-		vgalib lvga256\
-%else
-		%{!?_with_svgalib:vgalib lvga256} \
-%endif
-		`"
+	docdir=%{_datadir}/doc/%{name}-%{version} 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -215,7 +199,7 @@ cd ..
 
 install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
+#install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
 	$RPM_BUILD_ROOT%{_bindir}/*.sh \
 	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},gsbj,gsdj,gsdj500,gslj,eps2eps}.1
