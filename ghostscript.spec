@@ -6,7 +6,7 @@ Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
 Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
-Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
+Summary(pl):	Bezp³atny interpreter i renderer PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.04
@@ -46,7 +46,7 @@ BuildRequires:	tetex-dvips
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Ghostscript is a PostScript interpretor. It can render both PostScript
+Ghostscript is a PostScript interpreter. It can render both PostScript
 and PDF compliant files to devices which include an X window, many
 printer formats (including support for color printers), and popular
 graphics file formats.
