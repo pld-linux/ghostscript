@@ -11,7 +11,7 @@ Summary(pl):	Bezp³atny interpreter PostScriptu & PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.00
-Release:	3
+Release:	4
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 Copyright:	Aladdin Free Public License
 Group:		Applications/Graphics
@@ -23,7 +23,6 @@ Source1:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 Source3:	%{name}-find_devs.sh
 Source4:	ftp://download.sourceforge.net/pub/sourceforge/gimp-print/gimp-print-%{gp_version}.tar.gz
-Source5:	http://216.136.171.200/hpinkjet/hpijs0.94.tar.gz
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-hpdj_driver.patch
 Patch2:		%{name}-cdj880.patch
@@ -31,7 +30,7 @@ Patch2:		%{name}-cdj880.patch
 Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
-Patch7:		%{name}-hpijs.patch
+Patch7:		%{name}-hpijs-0.97.patch
 URL:		http://www.ghostscript.com/
 # Required by ghostscript-find_devs.sh
 BuildRequires:	awk
@@ -88,12 +87,10 @@ ln -s src/unix-gcc.mak Makefile
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%setup -q -T -D -a 2 -a 4 -a 5 -n gs%{version}
+%setup -q -T -D -a 2 -a 4 -n gs%{version}
 ln -s jp* jpeg
 install %{SOURCE3} .
-mv hpijs0.94 hpijs
-cp hpijs/gdevhpij.? src
-%patch7 -p0
+%patch7 -p1
 
 %build
 # prepare gimp-print driver
@@ -133,10 +130,6 @@ cd ..
 %endif
 		`"
 
-cd hpijs
-%{__make}
-cd ..
-
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}
@@ -166,9 +159,6 @@ ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
 install -d $RPM_BUILD_ROOT%{_bindir}
 # install -d $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
-
-install hpijs/hpijs $RPM_BUILD_ROOT%{_bindir}
-# install hpijs/*.html hpijs/*.jpg $RPM_BUILD_ROOT%{_datadir}/doc/%{name}-%{version}
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
