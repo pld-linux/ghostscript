@@ -12,6 +12,7 @@ Copyright:	GPL
 URL:		http://www.cs.wisc.edu/~ghost/
 Source0:	ftp://ftp.cs.wisc.edu/ghost/gnu/gs510/%{name}-%{version}.tar.gz
 Source1:	jpegsrc.v6b.tar.gz
+Source2:	http://www.ozemail.com.au/~geoffk/pdfencrypt/pdf_sec.ps
 #Icon:		ghost.gif
 Patch0:		%{name}-config.patch
 Vendor:		Aladdin Enterprises
@@ -63,6 +64,7 @@ install -d $RPM_BUILD_ROOT/%{_mandir}
 install -d $RPM_BUILD_ROOT/%{_bindir}
 
 make install prefix=$RPM_BUILD_ROOT/usr
+install %{SOURCE2}  $RPM_BUILD_ROOT%{_datadir}/%{name}/
 
 echo .so gs.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 
