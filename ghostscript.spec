@@ -10,7 +10,7 @@ Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	7.05
-Release:	2
+Release:	3
 Vendor:		Aladdin Enterprises <bug-gs@aladdin.com>
 License:	GPL
 Group:		Applications/Graphics
@@ -30,6 +30,8 @@ Patch2:		%{name}-cdj880.patch
 Patch4:		%{name}-missquotes.patch
 Patch5:		%{name}-setuid.patch
 Patch6:		%{name}-time_h.patch
+Patch7:		%{name}-oob-66421.patch
+Patch8:		%{name}-zfile.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -141,6 +143,8 @@ ln -sf src/unix-gcc.mak Makefile
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 ln -sf jp* jpeg
 install %{SOURCE3} .
 
@@ -223,6 +227,8 @@ ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 install -d $RPM_BUILD_ROOT%{_includedir}/ps
 install src/{iapi,errors}.h $RPM_BUILD_ROOT%{_includedir}/ps
 
+rm -f $RPM_BUILD_ROOT%{_mandir}/{man1/ansi2knr.1,*/man1/ansi2knr.1}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -232,9 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc doc/*.htm
-%attr(755,root,root) %{_bindir}/[bdeflpsux]*
+%attr(755,root,root) %{_bindir}/[!gi]*
 %attr(755,root,root) %{_bindir}/gs
-%attr(755,root,root) %{_bindir}/gs[^x]*
+%attr(755,root,root) %{_bindir}/gs[!x]*
 %attr(755,root,root) %{_bindir}/ijs_client_example
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %{_libdir}/libijs.so
@@ -242,12 +248,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/lib
 # "*.*" will not match "Fontmap". It is OK.
 %{_datadir}/%{name}/lib/*.*
+%{_datadir}/%{name}/lib/CIDFnmap
 %dir %{_datadir}/%{name}/examples
 %{_datadir}/%{name}/examples/*
 %config %verify(not size md5 mtime) %{_datadir}/%{name}/lib/Fontmap
 %{_mandir}/man*/*
 %lang(cs) %{_mandir}/cs/man*/*
-%lang(es) %{_mandir}/es/man*/*
+%lang(de) %{_mandir}/de/man*/*
 %lang(fr) %{_mandir}/fr/man*/*
 %lang(pl) %{_mandir}/pl/man*/*
 
@@ -257,8 +264,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgs.so
 %{_includedir}/ps
-%{_libdir}/libgs.so
 
 %files ijs-devel
 %defattr(644,root,root,755)
