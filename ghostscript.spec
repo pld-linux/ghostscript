@@ -68,9 +68,9 @@ make install prefix=$RPM_BUILD_ROOT/usr
 
 echo .so gs.1 > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 
-ln -sf gs 	$RPM_BUILD_ROOT/usr/bin/ghostscript
+ln -sf gs 	$RPM_BUILD_ROOT%{_bindir}/ghostscript
 
-strip 		$RPM_BUILD_ROOT/usr/bin/gs
+strip 		$RPM_BUILD_ROOT%{_bindir}/gs
 
 gzip -9nf 	$RPM_BUILD_ROOT%{_mandir}/man1/*
 
@@ -81,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(644,root,root) %docdir /usr/doc/%{name}-%{version}
 
-%attr(755,root,root) /usr/bin/*
+%attr(755,root,root) %{_bindir}/*
 
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/%{version}/*.ps
