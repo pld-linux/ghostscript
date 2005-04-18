@@ -17,7 +17,7 @@ Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	8.50
-Release:	0.1
+Release:	0.2
 License:	AFPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
@@ -33,6 +33,7 @@ Patch2:		%{name}-time_h.patch
 Patch3:		%{name}-ijs_cflags.patch
 Patch4:		%{name}-gdevcd8-fixes.patch
 Patch5:		%{name}-glib.patch
+Patch6:		%{name}-ijs_pkgconfig_64.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -142,6 +143,7 @@ Statyczna wersja biblioteki IJS.
 #%patch3 -p1
 #%patch4 -p1
 #%patch5 -p1
+%patch6 -p1
 ln -sf jp* jpeg
 
 %build
@@ -167,7 +169,9 @@ export CFLAGS
 #        --with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 
 cd ijs
+%{__aclocal}
 %{__autoconf}
+%{__automake}
 %configure
 cd ..
 
@@ -191,12 +195,13 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 
 cd ijs
 %{__make} install \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	bindir=$RPM_BUILD_ROOT%{_bindir} \
-	datadir=$RPM_BUILD_ROOT%{_datadir} \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	includedir=$RPM_BUILD_ROOT%{_includedir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir}
+	DESTDIR=$RPM_BUILD_ROOT
+#	prefix=$RPM_BUILD_ROOT%{_prefix} \
+#	bindir=$RPM_BUILD_ROOT%{_bindir} \
+#	datadir=$RPM_BUILD_ROOT%{_datadir} \
+#	libdir=$RPM_BUILD_ROOT%{_libdir} \
+#	includedir=$RPM_BUILD_ROOT%{_includedir} \
+#	mandir=$RPM_BUILD_ROOT%{_mandir}
 cd ..
 
 install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
