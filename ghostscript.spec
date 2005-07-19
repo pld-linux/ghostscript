@@ -2,12 +2,11 @@
 # TODO:
 #	- fix svga bcond
 #	- create shared libijs
-#	- link with dynamic jasper and jbig2dec
-#	- update patches
+#	- link with dynamic jbig2dec
 #
-
 # Conditional build:
 %bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
+%bcond_without	gtk		# without gsx 
 #
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
@@ -16,12 +15,12 @@ Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
-Version:	8.50
-Release:	0.2
+Version:	8.51
+Release:	1
 License:	AFPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	bd49a30d7485ad382f69b49a06d045fd
+# Source0-md5:	8b328b47cce3b7f97f35296aae8e7b77
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
@@ -30,8 +29,9 @@ Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
-Patch3:		%{name}-ijs_cflags.patch
-Patch4:		%{name}-gdevcd8-fixes.patch
+Patch3:		%{name}-am.patch
+# no device for cdj850 in non-espgs ghostscript
+#Patch4:		%{name}-gdevcd8-fixes.patch
 Patch5:		%{name}-glib.patch
 Patch6:		%{name}-ijs_pkgconfig_64.patch
 URL:		http://www.ghostscript.com/
@@ -41,7 +41,7 @@ BuildRequires:	automake
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	glib2-devel
 # for gsx
-#BuildRequires:	gtk+-devel
+%{?with_gtk:BuildRequires:	gtk+-devel}
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
@@ -142,10 +142,10 @@ Statyczna wersja biblioteki IJS.
 
 %prep
 %setup -q -a2
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
+%patch3 -p1 -b .am
 #%patch4 -p1
 #%patch5 -p1
 %patch6 -p1
@@ -154,8 +154,8 @@ ln -sf jp* jpeg
 %build
 # workarounds
 touch ijs/ijs-config.1
-#
-sed -i -e 's#:$(gsdir)/fonts#:$(gsdir)/fonts:%{_datadir}/fonts:%{_datadir}/fonts/Type1#g' src/Makefile.in
+# not really needed with new patch :)
+# sed -i -e 's#:$(gsdir)/fonts#:$(gsdir)/fonts:%{_datadir}/fonts:%{_datadir}/fonts/Type1#g' src/Makefile.in
 #
 cp -f %{_datadir}/automake/config.sub .
 %{__aclocal}
@@ -163,7 +163,7 @@ cp -f %{_datadir}/automake/config.sub .
 CFLAGS="%{rpmcflags} -DA4"
 export CFLAGS
 %configure \
-	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
+	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with-jbig2dec \
 	--with-jasper \
@@ -171,7 +171,6 @@ export CFLAGS
 
 # NEEDS patch because no such configure options
 #        --with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
-#        --with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 
 cd ijs
 %{__aclocal}
@@ -180,16 +179,27 @@ cd ijs
 %configure
 cd ..
 
-#%%{__make} so \
 %{__make} \
+	docdir=%{_defaultdocdir}/%{name}-%{version}
+
+%{__make} so \
 	docdir=%{_defaultdocdir}/%{name}-%{version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}}
 
-#%%{__make} soinstall \
 %{__make} install \
+	install_prefix=$RPM_BUILD_ROOT \
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	bindir=$RPM_BUILD_ROOT%{_bindir} \
+	datadir=$RPM_BUILD_ROOT%{_datadir} \
+	libdir=$RPM_BUILD_ROOT%{_libdir} \
+	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-%{version} \
+	mandir=$RPM_BUILD_ROOT%{_mandir}
+
+
+%{__make} soinstall \
 	install_prefix=$RPM_BUILD_ROOT \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
@@ -247,8 +257,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gs
 %attr(755,root,root) %{_bindir}/wftopfa
 %attr(755,root,root) %{_bindir}/gs[!x]*
-%attr(755,root,root) %{_bindir}/ijs_client_example
-#%attr(755,root,root) %{_libdir}/libgs.so.*.*
+%attr(755,root,root) %{_bindir}/ijs_*_example
+%attr(755,root,root) %{_libdir}/libgs.so.*.*
 #%attr(755,root,root) %{_libdir}/libijs.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
@@ -257,8 +267,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/%{version}/lib
 # "*.*" will not match "Fontmap". It is OK.
 %{_datadir}/%{name}/%{version}/lib/*.*
-%{_datadir}/%{name}/%{version}/lib/*map
+%{_datadir}/%{name}/%{version}/lib/[!F]*map
+%{_datadir}/%{name}/%{version}/lib/FAPI*map
 %config %verify(not size md5 mtime) %{_datadir}/%{name}/%{version}/lib/Fontmap
+%config %verify(not size md5 mtime) %{_datadir}/%{name}/%{version}/lib/FAPIconfig
 %{_datadir}/%{name}/%{version}/Resource
 %{_datadir}/%{name}/%{version}/examples
 %{_mandir}/man*/*
@@ -268,14 +280,16 @@ rm -rf $RPM_BUILD_ROOT
 %lang(fr) %{_mandir}/fr/man*/*
 %lang(pl) %{_mandir}/pl/man*/*
 
-#%files gtk
-#%defattr(644,root,root,755)
-#%attr(755,root,root) %{_bindir}/gsx
+%if %{with gtk}
+%files gtk
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/gsx
+%endif
 
-#%files devel
-#%defattr(644,root,root,755)
-#%%{_includedir}/ps
-#%%{_libdir}/libgs.so
+%files devel
+%defattr(644,root,root,755)
+%{_includedir}/ps
+%{_libdir}/libgs.so
 
 %files ijs-devel
 %defattr(644,root,root,755)
