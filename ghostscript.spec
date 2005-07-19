@@ -46,6 +46,7 @@ BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	pkgconfig
+BuildRequires:	jasper-devel
 # Required by 'gdevvglb' device.
 %{?with_svga:BuildRequires:	svgalib-devel}
 # for documentation regeneration
