@@ -31,6 +31,7 @@ Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
 Patch3:		%{name}-am.patch
 # no device for cdj850 in non-espgs ghostscript
+# look for patch in old spec for GNU ghostscript
 #Patch4:		%{name}-gdevcd8-fixes.patch
 Patch5:		%{name}-glib.patch
 Patch6:		%{name}-ijs_pkgconfig_64.patch
