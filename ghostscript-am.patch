@@ -90,3 +90,14 @@
  fi
  if test x$with_jasper != xno; then
    JPXDEVS='$(PSD)jpx.dev'
+--- ghostscript-8.51/src/Makefile.in~	2004-12-01 09:17:19.000000000 +0100
++++ ghostscript-8.51/src/Makefile.in	2005-07-21 13:46:26.000000000 +0200
+@@ -70,7 +70,7 @@
+ # Define the default directory/ies for the runtime
+ # initialization and font files.  Separate multiple directories with a :.
+ 
+-GS_LIB_DEFAULT=$(gsdatadir)/lib:$(gsdatadir)/Resource:$(gsdir)/fonts
++GS_LIB_DEFAULT=$(gsdatadir)/lib:$(gsdatadir)/Resource:$(gsdir)/fonts:@fontpath@
+ 
+ # Define the default directory for cached data files
+ # this must be a single path.
