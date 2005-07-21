@@ -16,7 +16,7 @@ Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
 Name:		ghostscript
 Version:	8.51
-Release:	0.1
+Release:	2
 License:	AFPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
@@ -189,7 +189,10 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}}
+install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}/gs}
+
+# api includes 
+install src/{iapi.h,ierrors.h,gdevdsp.h} $RPM_BUILD_ROOT%{_includedir}/gs
 
 %{__make} install \
 	install_prefix=$RPM_BUILD_ROOT \
@@ -243,9 +246,6 @@ bzip2 -dc %{SOURCE5} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
-install -d $RPM_BUILD_ROOT%{_includedir}/ps
-#install src/{iapi,errors}.h $RPM_BUILD_ROOT%{_includedir}/ps
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -290,7 +290,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/ps
+%{_includedir}/gs
 %{_libdir}/libgs.so
 
 %files ijs-devel
