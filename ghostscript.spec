@@ -7,24 +7,23 @@
 %bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
 %bcond_without	gtk		# without gsx 
 #
-%define   _name ghostscript
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de):	PostScript & PDF Interpreter und Renderer
 Summary(fr):	Interpréteur et visualisateur PostScript & PDF
 Summary(ja):	PostScript ¥¤¥ó¥¿¡¼¥×¥ê¥¿¡¦¥ì¥ó¥À¥é¡¼
 Summary(pl):	Bezp³atny interpreter i renderer PostScriptu i PDF
 Summary(tr):	PostScript & PDF yorumlayýcý ve gösterici
-Name:		%{_name}
+Name:		ghostscript
 Version:	8.54
 Release:	0.2
 License:	GPL
 Group:		Applications/Graphics
-Source0:	http://dl.sourceforge.net/ghostscript/%{_name}-%{version}-gpl.tar.bz2
+Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}-gpl.tar.bz2
 # Source0-md5:	5d0ad0da8297fe459a788200f0eaeeba
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
-Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{_name}-non-english-man-pages.tar.bz2
+Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source5-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
@@ -57,6 +56,7 @@ BuildRequires:	tetex-dvips
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 Obsoletes:	ghostscript-afpl
+Obsoletes:	ghostscript-gpl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -146,7 +146,7 @@ Static libijs library.
 Statyczna wersja biblioteki IJS.
 
 %prep
-%setup -q -a2 -n %{_name}-%{version}-gpl
+%setup -q -a2 -n %{name}-%{version}-gpl
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -193,10 +193,10 @@ cd ijs
 cd ..
 
 %{__make} \
-	docdir=%{_defaultdocdir}/%{_name}-%{version}
+	docdir=%{_defaultdocdir}/%{name}-%{version}
 
 %{__make} so \
-	docdir=%{_defaultdocdir}/%{_name}-%{version}
+	docdir=%{_defaultdocdir}/%{name}-%{version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -209,7 +209,7 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{_name}-%{version} \
+	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-%{version} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 
@@ -219,7 +219,7 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{_name}-%{version} \
+	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-%{version} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 cd ijs
@@ -233,10 +233,10 @@ cd ijs
 #	mandir=$RPM_BUILD_ROOT%{_mandir}
 cd ..
 
-install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{_name}/lib
+install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 
-#install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{_name}/lib
-rm -rf $RPM_BUILD_ROOT%{_datadir}/%{_name}/doc \
+#install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
+rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
 	$RPM_BUILD_ROOT%{_bindir}/*.sh \
 	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},gsbj,gsdj,gsdj500,gslj,eps2eps}.1
 
@@ -263,7 +263,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc %{_defaultdocdir}/%{_name}-%{version}
+%doc %{_defaultdocdir}/%{name}-%{version}
 %attr(755,root,root) %{_bindir}/[bdeflpsux]*
 %attr(755,root,root) %{_bindir}/gs
 %attr(755,root,root) %{_bindir}/wftopfa
@@ -271,19 +271,19 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ijs_*_example
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %{_libdir}/libijs-*.so
-%dir %{_datadir}/%{_name}
-%dir %{_datadir}/%{_name}/lib
-%{_datadir}/%{_name}/lib/*.*
-%dir %{_datadir}/%{_name}/%{version}
-%dir %{_datadir}/%{_name}/%{version}/lib
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/lib
+%{_datadir}/%{name}/lib/*.*
+%dir %{_datadir}/%{name}/%{version}
+%dir %{_datadir}/%{name}/%{version}/lib
 # "*.*" will not match "Fontmap". It is OK.
-%{_datadir}/%{_name}/%{version}/lib/*.*
-%{_datadir}/%{_name}/%{version}/lib/[!F]*map
-%{_datadir}/%{_name}/%{version}/lib/FAPI*map
-%config %verify(not md5 mtime size) %{_datadir}/%{_name}/%{version}/lib/Fontmap
-%config %verify(not md5 mtime size) %{_datadir}/%{_name}/%{version}/lib/FAPIconfig
-%{_datadir}/%{_name}/%{version}/Resource
-%{_datadir}/%{_name}/%{version}/examples
+%{_datadir}/%{name}/%{version}/lib/*.*
+%{_datadir}/%{name}/%{version}/lib/[!F]*map
+%{_datadir}/%{name}/%{version}/lib/FAPI*map
+%config %verify(not md5 mtime size) %{_datadir}/%{name}/%{version}/lib/Fontmap
+%config %verify(not md5 mtime size) %{_datadir}/%{name}/%{version}/lib/FAPIconfig
+%{_datadir}/%{name}/%{version}/Resource
+%{_datadir}/%{name}/%{version}/examples
 %{_mandir}/man*/*
 %lang(cs) %{_mandir}/cs/man*/*
 %lang(de) %{_mandir}/de/man*/*
