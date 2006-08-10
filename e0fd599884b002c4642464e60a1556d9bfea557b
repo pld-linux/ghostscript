@@ -1,0 +1,5 @@
+- forgot to commit this damn thing, basically its a finished update for ghostscript afpl 8.51
+  not sure that the construction:
+  Provides: ghostscript
+  Obsoletes: ghostscript
+  will function properly if you have ghostscript-gpl installed... need to test it
