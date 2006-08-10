@@ -1,0 +1,68 @@
+diff -urN espgs-7.07.1rc2.org/lib/dvipdf espgs-7.07.1rc2/lib/dvipdf
+--- espgs-7.07.1rc2.org/lib/dvipdf	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/dvipdf	Sun Sep 14 18:43:26 2003
+@@ -22,7 +22,7 @@
+ 	exit 1
+ fi
+ 
+-infile=$1;
++infile="$1";
+ 
+ if [ $# -eq 1 ]
+ then
+@@ -32,7 +32,7 @@
+ 	esac
+ 	outfile="${base}".pdf
+ else
+-	outfile=$2
++	outfile="$2"
+ fi
+ 
+ # We have to include the options twice because -I only takes effect if it
+diff -urN espgs-7.07.1rc2.org/lib/pdf2dsc espgs-7.07.1rc2/lib/pdf2dsc
+--- espgs-7.07.1rc2.org/lib/pdf2dsc	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/pdf2dsc	Sun Sep 14 18:43:26 2003
+@@ -20,7 +20,7 @@
+ 
+ pdffile=$1
+ dscfile=$2
+-: ${dscfile:=`echo $pdffile | sed 's,\.[^/.]*,,'`.dsc}
++: ${dscfile:=`echo "$pdffile" | sed 's,\.[^/.]*,,'`.dsc}
+ 
+ exec gs -q -dNODISPLAY -dSAFER -dDELAYSAFER\
+     -sPDFname="$pdffile" -sDSCname="$dscfile" pdf2dsc.ps -c quit
+diff -urN espgs-7.07.1rc2.org/lib/pdf2ps espgs-7.07.1rc2/lib/pdf2ps
+--- espgs-7.07.1rc2.org/lib/pdf2ps	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/pdf2ps	Sun Sep 14 18:43:26 2003
+@@ -14,7 +14,7 @@
+ 
+ if [ $# -eq 2 ] 
+ then
+-    outfile=$2
++    outfile="$2"
+ elif [ $# -eq 1 ]
+ then
+     outfile=`basename "$1" \.pdf`.ps
+diff -urN espgs-7.07.1rc2.org/lib/pfbtopfa espgs-7.07.1rc2/lib/pfbtopfa
+--- espgs-7.07.1rc2.org/lib/pfbtopfa	Sun Sep 14 18:43:09 2003
++++ espgs-7.07.1rc2/lib/pfbtopfa	Sun Sep 14 18:43:26 2003
+@@ -4,7 +4,7 @@
+ 
+ if [ $# -eq 2 ] 
+ then
+-    outfile=$2
++    outfile="$2"
+ elif [ $# -eq 1 ]
+ then
+     outfile=`basename "$1" \.pfb`.pfa
+--- ghostscript-8.51/lib/ps2epsi.orig	2004-08-04 02:55:46.000000000 +0200
++++ ghostscript-8.51/lib/ps2epsi	2005-07-19 16:36:24.000000000 +0200
+@@ -5,7 +5,7 @@
+ 	echo "failed: could not create temporary file"
+ 	exit 1
+ fi
+-tmpfile=$tmpdir/ps2epsi$$
++tmpfile=`mktemp $tmpdir/ps2epsi.XXXXXX` || exit 1
+ 
+ export outfile
+ 
