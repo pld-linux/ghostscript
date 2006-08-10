@@ -3,7 +3,7 @@
 #	- fix svga bcond
 #
 # Conditional build:
-%bcond_without	system_jbig2dec	# build with
+%bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
 %bcond_without	gtk		# without gsx 
 #
