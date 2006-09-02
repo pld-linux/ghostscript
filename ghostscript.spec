@@ -42,12 +42,12 @@ BuildRequires:	glib2-devel
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
 # for gsx
 %{?with_gtk:BuildRequires:	gtk+-devel}
+BuildRequires:	jasper-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
-BuildRequires:	jasper-devel
 # Required by 'gdevvglb' device.
 %{?with_svga:BuildRequires:	svgalib-devel}
 # for documentation regeneration
@@ -60,10 +60,10 @@ Obsoletes:	ghostscript-gpl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-cos nGhostscript is a PostScript interpreter. It can render both PostScript
-and PDF compliant files to devices which include an X window, many
-printer formats (including support for color printers), and popular
-graphics file formats.
+cos nGhostscript is a PostScript interpreter. It can render both
+PostScript and PDF compliant files to devices which include an X
+window, many printer formats (including support for color printers),
+and popular graphics file formats.
 
 %description -l de
 Ghostscipt ist ein PostScript-Interpretierer. Er kann sowohl
@@ -193,10 +193,10 @@ cd ijs
 cd ..
 
 %{__make} \
-	docdir=%{_defaultdocdir}/%{name}-%{version}
+	docdir=%{_docdir}/%{name}-%{version}
 
 %{__make} so \
-	docdir=%{_defaultdocdir}/%{name}-%{version}
+	docdir=%{_docdir}/%{name}-%{version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -209,7 +209,7 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-%{version} \
+	docdir=$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 
@@ -219,7 +219,7 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	datadir=$RPM_BUILD_ROOT%{_datadir} \
 	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	docdir=$RPM_BUILD_ROOT%{_defaultdocdir}/%{name}-%{version} \
+	docdir=$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 cd ijs
@@ -263,7 +263,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc %{_defaultdocdir}/%{name}-%{version}
+%doc %{_docdir}/%{name}-%{version}
 %attr(755,root,root) %{_bindir}/[bdeflpsux]*
 %attr(755,root,root) %{_bindir}/gs
 %attr(755,root,root) %{_bindir}/wftopfa
