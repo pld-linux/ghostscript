@@ -8,11 +8,11 @@
 %bcond_without	gtk		# without gsx 
 #
 Summary:	PostScript & PDF interpreter and renderer
-Summary(de.UTF-8):   PostScript & PDF Interpreter und Renderer
-Summary(fr.UTF-8):   Interpréteur et visualisateur PostScript & PDF
-Summary(ja.UTF-8):   PostScript インタープリタ・レンダラー
-Summary(pl.UTF-8):   Bezpłatny interpreter i renderer PostScriptu i PDF
-Summary(tr.UTF-8):   PostScript & PDF yorumlayıcı ve gösterici
+Summary(de.UTF-8):	PostScript & PDF Interpreter und Renderer
+Summary(fr.UTF-8):	Interpréteur et visualisateur PostScript & PDF
+Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
+Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
+Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	8.54
 Release:	2
@@ -95,7 +95,7 @@ biçime getirebilir.
 
 %package gtk
 Summary:	Ghostscript with GTK+ console
-Summary(pl.UTF-8):   Ghostscript z konsolą GTK+
+Summary(pl.UTF-8):	Ghostscript z konsolą GTK+
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-gtk
@@ -108,7 +108,7 @@ Ghostscript z konsolą GTK+.
 
 %package devel
 Summary:	libgs header files
-Summary(pl.UTF-8):   Pliki nagłówkowe libgs
+Summary(pl.UTF-8):	Pliki nagłówkowe libgs
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-devel
@@ -121,7 +121,7 @@ Pliki nagłówkowe libgs - współdzielonej biblioteki ghostscript.
 
 %package ijs-devel
 Summary:	IJS development files
-Summary(pl.UTF-8):   Pliki dla programistów IJS
+Summary(pl.UTF-8):	Pliki dla programistów IJS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-ijs-devel
@@ -134,7 +134,7 @@ Pliki do tworzenia programów z użyciem biblioteki IJS.
 
 %package ijs-static
 Summary:	Static libijs library
-Summary(pl.UTF-8):   Statyczna biblioteka IJS
+Summary(pl.UTF-8):	Statyczna biblioteka IJS
 Group:		Development/Libraries
 Requires:	%{name}-ijs-devel = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-ijs-static
