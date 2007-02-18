@@ -5,7 +5,7 @@
 # Conditional build:
 %bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
-%bcond_without	gtk		# without gsx 
+%bcond_without	gtk		# without gsx
 #
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de.UTF-8):	PostScript & PDF Interpreter und Renderer
@@ -99,6 +99,7 @@ Summary(pl.UTF-8):	Ghostscript z konsolą GTK+
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-gtk
+Obsoletes:	ghostscript-gpl-gtk
 
 %description gtk
 Ghostscript with GTK+ console.
