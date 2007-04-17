@@ -14,12 +14,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.54
-Release:	3
+Version:	8.56
+Release:	0.1
 License:	GPL
 Group:		Applications/Graphics
-Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}-gpl.tar.bz2
-# Source0-md5:	5d0ad0da8297fe459a788200f0eaeeba
+Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
+# Source0-md5:	498015a278308d147bea563be2c5165e
 # we need to link with libjpeg recompiled with our parameters
 Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
 # Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
@@ -42,7 +42,6 @@ BuildRequires:	glib2-devel
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
 # for gsx
 %{?with_gtk:BuildRequires:	gtk+-devel}
-BuildRequires:	jasper-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
@@ -147,7 +146,7 @@ Static libijs library.
 Statyczna wersja biblioteki IJS.
 
 %prep
-%setup -q -a2 -n %{name}-%{version}-gpl
+%setup -q -a2
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -286,9 +285,9 @@ rm -rf $RPM_BUILD_ROOT
 # "*.*" will not match "Fontmap". It is OK.
 %{_datadir}/%{name}/%{version}/lib/*.*
 %{_datadir}/%{name}/%{version}/lib/[!F]*map
-%{_datadir}/%{name}/%{version}/lib/FAPI*map
+%{_datadir}/%{name}/%{version}/lib/FCOfontmap-PCLPS2
 %config %verify(not md5 mtime size) %{_datadir}/%{name}/%{version}/lib/Fontmap
-%config %verify(not md5 mtime size) %{_datadir}/%{name}/%{version}/lib/FAPIconfig
+%{_datadir}/%{name}/%{version}/lib/pphs
 %{_datadir}/%{name}/%{version}/Resource
 %{_datadir}/%{name}/%{version}/examples
 %{_mandir}/man*/*
