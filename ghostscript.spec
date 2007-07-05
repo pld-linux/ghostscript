@@ -14,17 +14,14 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.56
+Version:	8.57
 Release:	1
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	498015a278308d147bea563be2c5165e
-# we need to link with libjpeg recompiled with our parameters
-Source2:	ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
-# Source2-md5:	dbd5f3b47ed13132f04c685d608a7547
-Source5:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
-# Source5-md5:	9b5953aa0cc155f4364f20036b848585
+# Source0-md5:	cc8368863fe6b666aaf13beb83ba300a
+Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
+# Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
@@ -146,15 +143,14 @@ Static libijs library.
 Statyczna wersja biblioteki IJS.
 
 %prep
-%setup -q -a2
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1 -b .am
+%patch3 -p1
 #%patch4 -p1
 #%patch5 -p1
 %patch6 -p1
-ln -sf jp* jpeg
 
 %build
 # workarounds
@@ -164,11 +160,6 @@ if [ -d jbig2dec ]; then
 	rm -rf jbig2dec
 fi
 %endif
-# not really needed with new patch :)
-# sed -i -e 's#:$(gsdir)/fonts#:$(gsdir)/fonts:%{_datadir}/fonts:%{_datadir}/fonts/Type1#g' src/Makefile.in
-#
-%{__libtoolize}
-cp -f %{_datadir}/automake/config.sub .
 %{__aclocal}
 %{__autoconf}
 CFLAGS="%{rpmcflags} -DA4"
@@ -222,20 +213,11 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 	docdir=$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
-cd ijs
-%{__make} install \
+%{__make} -C ijs install \
 	DESTDIR=$RPM_BUILD_ROOT
-#	prefix=$RPM_BUILD_ROOT%{_prefix} \
-#	bindir=$RPM_BUILD_ROOT%{_bindir} \
-#	datadir=$RPM_BUILD_ROOT%{_datadir} \
-#	libdir=$RPM_BUILD_ROOT%{_libdir} \
-#	includedir=$RPM_BUILD_ROOT%{_includedir} \
-#	mandir=$RPM_BUILD_ROOT%{_mandir}
-cd ..
 
 install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 
-#install %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
 	$RPM_BUILD_ROOT%{_bindir}/*.sh \
 	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},gsbj,gsdj,gsdj500,gslj,eps2eps}.1 \
@@ -255,7 +237,7 @@ echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf12.1
 echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf13.1
 
 
-bzip2 -dc %{SOURCE5} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
 #mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
