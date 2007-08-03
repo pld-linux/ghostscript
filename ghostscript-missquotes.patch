@@ -55,14 +55,4 @@ diff -urN espgs-7.07.1rc2.org/lib/pfbtopfa espgs-7.07.1rc2/lib/pfbtopfa
  elif [ $# -eq 1 ]
  then
      outfile=`basename "$1" \.pfb`.pfa
---- ghostscript-8.51/lib/ps2epsi.orig	2004-08-04 02:55:46.000000000 +0200
-+++ ghostscript-8.51/lib/ps2epsi	2005-07-19 16:36:24.000000000 +0200
-@@ -5,7 +5,7 @@
- 	echo "failed: could not create temporary file"
- 	exit 1
- fi
--tmpfile=$tmpdir/ps2epsi$$
-+tmpfile=`mktemp $tmpdir/ps2epsi.XXXXXX` || exit 1
- 
- export outfile
- 
+
