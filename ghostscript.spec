@@ -14,12 +14,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.57
-Release:	1
+Version:	8.60
+Release:	0.1
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	cc8368863fe6b666aaf13beb83ba300a
+# Source0-md5:	89fc0a90e67caf151a9d6855200c68ca
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -53,6 +53,7 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-gpl
+Obsoletes:	ghostscript-esp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -96,6 +97,7 @@ Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-gtk
 Obsoletes:	ghostscript-gpl-gtk
+Obsoletes:	ghostscript-esp-gtk
 
 %description gtk
 Ghostscript with GTK+ console.
@@ -109,6 +111,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe libgs
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-devel
+Obsoletes:	ghostscript-esp-devel
 
 %description devel
 Header files for libgs - ghostscript shared library.
@@ -122,6 +125,7 @@ Summary(pl.UTF-8):	Pliki dla programistów IJS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-ijs-devel
+Obsoletes:	ghostscript-esp-ijs-devel
 
 %description ijs-devel
 IJS development files.
@@ -135,6 +139,7 @@ Summary(pl.UTF-8):	Statyczna biblioteka IJS
 Group:		Development/Libraries
 Requires:	%{name}-ijs-devel = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-ijs-static
+Obsoletes:	ghostscript-esp-ijs-static
 
 %description ijs-static
 Static libijs library.
@@ -147,7 +152,7 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 #%patch4 -p1
 #%patch5 -p1
 %patch6 -p1
