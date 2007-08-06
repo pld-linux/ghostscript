@@ -1,6 +1,7 @@
 #
 # TODO:
 #	- fix svga bcond
+#	- cups subpackage?
 #
 # Conditional build:
 %bcond_without	system_jbig2dec	# build with included jbig2dec
@@ -15,7 +16,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	8.60
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
@@ -165,19 +166,23 @@ if [ -d jbig2dec ]; then
 	rm -rf jbig2dec
 fi
 %endif
+cd jasper
+%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
-CFLAGS="%{rpmcflags} -DA4"
+cd ..
+%{__aclocal}
+%{__autoconf}
+CFLAGS="%{rpmcflags} -DA4 -fPIC"
 export CFLAGS
 %configure \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with-jbig2dec \
 	--with-jasper \
-	--with-x
-
-# NEEDS patch because no such configure options
-#        --with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
+	--with-x \
+        --with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
+	--enable-dynamic
 
 cd ijs
 %{__libtoolize}
@@ -188,10 +193,10 @@ cd ijs
 	--enable-shared
 cd ..
 
-%{__make} \
+%{__make} -j1 \
 	docdir=%{_docdir}/%{name}-%{version}
 
-%{__make} so \
+%{__make} -j1 so \
 	docdir=%{_docdir}/%{name}-%{version}
 
 %install
@@ -200,23 +205,12 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 
 
 %{__make} install \
-	install_prefix=$RPM_BUILD_ROOT \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	bindir=$RPM_BUILD_ROOT%{_bindir} \
-	datadir=$RPM_BUILD_ROOT%{_datadir} \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	docdir=$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
-	mandir=$RPM_BUILD_ROOT%{_mandir}
-
+	DESTDIR=$RPM_BUILD_ROOT \
+	docdir=%{_docdir}/%{name}-%{version}
 
 %{__make} soinstall \
-	install_prefix=$RPM_BUILD_ROOT \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	bindir=$RPM_BUILD_ROOT%{_bindir} \
-	datadir=$RPM_BUILD_ROOT%{_datadir} \
-	libdir=$RPM_BUILD_ROOT%{_libdir} \
-	docdir=$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version} \
-	mandir=$RPM_BUILD_ROOT%{_mandir}
+	DESTDIR=$RPM_BUILD_ROOT \
+	docdir=%{_docdir}/%{name}-%{version}
 
 %{__make} -C ijs install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -264,6 +258,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ijs_*_example
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %{_libdir}/libijs-*.so
+%dir %{_libdir}/%{name}/*.*
+%attr(755,root,root) %{_libdir}/%{name}/*.*/*.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/lib
 %{_datadir}/%{name}/lib/*.*
