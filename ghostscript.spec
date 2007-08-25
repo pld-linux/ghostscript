@@ -181,7 +181,7 @@ export CFLAGS
 	--with-jbig2dec \
 	--with-jasper \
 	--with-x \
-        --with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
+	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--enable-dynamic
 
 cd ijs
