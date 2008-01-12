@@ -1,7 +1,9 @@
 #
 # TODO:
-#	- fix svga bcond
-#	- cups subpackage?
+# - fix svga bcond
+# - cups subpackage?
+# - add djvu driver:
+#   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
 #
 # Conditional build:
 %bcond_without	system_jbig2dec	# build with included jbig2dec
