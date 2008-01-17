@@ -17,12 +17,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.60
-Release:	2
+Version:	8.61
+Release:	1
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	89fc0a90e67caf151a9d6855200c68ca
+# Source0-md5:	abff0506cd249cba3ad862d8fe4f6474
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -33,7 +33,6 @@ Patch3:		%{name}-am.patch
 # look for patch in old spec for GNU ghostscript
 #Patch4:		%{name}-gdevcd8-fixes.patch
 #Patch5:		%{name}-glib.patch
-Patch6:		%{name}-ijs_pkgconfig_64.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -158,7 +157,6 @@ Statyczna wersja biblioteki IJS.
 #%patch3 -p1
 #%patch4 -p1
 #%patch5 -p1
-%patch6 -p1
 
 %build
 # workarounds
