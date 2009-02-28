@@ -1,5 +1,5 @@
---- gs/src/imainarg.c.orig	Mon Dec  6 08:11:52 1999
-+++ gs/src/imainarg.c	Thu Mar 30 23:01:34 2000
+--- gs/psi/imainarg.c.orig	Mon Dec  6 08:11:52 1999
++++ gs/psi/imainarg.c	Thu Mar 30 23:01:34 2000
 @@ -48,6 +48,18 @@
  #include "iutil.h"
  #include "ivmspace.h"
@@ -40,8 +40,8 @@
  
      gs_get_real_stdio(stdfiles);
      arg_init(&args, (const char **)argv, argc,
---- gs/src/gdevl256.c.orig	Mon Jan 11 07:38:07 1999
-+++ gs/src/gdevl256.c	Thu Mar 30 23:03:57 2000
+--- gs/base/gdevl256.c.orig	Mon Jan 11 07:38:07 1999
++++ gs/base/gdevl256.c	Thu Mar 30 23:03:57 2000
 @@ -38,6 +38,17 @@
  #include <vga.h>
  #include <vgagl.h>
