@@ -17,12 +17,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.63
-Release:	1
+Version:	8.64
+Release:	0.1
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	c770eedfdd846a53e211e3ba5339de21
+# Source0-md5:	b13289cb2115f38f40c5e064f87e228a
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -91,6 +91,14 @@ kolorowe), okno X-Window i popularne formaty graficzne.
 GhostScript, PostScript ve PDF uyumlu dosyaları, X penceresinde
 gösterebilir ve birçok yazıcının (renkli yazıcılar dahil) basabileceği
 biçime getirebilir.
+
+%package cups
+Summary:	Ghostscript cups files
+Group:		Applications/Graphics
+Requires:	%{name} = %{version}-%{release}
+
+%description cups
+This package contains cups files provided by ghostscript.
 
 %package gtk
 Summary:	Ghostscript with GTK+ console
@@ -215,10 +223,10 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 %{__make} -C ijs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install lib/{gs_frsd,pdfopt,pdfwrite}.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
+install lib/{pdfopt,pdfwrite}.ps Resource/Init/gs_frsd.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
 
 # Headers
-install src/{gdevdsp,iapi,ierrors}.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
+install base/gdevdsp{,2}.h psi/{iapi,ierrors}.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
 rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
 	$RPM_BUILD_ROOT%{_bindir}/*.sh \
@@ -255,6 +263,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc %{_docdir}/%{name}-%{version}
 %attr(755,root,root) %{_bindir}/[bdeflpsux]*
+%attr(755,root,root) %{_bindir}/ghostscript
 %attr(755,root,root) %{_bindir}/gs
 %attr(755,root,root) %{_bindir}/wftopfa
 %attr(755,root,root) %{_bindir}/gs[!x]*
@@ -271,9 +280,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/%{version}/lib
 # "*.*" will not match "Fontmap". It is OK.
 %{_datadir}/%{name}/%{version}/lib/*.*
-%{_datadir}/%{name}/%{version}/lib/[!F]*map
-%{_datadir}/%{name}/%{version}/lib/FCOfontmap-PCLPS2
-%config %verify(not md5 mtime size) %{_datadir}/%{name}/%{version}/lib/Fontmap
 %{_datadir}/%{name}/%{version}/lib/pphs
 %{_datadir}/%{name}/%{version}/Resource
 %{_datadir}/%{name}/%{version}/examples
@@ -283,6 +289,12 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_mandir}/es/man*/*
 %lang(fr) %{_mandir}/fr/man*/*
 %lang(pl) %{_mandir}/pl/man*/*
+
+%files cups
+%defattr(644,root,root,755)
+/etc/cups/*
+%{_libdir}/cups/*
+%{_datadir}/cups/*
 
 %if %{with gtk}
 %files gtk
