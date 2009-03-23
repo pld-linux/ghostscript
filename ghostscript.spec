@@ -34,6 +34,12 @@ Patch3:		%{name}-am.patch
 #Patch4:		%{name}-gdevcd8-fixes.patch
 #Patch5:		%{name}-glib.patch
 URL:		http://www.ghostscript.com/
+# https://bugzilla.redhat.com/show_bug.cgi?id=487742
+# https://bugzilla.redhat.com/show_bug.cgi?id=487744
+# Patches in RH:
+BuildRequires:	security(CVE-2009-0583)
+BuildRequires:	security(CVE-2009-0584)
+##
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	docbook-style-dsssl
