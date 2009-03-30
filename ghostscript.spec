@@ -99,12 +99,16 @@ gösterebilir ve birçok yazıcının (renkli yazıcılar dahil) basabileceği
 biçime getirebilir.
 
 %package cups
-Summary:	Ghostscript cups files
+Summary:	Ghostscript CUPS files
+Summary(pl.UTF-8):	Pliki Ghostscripta dla CUPS-a
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 
 %description cups
-This package contains cups files provided by ghostscript.
+This package contains CUPS files provided by ghostscript.
+
+%description cups -l pl.UTF-8
+Ten pakiet zawiera pliki dla CUPS-a dostarczane przez ghostscript.
 
 %package gtk
 Summary:	Ghostscript with GTK+ console
