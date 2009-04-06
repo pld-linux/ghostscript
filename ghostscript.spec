@@ -40,6 +40,8 @@ URL:		http://www.ghostscript.com/
 BuildRequires:	security(CVE-2009-0583)
 BuildRequires:	security(CVE-2009-0584)
 ##
+# http://bugs.ghostscript.com/show_bug.cgi?id=690211
+BuildRequires:	security(690211)
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	docbook-style-dsssl
