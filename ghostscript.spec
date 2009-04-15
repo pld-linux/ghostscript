@@ -39,7 +39,11 @@ URL:		http://www.ghostscript.com/
 # Patches in RH:
 BuildRequires:	security(CVE-2009-0583)
 BuildRequires:	security(CVE-2009-0584)
-##
+###
+# Secunia Research 09/04/2009
+# Fix in RH:
+# https://rhn.redhat.com/errata/RHSA-2009-0421.html
+BuildRequires:	security(CVE-2009-0196)
 # http://bugs.ghostscript.com/show_bug.cgi?id=690211
 BuildRequires:	security(690211)
 BuildRequires:	autoconf
