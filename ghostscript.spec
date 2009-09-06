@@ -17,12 +17,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.64
-Release:	0.1
-License:	GPL
+Version:	8.70
+Release:	1
+License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	b13289cb2115f38f40c5e064f87e228a
+# Source0-md5:	526366f8cb4fda0d3d293597cc5b984b
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -34,18 +34,6 @@ Patch3:		%{name}-am.patch
 #Patch4:		%{name}-gdevcd8-fixes.patch
 #Patch5:		%{name}-glib.patch
 URL:		http://www.ghostscript.com/
-# https://bugzilla.redhat.com/show_bug.cgi?id=487742
-# https://bugzilla.redhat.com/show_bug.cgi?id=487744
-# Patches in RH:
-BuildRequires:	security(CVE-2009-0583)
-BuildRequires:	security(CVE-2009-0584)
-###
-# Secunia Research 09/04/2009
-# Fix in RH:
-# https://rhn.redhat.com/errata/RHSA-2009-0421.html
-BuildRequires:	security(CVE-2009-0196)
-# http://bugs.ghostscript.com/show_bug.cgi?id=690211
-BuildRequires:	security(690211)
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	docbook-style-dsssl
@@ -69,6 +57,8 @@ Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-gpl
 Obsoletes:	ghostscript-esp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_ulibdir        %{_prefix}/lib
 
 %description
 cos nGhostscript is a PostScript interpreter. It can render both
@@ -309,7 +299,7 @@ rm -rf $RPM_BUILD_ROOT
 %files cups
 %defattr(644,root,root,755)
 /etc/cups/*
-%{_libdir}/cups/*
+%{_ulibdir}/cups/*
 %{_datadir}/cups/*
 
 %if %{with gtk}
