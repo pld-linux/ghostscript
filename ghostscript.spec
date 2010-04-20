@@ -17,12 +17,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.70
+Version:	8.71
 Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
-Source0:	http://dl.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	526366f8cb4fda0d3d293597cc5b984b
+Source0:	http://ghostscript.com/releases/%{name}-%{version}.tar.xz
+# Source0-md5:	5005d68f7395c2bfc4b05c1a60d9b6ba
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -36,6 +36,7 @@ Patch3:		%{name}-am.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	cups-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	glib2-devel
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
