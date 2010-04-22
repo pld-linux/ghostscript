@@ -276,6 +276,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gs[!x]*
 %attr(755,root,root) %{_bindir}/ijs_*_example
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgs.so.8
 %attr(755,root,root) %{_libdir}/libijs-*.so
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/*.*
@@ -300,8 +301,10 @@ rm -rf $RPM_BUILD_ROOT
 %files cups
 %defattr(644,root,root,755)
 /etc/cups/*
-%{_ulibdir}/cups/*
-%{_datadir}/cups/*
+%attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
+%attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
+%{_datadir}/cups/model/pxlcolor.ppd
+%{_datadir}/cups/model/pxlmono.ppd
 
 %if %{with gtk}
 %files gtk
