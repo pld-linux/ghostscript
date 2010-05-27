@@ -1,15 +1,19 @@
-#
 # TODO:
 # - fix svga bcond
 # - cups subpackage?
 # - add djvu driver:
 #   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
+# - gtk package packages library as executable and bogus libgs.so.8 dep
+#   file usr/bin/gsx
+#   usr/bin/gsx: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, stripped
+#   rpm -qp --provides ghostscript-gtk-8.71-1.x86_64.rpm
+#   libgs.so.8()(64bit)
 #
 # Conditional build:
 %bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
-%bcond_without	gtk		# without gsx
-#
+%bcond_with	gtk		# without gsx (fix it first)
+
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de.UTF-8):	PostScript & PDF Interpreter und Renderer
 Summary(fr.UTF-8):	Interpréteur et visualisateur PostScript & PDF
@@ -18,7 +22,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	8.71
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://ghostscript.com/releases/%{name}-%{version}.tar.xz
