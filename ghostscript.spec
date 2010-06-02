@@ -53,6 +53,7 @@ BuildRequires:	libtool
 BuildRequires:	pkgconfig
 # Required by 'gdevvglb' device.
 %{?with_svga:BuildRequires:	svgalib-devel}
+BuildRequires:	tar >= 1:1.22
 # for documentation regeneration
 BuildRequires:	tetex
 BuildRequires:	tetex-dvips
