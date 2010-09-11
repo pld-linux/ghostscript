@@ -38,14 +38,16 @@ Patch3:		%{name}-am.patch
 #Patch4:		%{name}-gdevcd8-fixes.patch
 #Patch5:		%{name}-glib.patch
 URL:		http://www.ghostscript.com/
-BuildRequires:	autoconf >= 2.53
+BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
+BuildRequires:	cairo-devel >= 1.2.0
 BuildRequires:	cups-devel
 BuildRequires:	docbook-style-dsssl
-BuildRequires:	glib2-devel
+BuildRequires:	fontconfig-devel
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
 # for gsx
 %{?with_gtk:BuildRequires:	gtk+-devel}
+BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 1.0.8
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
@@ -180,7 +182,6 @@ Statyczna wersja biblioteki IJS.
 
 %build
 # workarounds
-touch ijs/ijs-config.1
 %if %{with system_jbig2dec}
 if [ -d jbig2dec ]; then
 	rm -rf jbig2dec
@@ -190,6 +191,8 @@ cd jasper
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
+%{__automake}
 cd ..
 %{__aclocal}
 %{__autoconf}
@@ -200,6 +203,7 @@ export CFLAGS
 	--with-ijs \
 	--with-jbig2dec \
 	--with-jasper \
+	--with-system-libtiff \
 	--with-x \
 	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--enable-dynamic
@@ -221,7 +225,7 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}/ghostscript}
+install -d $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -234,14 +238,11 @@ install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}
 %{__make} -C ijs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install lib/{pdfopt,pdfwrite}.ps Resource/Init/gs_frsd.ps $RPM_BUILD_ROOT%{_datadir}/%{name}/lib
-
 # Headers
 install base/gdevdsp{,2}.h psi/{iapi,ierrors}.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
-	$RPM_BUILD_ROOT%{_bindir}/*.sh \
-	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},gsbj,gsdj,gsdj500,gslj,eps2eps}.1 \
+%{__rm} -r $RPM_BUILD_ROOT%{_bindir}/*.sh \
+	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},eps2eps}.1 \
 	$RPM_BUILD_ROOT%{_mandir}/de/man1/{ps2pdf1{2,3},eps2eps}.1
 
 echo ".so gs.1"     > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
@@ -256,7 +257,6 @@ echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gslj.1
 echo ".so ps2ps.1"  > $RPM_BUILD_ROOT%{_mandir}/de/man1/eps2eps.1
 echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf12.1
 echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf13.1
-
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 
@@ -273,38 +273,91 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc %{_docdir}/%{name}-%{version}
-%attr(755,root,root) %{_bindir}/[bdeflpsux]*
+%attr(755,root,root) %{_bindir}/bdftops
+%attr(755,root,root) %{_bindir}/dumphint
+%attr(755,root,root) %{_bindir}/dvipdf
+%attr(755,root,root) %{_bindir}/eps2eps
+%attr(755,root,root) %{_bindir}/fixmswrd.pl
+%attr(755,root,root) %{_bindir}/font2c
 %attr(755,root,root) %{_bindir}/ghostscript
 %attr(755,root,root) %{_bindir}/gs
+%attr(755,root,root) %{_bindir}/gsbj
+%attr(755,root,root) %{_bindir}/gsc
+%attr(755,root,root) %{_bindir}/gsdj
+%attr(755,root,root) %{_bindir}/gsdj500
+%attr(755,root,root) %{_bindir}/gslj
+%attr(755,root,root) %{_bindir}/gslp
+%attr(755,root,root) %{_bindir}/gsnd
+%attr(755,root,root) %{_bindir}/ijs_client_example
+%attr(755,root,root) %{_bindir}/ijs_server_example
+%attr(755,root,root) %{_bindir}/pdf2dsc
+%attr(755,root,root) %{_bindir}/pdf2ps
+%attr(755,root,root) %{_bindir}/pdfopt
+%attr(755,root,root) %{_bindir}/pf2afm
+%attr(755,root,root) %{_bindir}/pfbtopfa
+%attr(755,root,root) %{_bindir}/printafm
+%attr(755,root,root) %{_bindir}/ps2ascii
+%attr(755,root,root) %{_bindir}/ps2epsi
+%attr(755,root,root) %{_bindir}/ps2pdf
+%attr(755,root,root) %{_bindir}/ps2pdf12
+%attr(755,root,root) %{_bindir}/ps2pdf13
+%attr(755,root,root) %{_bindir}/ps2pdf14
+%attr(755,root,root) %{_bindir}/ps2pdfwr
+%attr(755,root,root) %{_bindir}/ps2ps
+%attr(755,root,root) %{_bindir}/ps2ps2
 %attr(755,root,root) %{_bindir}/wftopfa
-%attr(755,root,root) %{_bindir}/gs[!x]*
-%attr(755,root,root) %{_bindir}/ijs_*_example
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgs.so.8
 %attr(755,root,root) %{_libdir}/libijs-*.so
 %dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/*.*
-%attr(755,root,root) %{_libdir}/%{name}/*.*/*.so
+%dir %{_libdir}/%{name}/%{version}
+%attr(755,root,root) %{_libdir}/%{name}/%{version}/X11.so
 %dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/lib
-%{_datadir}/%{name}/lib/*.*
 %dir %{_datadir}/%{name}/%{version}
 %dir %{_datadir}/%{name}/%{version}/lib
-# "*.*" will not match "Fontmap". It is OK.
-%{_datadir}/%{name}/%{version}/lib/*.*
-%{_datadir}/%{name}/%{version}/lib/pphs
 %{_datadir}/%{name}/%{version}/Resource
 %{_datadir}/%{name}/%{version}/examples
-%{_mandir}/man*/*
-%lang(cs) %{_mandir}/cs/man*/*
-%lang(de) %{_mandir}/de/man*/*
-%lang(es) %{_mandir}/es/man*/*
-%lang(fr) %{_mandir}/fr/man*/*
-%lang(pl) %{_mandir}/pl/man*/*
+%{_datadir}/%{name}/%{version}/lib/*.ppd
+%{_datadir}/%{name}/%{version}/lib/*.ps
+%{_datadir}/%{name}/%{version}/lib/*.rpd
+%{_datadir}/%{name}/%{version}/lib/*.src
+%{_datadir}/%{name}/%{version}/lib/*.upp
+%{_datadir}/%{name}/%{version}/lib/*.x[bp]m
+%{_datadir}/%{name}/%{version}/lib/pphs
+%{_mandir}/man1/dvipdf.1*
+%{_mandir}/man1/eps2eps.1*
+%{_mandir}/man1/font2c.1*
+%{_mandir}/man1/ghostscript.1*
+%{_mandir}/man1/gs.1*
+%{_mandir}/man1/gsbj.1*
+%{_mandir}/man1/gsdj.1*
+%{_mandir}/man1/gsdj500.1*
+%{_mandir}/man1/gslj.1*
+%{_mandir}/man1/gslp.1*
+%{_mandir}/man1/gsnd.1*
+%{_mandir}/man1/pdf2dsc.1*
+%{_mandir}/man1/pdf2ps.1*
+%{_mandir}/man1/pdfopt.1*
+%{_mandir}/man1/pf2afm.1*
+%{_mandir}/man1/pfbtopfa.1*
+%{_mandir}/man1/printafm.1*
+%{_mandir}/man1/ps2ascii.1*
+%{_mandir}/man1/ps2epsi.1*
+%{_mandir}/man1/ps2pdf.1*
+%{_mandir}/man1/ps2pdf12.1*
+%{_mandir}/man1/ps2pdf13.1*
+%{_mandir}/man1/ps2pdfwr.1*
+%{_mandir}/man1/ps2ps.1*
+%{_mandir}/man1/wftopfa.1*
+%lang(cs) %{_mandir}/cs/man1/*
+%lang(de) %{_mandir}/de/man1/*
+%lang(es) %{_mandir}/es/man1/*
+%lang(fr) %{_mandir}/fr/man1/*
+%lang(pl) %{_mandir}/pl/man1/*
 
 %files cups
 %defattr(644,root,root,755)
-/etc/cups/*
+/etc/cups/pstoraster.convs
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
 %{_datadir}/cups/model/pxlcolor.ppd
@@ -328,6 +381,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/ijs
 %{_libdir}/libijs.la
 %{_pkgconfigdir}/ijs.pc
+%{_mandir}/man1/ijs-config.1*
 
 %files ijs-static
 %defattr(644,root,root,755)
