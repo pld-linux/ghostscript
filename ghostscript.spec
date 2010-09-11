@@ -38,8 +38,8 @@ Patch3:		%{name}-am.patch
 #Patch4:		%{name}-gdevcd8-fixes.patch
 #Patch5:		%{name}-glib.patch
 URL:		http://www.ghostscript.com/
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	autoconf >= 2.53
+BuildRequires:	automake >= 1.6
 BuildRequires:	cups-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	glib2-devel
@@ -221,8 +221,7 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}/{ghostscript,ps}}
-
+install -d $RPM_BUILD_ROOT{%{_datadir}/ghostscript/lib,%{_libdir},%{_includedir}/ghostscript}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -240,7 +239,7 @@ install lib/{pdfopt,pdfwrite}.ps Resource/Init/gs_frsd.ps $RPM_BUILD_ROOT%{_data
 # Headers
 install base/gdevdsp{,2}.h psi/{iapi,ierrors}.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
-rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/doc \
 	$RPM_BUILD_ROOT%{_bindir}/*.sh \
 	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},gsbj,gsdj,gsdj500,gslj,eps2eps}.1 \
 	$RPM_BUILD_ROOT%{_mandir}/de/man1/{ps2pdf1{2,3},eps2eps}.1
@@ -321,7 +320,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgs.so
 %{_includedir}/ghostscript
-%{_includedir}/ps
 
 %files ijs-devel
 %defattr(644,root,root,755)
@@ -329,7 +327,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libijs.so
 %{_includedir}/ijs
 %{_libdir}/libijs.la
-%{_pkgconfigdir}/*.pc
+%{_pkgconfigdir}/ijs.pc
 
 %files ijs-static
 %defattr(644,root,root,755)
