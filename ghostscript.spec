@@ -32,7 +32,8 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
-Patch3:		%{name}-am.patch
+Patch3:		%{name}-libpng14.patch
+Patch4:		%{name}-system-zlib.patch
 # no device for cdj850 in non-espgs ghostscript
 # look for patch in old spec for GNU ghostscript
 #Patch4:		%{name}-gdevcd8-fixes.patch
@@ -47,9 +48,9 @@ BuildRequires:	fontconfig-devel
 # for gsx
 %{?with_gtk:BuildRequires:	gtk+-devel}
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 1.0.8
+BuildRequires:	libpng-devel >= 1.2.42
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtiff-devel
+BuildRequires:	libtiff-devel >= 3.9.2
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 # Required by 'gdevvglb' device.
@@ -60,6 +61,7 @@ BuildRequires:	tetex
 BuildRequires:	tetex-dvips
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
+BuildRequires:	zlib-devel >= 1.2.3
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-gpl
 Obsoletes:	ghostscript-esp
@@ -175,17 +177,16 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
-#%%patch4 -p1
-#%%patch5 -p1
+%patch3 -p1
+%patch4 -p1
 
 %build
-# workarounds
 %if %{with system_jbig2dec}
-if [ -d jbig2dec ]; then
-	rm -rf jbig2dec
-fi
+%{__rm} -r jbig2dec
 %endif
+# use system libs (sources contain unmodified zlib 1.2.3 and libpng 1.2.42)
+%{__rm} -r libpng zlib
+# jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64), jasper is modified
 cd jasper
 %{__libtoolize}
 %{__aclocal}
