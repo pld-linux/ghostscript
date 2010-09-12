@@ -36,7 +36,6 @@ Patch3:		%{name}-am.patch
 # no device for cdj850 in non-espgs ghostscript
 # look for patch in old spec for GNU ghostscript
 #Patch4:		%{name}-gdevcd8-fixes.patch
-#Patch5:		%{name}-glib.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
