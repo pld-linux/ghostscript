@@ -1,0 +1,11 @@
+--- ghostscript-8.71/configure.ac.orig	2010-09-12 20:06:48.571133459 +0200
++++ ghostscript-8.71/configure.ac	2010-09-12 21:41:49.847134297 +0200
+@@ -531,7 +531,7 @@
+ 	    CUPSDEV="\$(DD)cups.dev"
+ 	    CUPSVERSION="`$CUPSCONFIG --version`"
+ 	    if ( test x$with_pdftoraster != xno ); then
+-	        if test "$CUPSVERSION" ">" "1.2"; then
++	        if echo "$CUPSVERSION" | grep -q '^1\.[[2-9]]'; then
+ 		    CUPSPDFTORASTER="1"
+ 		fi
+ 	    fi

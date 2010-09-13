@@ -1,6 +1,5 @@
 # TODO:
 # - fix svga bcond
-# - cups subpackage?
 # - add djvu driver:
 #   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
 # - gtk package packages library as executable and bogus libgs.so.8 dep
@@ -34,6 +33,7 @@ Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
 Patch3:		%{name}-libpng14.patch
 Patch4:		%{name}-system-zlib.patch
+Patch5:		%{name}-cups-sh.patch
 # no device for cdj850 in non-espgs ghostscript
 # look for patch in old spec for GNU ghostscript
 #Patch4:		%{name}-gdevcd8-fixes.patch
@@ -179,6 +179,7 @@ Statyczna wersja biblioteki IJS.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -199,14 +200,15 @@ cd ..
 CFLAGS="%{rpmcflags} -DA4 -fPIC"
 export CFLAGS
 %configure \
+	--enable-dynamic \
+	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with-jbig2dec \
 	--with-jasper \
+	--with-pdftoraster \
 	--with-system-libtiff \
-	--with-x \
-	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
-	--enable-dynamic
+	--with-x
 
 cd ijs
 %{__libtoolize}
@@ -357,7 +359,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cups
 %defattr(644,root,root,755)
+/etc/cups/pdftoraster.convs
 /etc/cups/pstoraster.convs
+%attr(755,root,root) %{_ulibdir}/cups/filter/pdftoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
 %{_datadir}/cups/model/pxlcolor.ppd
