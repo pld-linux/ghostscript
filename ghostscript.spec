@@ -227,7 +227,6 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -240,10 +239,7 @@ install -d $RPM_BUILD_ROOT%{_includedir}/ghostscript
 %{__make} -C ijs install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# Headers
-install base/gdevdsp{,2}.h psi/{iapi,ierrors}.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
-
-%{__rm} -r $RPM_BUILD_ROOT%{_bindir}/*.sh \
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/*.sh \
 	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},eps2eps}.1 \
 	$RPM_BUILD_ROOT%{_mandir}/de/man1/{ps2pdf1{2,3},eps2eps}.1
 
