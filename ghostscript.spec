@@ -130,6 +130,18 @@ Ghostscript with GTK+ console.
 %description gtk -l pl.UTF-8
 Ghostscript z konsolą GTK+.
 
+%package x11
+Summary:	X Window System drivers for Ghostscript
+Summary(pl.UTF-8):	Sterowniki systemu X Window dla Ghostscripta
+Group:		Applications/Graphics
+Requires:	%{name} = %{version}-%{release}
+
+%description x11
+X Window System output drivers for Ghostscript: x11, x11alpha.
+
+%description x11 -l pl.UTF-8
+Sterowniki wyjściowe systemu X Window dla Ghostscripta: x11, x11alpha.
+
 %package devel
 Summary:	libgs header files
 Summary(pl.UTF-8):	Pliki nagłówkowe libgs
@@ -309,7 +321,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libijs-*.so
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/%{version}
-%attr(755,root,root) %{_libdir}/%{name}/%{version}/X11.so
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/%{version}
 %dir %{_datadir}/%{name}/%{version}/lib
@@ -368,6 +379,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gsx
 %endif
+
+%files x11
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/%{version}/X11.so
 
 %files devel
 %defattr(644,root,root,755)
