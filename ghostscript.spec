@@ -10,7 +10,7 @@
 #
 # Conditional build:
 %bcond_without	system_jbig2dec	# build with included jbig2dec
-%bcond_with	svga		# with svgalib display support (vgalib and lvga256 devices)
+%bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
 %bcond_with	gtk		# without gsx (fix it first)
 
 Summary:	PostScript & PDF interpreter and renderer
