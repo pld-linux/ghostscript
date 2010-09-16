@@ -34,9 +34,7 @@ Patch2:		%{name}-time_h.patch
 Patch3:		%{name}-libpng14.patch
 Patch4:		%{name}-system-zlib.patch
 Patch5:		%{name}-cups-sh.patch
-# no device for cdj850 in non-espgs ghostscript
-# look for patch in old spec for GNU ghostscript
-#Patch4:		%{name}-gdevcd8-fixes.patch
+Patch6:		%{name}-gdevcd8-fixes.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
@@ -192,6 +190,7 @@ Statyczna wersja biblioteki IJS.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %if %{with system_jbig2dec}
