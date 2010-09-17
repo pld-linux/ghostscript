@@ -35,6 +35,7 @@ Patch3:		%{name}-libpng14.patch
 Patch4:		%{name}-system-zlib.patch
 Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
+Patch7:		%{name}-fPIC.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
@@ -191,6 +192,7 @@ Statyczna wersja biblioteki IJS.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -208,9 +210,8 @@ cd jasper
 cd ..
 %{__aclocal}
 %{__autoconf}
-CFLAGS="%{rpmcflags} -DA4 -fPIC"
-export CFLAGS
 %configure \
+	CFLAGS="%{rpmcflags} -DA4" \
 	--enable-dynamic \
 	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
@@ -231,20 +232,16 @@ cd ijs
 %{__make}
 cd ..
 
-%{__make} -j1 \
+%{__make} -j1 so \
 	docdir=%{_docdir}/%{name}-%{version}
 
-%{__make} -j1 so \
+%{__make} -j1 \
 	docdir=%{_docdir}/%{name}-%{version}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	docdir=%{_docdir}/%{name}-%{version}
-
-%{__make} soinstall \
+%{__make} install soinstall \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_docdir}/%{name}-%{version}
 
