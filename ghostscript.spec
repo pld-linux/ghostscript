@@ -2,16 +2,11 @@
 # - fix svga bcond
 # - add djvu driver:
 #   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
-# - gtk package packages library as executable and bogus libgs.so.8 dep
-#   file usr/bin/gsx
-#   usr/bin/gsx: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, stripped
-#   rpm -qp --provides ghostscript-gtk-8.71-1.x86_64.rpm
-#   libgs.so.8()(64bit)
 #
 # Conditional build:
 %bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
-%bcond_with	gtk		# without gsx (fix it first)
+%bcond_without	gtk		# gsx (GTK+ based frontend)
 
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de.UTF-8):	PostScript & PDF Interpreter und Renderer
@@ -36,6 +31,7 @@ Patch4:		%{name}-system-zlib.patch
 Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
+Patch8:		%{name}-binlink.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
@@ -44,8 +40,7 @@ BuildRequires:	cups-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
-# for gsx
-%{?with_gtk:BuildRequires:	gtk+-devel}
+%{?with_gtk:BuildRequires:	gtk+2-devel >= 1:2.0.0}
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 1.2.42
 BuildRequires:	libstdc++-devel
@@ -193,6 +188,7 @@ Statyczna wersja biblioteki IJS.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -241,7 +237,11 @@ cd ..
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install soinstall \
+%{__make} soinstall \
+	DESTDIR=$RPM_BUILD_ROOT \
+	docdir=%{_docdir}/%{name}-%{version}
+
+%{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	docdir=%{_docdir}/%{name}-%{version}
 
