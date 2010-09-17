@@ -228,6 +228,7 @@ cd ijs
 %{__automake}
 %configure \
 	--enable-shared
+%{__make}
 cd ..
 
 %{__make} -j1 \
