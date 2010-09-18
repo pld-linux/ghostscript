@@ -16,7 +16,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	8.71
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://ghostscript.com/releases/%{name}-%{version}.tar.xz
@@ -390,8 +390,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/ijs-config
 %attr(755,root,root) %{_libdir}/libijs.so
-%{_includedir}/ijs
 %{_libdir}/libijs.la
+%{_includedir}/ijs
 %{_pkgconfigdir}/ijs.pc
 %{_mandir}/man1/ijs-config.1*
 
