@@ -4,6 +4,7 @@
 #   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
 #
 # Conditional build:
+%bcond_without	cairo		# disable cairo support (for cairo bootstrap)
 %bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
 %bcond_without	gtk		# gsx (GTK+ based frontend)
@@ -35,7 +36,7 @@ Patch8:		%{name}-binlink.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
-BuildRequires:	cairo-devel >= 1.2.0
+%{?with_cairo:BuildRequires:	cairo-devel >= 1.2.0}
 BuildRequires:	cups-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
@@ -208,6 +209,7 @@ cd ..
 %{__autoconf}
 %configure \
 	CFLAGS="%{rpmcflags} -DA4" \
+	%{!?with_cairo:--disable-cairo} \
 	--enable-dynamic \
 	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
