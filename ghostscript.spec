@@ -21,7 +21,7 @@ Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
-# Source0-md5:	f67151444bd56a7904579fc75a083dd6
+# Source0-md5:	ebf87808253b9892ef15bdfdbd1b7203
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
