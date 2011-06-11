@@ -20,8 +20,8 @@ Version:	9.02
 Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
-Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
-# Source0-md5:	ebf87808253b9892ef15bdfdbd1b7203
+Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
+# Source0-md5:	f67151444bd56a7904579fc75a083dd6
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -37,8 +37,8 @@ BuildRequires:	automake >= 1.6
 BuildRequires:	cups-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 1:2.0.0}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 1.2.42
 BuildRequires:	libstdc++-devel
@@ -55,8 +55,8 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zlib-devel >= 1.2.3
 Obsoletes:	ghostscript-afpl
-Obsoletes:	ghostscript-gpl
 Obsoletes:	ghostscript-esp
+Obsoletes:	ghostscript-gpl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_ulibdir        %{_prefix}/lib
@@ -80,9 +80,8 @@ nombreux types d'imprimantes (dont un support pour imprimantes
 couleur), et des formats de fichiers graphiques populaires.
 
 %description -l ja.UTF-8
-Ghostscript は PostScript インタープリタです。ポストスクリプトと PDF
-をレンダリングし、X window や他のプリンタフォーマットで出力
-します。このパッケージは日本語対応しています。
+Ghostscript は PostScript インタープリタです。ポストスクリプトと PDF をレンダリングし、X window
+や他のプリンタフォーマットで出力 します。このパッケージは日本語対応しています。
 
 %description -l pl.UTF-8
 Ghostcript jest interpreterem PostScriptu, języka używanego do opisu
@@ -113,8 +112,8 @@ Summary(pl.UTF-8):	Ghostscript z konsolą GTK+
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-gtk
-Obsoletes:	ghostscript-gpl-gtk
 Obsoletes:	ghostscript-esp-gtk
+Obsoletes:	ghostscript-gpl-gtk
 
 %description gtk
 Ghostscript with GTK+ console.
@@ -359,7 +358,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cups
 %defattr(644,root,root,755)
-/etc/cups/gstoraster.convs
+%{_sysconfdir}/cups/gstoraster.convs
 %attr(755,root,root) %{_ulibdir}/cups/filter/gstoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
 %{_datadir}/cups/model/pxlcolor.ppd
