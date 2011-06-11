@@ -16,23 +16,20 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	8.71
-Release:	3
+Version:	9.02
+Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
-Source0:	http://ghostscript.com/releases/%{name}-%{version}.tar.xz
-# Source0-md5:	5005d68f7395c2bfc4b05c1a60d9b6ba
+Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
+# Source0-md5:	f67151444bd56a7904579fc75a083dd6
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
-Patch3:		%{name}-libpng14.patch
-Patch4:		%{name}-system-zlib.patch
 Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
-Patch8:		%{name}-binlink.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
@@ -184,12 +181,10 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
+
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -314,16 +309,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ps2pdfwr
 %attr(755,root,root) %{_bindir}/ps2ps
 %attr(755,root,root) %{_bindir}/ps2ps2
+%attr(755,root,root) %{_bindir}/pphs
 %attr(755,root,root) %{_bindir}/wftopfa
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgs.so.8
+%attr(755,root,root) %ghost %{_libdir}/libgs.so.9
 %attr(755,root,root) %{_libdir}/libijs-*.so
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/%{version}
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/%{version}
 %dir %{_datadir}/%{name}/%{version}/lib
-%{_datadir}/%{name}/%{version}/Resource
 %{_datadir}/%{name}/%{version}/examples
 %{_datadir}/%{name}/%{version}/lib/*.ppd
 %{_datadir}/%{name}/%{version}/lib/*.ps
@@ -331,7 +326,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{version}/lib/*.src
 %{_datadir}/%{name}/%{version}/lib/*.upp
 %{_datadir}/%{name}/%{version}/lib/*.x[bp]m
-%{_datadir}/%{name}/%{version}/lib/pphs
 %{_mandir}/man1/dvipdf.1*
 %{_mandir}/man1/eps2eps.1*
 %{_mandir}/man1/font2c.1*
@@ -365,11 +359,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cups
 %defattr(644,root,root,755)
-/etc/cups/pdftoraster.convs
-/etc/cups/pstoraster.convs
-%attr(755,root,root) %{_ulibdir}/cups/filter/pdftoraster
+/etc/cups/gstoraster.convs
+%attr(755,root,root) %{_ulibdir}/cups/filter/gstoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
-%attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
 %{_datadir}/cups/model/pxlcolor.ppd
 %{_datadir}/cups/model/pxlmono.ppd
 

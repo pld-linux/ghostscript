@@ -1,11 +1,11 @@
---- ghostscript-8.71/configure.ac.orig	2010-09-12 20:06:48.571133459 +0200
-+++ ghostscript-8.71/configure.ac	2010-09-12 21:41:49.847134297 +0200
-@@ -531,7 +531,7 @@
- 	    CUPSDEV="\$(DD)cups.dev"
- 	    CUPSVERSION="`$CUPSCONFIG --version`"
- 	    if ( test x$with_pdftoraster != xno ); then
--	        if test "$CUPSVERSION" ">" "1.2"; then
-+	        if echo "$CUPSVERSION" | grep -q '^1\.[[2-9]]'; then
- 		    CUPSPDFTORASTER="1"
- 		fi
- 	    fi
+--- ghostscript-9.02/configure.ac~	2011-06-11 11:51:32.885645350 +0200
++++ ghostscript-9.02/configure.ac	2011-06-11 11:52:19.970579073 +0200
+@@ -769,7 +769,7 @@
+ 	        LCUPSINCLUDE="include \$(GLSRCDIR)/lcups.mak"
+ 	        LCUPSIINCLUDE="include \$(GLSRCDIR)/lcupsi.mak"
+ 	        if ( test x$with_pdftoraster != xno ); then
+-	            if test "$CUPSVERSION" ">" "1.2"; then
++	            if echo "$CUPSVERSION" | grep -q '^1\.[[2-9]]'; then
+ 	                CUPSPDFTORASTER="1"
+ 	            fi
+ 	        fi
