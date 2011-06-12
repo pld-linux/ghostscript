@@ -35,10 +35,13 @@ BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
 %{?with_cairo:BuildRequires:	cairo-devel >= 1.2.0}
 BuildRequires:	cups-devel
+BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
+BuildRequires:	freetype-devel >= 2.0
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 1:2.0.0}
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
+BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 1.2.42
 BuildRequires:	libstdc++-devel
@@ -191,7 +194,7 @@ Statyczna wersja biblioteki IJS.
 %endif
 # use system libs (sources contain unmodified zlib 1.2.3 and libpng 1.2.42)
 %{__rm} -r libpng zlib
-# jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64), jasper is modified
+# jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64), jasper and lcms are modified
 cd jasper
 %{__libtoolize}
 %{__aclocal}
