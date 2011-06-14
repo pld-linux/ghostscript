@@ -269,6 +269,7 @@ bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 #mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
+ln -s gstoraster $RPM_BUILD_ROOT%{_ulibdir}/cups/filter/pdftoraster
 ln -s gstoraster $RPM_BUILD_ROOT%{_ulibdir}/cups/filter/pstoraster
 
 %clean
@@ -364,6 +365,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_sysconfdir}/cups/gstoraster.convs
 %attr(755,root,root) %{_ulibdir}/cups/filter/gstoraster
+%attr(755,root,root) %{_ulibdir}/cups/filter/pdftoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
 %{_datadir}/cups/model/pxlcolor.ppd
