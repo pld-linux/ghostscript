@@ -17,7 +17,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.02
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
@@ -269,6 +269,7 @@ bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 #mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
+ln -s gstoraster $RPM_BUILD_ROOT%{_ulibdir}/cups/filter/pstoraster
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -363,6 +364,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_sysconfdir}/cups/gstoraster.convs
 %attr(755,root,root) %{_ulibdir}/cups/filter/gstoraster
+%attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
 %{_datadir}/cups/model/pxlcolor.ppd
 %{_datadir}/cups/model/pxlmono.ppd
