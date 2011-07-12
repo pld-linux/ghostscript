@@ -17,7 +17,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.02
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
@@ -30,6 +30,7 @@ Patch2:		%{name}-time_h.patch
 Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
+Patch8:		%{name}-git.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
@@ -187,6 +188,7 @@ Statyczna wersja biblioteki IJS.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p2
 
 %build
 %if %{with system_jbig2dec}
