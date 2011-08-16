@@ -1,21 +1,20 @@
-diff -up ghostscript-8.64/base/lib.mak.fPIC ghostscript-8.64/base/lib.mak
---- ghostscript-8.64/base/lib.mak.fPIC	2009-01-08 09:17:18.000000000 +0000
-+++ ghostscript-8.64/base/lib.mak	2009-02-04 11:34:21.000000000 +0000
-@@ -894,7 +894,7 @@ $(GLOBJ)gsparam.$(OBJ) : $(GLSRC)gsparam
- $(GLOBJ)gsparamx.$(OBJ) : $(GLSRC)gsparamx.c $(string__h)\
+--- ghostscript-9.04/base/lib.mak.orig	2011-08-05 13:12:20.000000000 +0200
++++ ghostscript-9.04/base/lib.mak	2011-08-15 21:15:14.722986828 +0200
+@@ -995,7 +995,7 @@
+ $(GLOBJ)gsparamx.$(OBJ) : $(AK) $(GLSRC)gsparamx.c $(string__h)\
   $(gserror_h) $(gserrors_h) $(gsmemory_h) $(gsparam_h) $(gsparamx_h)\
-  $(gstypes_h)
+  $(gstypes_h) $(MAKEDIRS)
 -	$(GLCC) $(GLO_)gsparamx.$(OBJ) $(C_) $(GLSRC)gsparamx.c
 +	$(GLCCSHARED) $(GLO_)gsparamx.$(OBJ) $(C_) $(GLSRC)gsparamx.c
  
  # Future replacement for gsparams.c
- $(GLOBJ)gsparam2.$(OBJ) : $(GLSRC)gsparam2.c $(GXERR) $(memory__h)\
-@@ -1085,7 +1085,7 @@ $(GLOBJ)gdevnfwd.$(OBJ) : $(GLSRC)gdevnf
+ $(GLOBJ)gsparam2.$(OBJ) : $(GLSRC)gsparam2.c $(AK) $(gx_h)\
+@@ -1196,7 +1196,7 @@
  
  # Provide a mapping between StandardEncoding and ISOLatin1Encoding.
- $(GLOBJ)gdevemap.$(OBJ) : $(GLSRC)gdevemap.c $(AK) $(std_h)
+ $(GLOBJ)gdevemap.$(OBJ) : $(GLSRC)gdevemap.c $(AK) $(std_h) $(MAKEDIRS)
 -	$(GLCC) $(GLO_)gdevemap.$(OBJ) $(C_) $(GLSRC)gdevemap.c
 +	$(GLCCSHARED) $(GLO_)gdevemap.$(OBJ) $(C_) $(GLSRC)gdevemap.c
  
- ###### Create a pseudo-"feature" for the entire graphics library.
- 
+ # ----------- Downsampling routines ------------ #
+ gxdownscale_h=$(GLSRC)gxdownscale.h $(gsmemory_h) $(gxdevcli_h) $(ctype__h) \

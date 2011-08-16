@@ -16,12 +16,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.02
-Release:	4
+Version:	9.04
+Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	f67151444bd56a7904579fc75a083dd6
+# Source0-md5:	9f6899e821ab6d78ab2c856f10fa3023
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -30,8 +30,7 @@ Patch2:		%{name}-time_h.patch
 Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
-Patch8:		%{name}-git.patch
-Patch9:		%{name}-zlib.patch
+Patch8:		%{name}-zlib.patch
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
@@ -189,8 +188,7 @@ Statyczna wersja biblioteki IJS.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p2
-%patch9 -p1
+%patch8 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -215,6 +213,7 @@ cd ..
 	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
+	--with-install-cups \
 	--with-jbig2dec \
 	--with-jasper \
 	--with-pdftoraster \
@@ -285,11 +284,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc %{_docdir}/%{name}-%{version}
-%attr(755,root,root) %{_bindir}/bdftops
 %attr(755,root,root) %{_bindir}/dumphint
 %attr(755,root,root) %{_bindir}/dvipdf
 %attr(755,root,root) %{_bindir}/eps2eps
-%attr(755,root,root) %{_bindir}/fixmswrd.pl
 %attr(755,root,root) %{_bindir}/font2c
 %attr(755,root,root) %{_bindir}/ghostscript
 %attr(755,root,root) %{_bindir}/gs
