@@ -1,0 +1,36 @@
+diff -up ghostscript-9.04rc1/psi/zusparam.c.iccprofiles-initdir ghostscript-9.04rc1/psi/zusparam.c
+--- ghostscript-9.04rc1/psi/zusparam.c.iccprofiles-initdir	2011-07-29 10:42:52.000000000 +0100
++++ ghostscript-9.04rc1/psi/zusparam.c	2011-08-01 12:32:41.203228412 +0100
+@@ -605,6 +605,8 @@ set_default_gray_icc(i_ctx_t *i_ctx_p, g
+     return code;
+ }
+ 
++extern_gx_io_device_table();
++
+ static void
+ current_icc_directory(i_ctx_t *i_ctx_p, gs_param_string * pval)
+ {
+@@ -612,8 +614,21 @@ current_icc_directory(i_ctx_t *i_ctx_p, 
+     const gs_lib_ctx_t *lib_ctx = ((gs_imager_state *)igs)->memory->gs_lib_ctx;
+ 
+     if (lib_ctx->profiledir == NULL) {
+-        pval->data = (const byte *)rfs;
+-        pval->size = strlen(rfs);
++	int have_rom_device = 0;
++	int i;
++
++	for (i = 0; i < gx_io_device_table_count; i++) {
++	    const gx_io_device *iodev = gx_io_device_table[i];
++	    const char *dname = iodev->dname;
++
++	    if (dname && strlen(dname) == 5 && !memcpy("%rom%", dname, 5)) {
++		have_rom_device = 1;
++		break;
++	    }
++	}
++
++        pval->data = (const byte *) (have_rom_device ? rfs : "");
++        pval->size = strlen(pval->data);
+     } else {
+         pval->data = (const byte *)(lib_ctx->profiledir);
+         pval->size = lib_ctx->profiledir_len;

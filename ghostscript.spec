@@ -17,7 +17,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.04
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
@@ -31,6 +31,21 @@ Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
 Patch8:		%{name}-zlib.patch
+Patch9:		%{name}-git.patch
+
+# fedora
+Patch20: ghostscript-scripts.patch
+Patch21: ghostscript-runlibfileifexists.patch
+Patch22: ghostscript-cups-rgbw.patch
+Patch23: ghostscript-glyph-crash.patch
+Patch24: ghostscript-jbig2dec-nullderef.patch
+Patch25: ghostscript-SEAC.patch
+Patch26: ghostscript-cups-filters.patch
+Patch27: ghostscript-Fontmap.local.patch
+Patch28: ghostscript-iccprofiles-initdir.patch
+Patch29: ghostscript-gdevcups-debug-uninit.patch
+Patch30: ghostscript-pxl-landscape.patch
+
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
@@ -189,6 +204,19 @@ Statyczna wersja biblioteki IJS.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p2
+
+%patch20 -p1
+%patch21 -p1
+%patch22 -p1
+%patch23 -p1
+%patch24 -p1
+%patch25 -p1
+%patch26 -p1
+%patch27 -p1
+%patch28 -p1
+%patch29 -p1
+%patch30 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -209,6 +237,7 @@ cd ..
 %configure \
 	CFLAGS="%{rpmcflags} -DA4" \
 	%{!?with_cairo:--disable-cairo} \
+	--disable-compile-inits \
 	--enable-dynamic \
 	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
@@ -323,6 +352,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/%{name}/%{version}
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/%{version}
+%{_datadir}/%{name}/%{version}/Resource
+%{_datadir}/%{name}/%{version}/iccprofiles
 %dir %{_datadir}/%{name}/%{version}/lib
 %{_datadir}/%{name}/%{version}/examples
 %{_datadir}/%{name}/%{version}/lib/*.ppd
@@ -364,13 +395,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cups
 %defattr(644,root,root,755)
-%{_sysconfdir}/cups/gstoraster.convs
 %attr(755,root,root) %{_ulibdir}/cups/filter/gstoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pdftoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
 %{_datadir}/cups/model/pxlcolor.ppd
 %{_datadir}/cups/model/pxlmono.ppd
+%{_datadir}/cups/mime/gstoraster.convs
 
 %if %{with gtk}
 %files gtk
