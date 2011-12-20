@@ -17,7 +17,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.04
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
