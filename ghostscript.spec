@@ -8,6 +8,7 @@
 %bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
 %bcond_without	gtk		# gsx (GTK+ based frontend)
+%bcond_without	texdocs		# skip tetex BRs
 
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de.UTF-8):	PostScript & PDF Interpreter und Renderer
@@ -68,8 +69,10 @@ BuildRequires:	pkgconfig
 %{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	tar >= 1:1.22
 # for documentation regeneration
+%if %{with texdocs}
 BuildRequires:	tetex
 BuildRequires:	tetex-dvips
+%endif
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zlib-devel >= 1.2.3
