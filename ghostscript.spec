@@ -17,12 +17,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.04
-Release:	7
+Version:	9.05
+Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	9f6899e821ab6d78ab2c856f10fa3023
+# Source0-md5:	8bcef1f33ddf8a4d12b2cf8da385c191
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -32,20 +32,15 @@ Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
 Patch8:		%{name}-zlib.patch
-Patch9:		%{name}-git.patch
 
 # fedora
 Patch20: ghostscript-scripts.patch
 Patch21: ghostscript-runlibfileifexists.patch
-Patch22: ghostscript-cups-rgbw.patch
-Patch23: ghostscript-glyph-crash.patch
-Patch24: ghostscript-jbig2dec-nullderef.patch
-Patch25: ghostscript-SEAC.patch
+
 Patch26: ghostscript-cups-filters.patch
 Patch27: ghostscript-Fontmap.local.patch
 Patch28: ghostscript-iccprofiles-initdir.patch
 Patch29: ghostscript-gdevcups-debug-uninit.patch
-Patch30: ghostscript-pxl-landscape.patch
 
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
@@ -207,19 +202,14 @@ Statyczna wersja biblioteki IJS.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p2
 
 %patch20 -p1
 %patch21 -p1
-%patch22 -p1
-%patch23 -p1
-%patch24 -p1
-%patch25 -p1
+
 %patch26 -p1
 %patch27 -p1
 %patch28 -p1
 %patch29 -p1
-%patch30 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -387,6 +377,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ps2pdf.1*
 %{_mandir}/man1/ps2pdf12.1*
 %{_mandir}/man1/ps2pdf13.1*
+%{_mandir}/man1/ps2pdf14.1*
 %{_mandir}/man1/ps2pdfwr.1*
 %{_mandir}/man1/ps2ps.1*
 %{_mandir}/man1/wftopfa.1*
@@ -398,10 +389,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files cups
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_ulibdir}/cups/filter/gstopxl
 %attr(755,root,root) %{_ulibdir}/cups/filter/gstoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pdftoraster
 %attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
-%attr(755,root,root) %{_ulibdir}/cups/filter/pstopxl
 %{_datadir}/cups/model/pxlcolor.ppd
 %{_datadir}/cups/model/pxlmono.ppd
 %{_datadir}/cups/mime/gstoraster.convs
