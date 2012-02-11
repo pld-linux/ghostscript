@@ -1,11 +1,11 @@
 # TODO:
-# - fix svga bcond
 # - add djvu driver:
 #   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
 #
 # Conditional build:
 %bcond_without	cairo		# disable cairo support (for cairo bootstrap)
 %bcond_without	system_jbig2dec	# build with included jbig2dec
+%bcond_without	system_lcms2	# build with included lcms2
 %bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
 %bcond_without	gtk		# gsx (GTK+ based frontend)
 %bcond_without	texdocs		# skip tetex BRs
@@ -28,19 +28,19 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
 Patch2:		%{name}-time_h.patch
+Patch3:		%{name}-svga-shared.patch
 Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
 Patch8:		%{name}-zlib.patch
 
 # fedora
-Patch20: ghostscript-scripts.patch
-Patch21: ghostscript-runlibfileifexists.patch
-
-Patch26: ghostscript-cups-filters.patch
-Patch27: ghostscript-Fontmap.local.patch
-Patch28: ghostscript-iccprofiles-initdir.patch
-Patch29: ghostscript-gdevcups-debug-uninit.patch
+Patch20:	%{name}-scripts.patch
+Patch21:	%{name}-runlibfileifexists.patch
+Patch26:	%{name}-cups-filters.patch
+Patch27:	%{name}-Fontmap.local.patch
+Patch28:	%{name}-iccprofiles-initdir.patch
+Patch29:	%{name}-gdevcups-debug-uninit.patch
 
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
@@ -53,6 +53,7 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2.0
 %{?with_gtk:BuildRequires:	gtk+2-devel >= 1:2.0.0}
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
+%{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.3}
 BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 1.2.42
@@ -71,6 +72,7 @@ BuildRequires:	tetex-dvips
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zlib-devel >= 1.2.3
+%{?with_system_lcms2:Requires:	lcms2-devel >= 2.3}
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
 Obsoletes:	ghostscript-gpl
@@ -138,6 +140,18 @@ Ghostscript with GTK+ console.
 %description gtk -l pl.UTF-8
 Ghostscript z konsolą GTK+.
 
+%package svga
+Summary:	SVGAlib drivers for Ghostscript
+Summary(pl.UTF-8):	Sterowniki SVGAlib dla Ghostscripta
+Group:		Applications/Graphics
+Requires:	%{name} = %{version}-%{release}
+
+%description svga
+SVGAlib output drivers for Ghostscript: lvga256, vgalib.
+
+%description svga -l pl.UTF-8
+Sterowniki wyjściowe SVGAlib dla Ghostscripta: lvga256, vgalib.
+
 %package x11
 Summary:	X Window System drivers for Ghostscript
 Summary(pl.UTF-8):	Sterowniki systemu X Window dla Ghostscripta
@@ -197,6 +211,7 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %patch5 -p1
 %patch6 -p1
@@ -217,7 +232,12 @@ Statyczna wersja biblioteki IJS.
 %endif
 # use system libs (sources contain unmodified zlib 1.2.3 and libpng 1.2.42)
 %{__rm} -r libpng zlib
-# jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64), jasper and lcms are modified
+# jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# openjpeg is post-1.4 or modified
+# jasper is modified (and not used if openjpeg is not explicitly disabled)
+# lcms is modified, but lcms2 is used by default
+%{__rm} -r lcms
+%{?with_system_lcms2:%{__rm} -r lcms2}
 cd jasper
 %{__libtoolize}
 %{__aclocal}
@@ -232,12 +252,11 @@ cd ..
 	%{!?with_cairo:--disable-cairo} \
 	--disable-compile-inits \
 	--enable-dynamic \
-	--with-drivers=ALL%{?with_svga:,vgalib,lvga256} \
+	--with-drivers=ALL%{?with_svga:,svga} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with-install-cups \
 	--with-jbig2dec \
-	--with-jasper \
 	--with-pdftoraster \
 	--with-system-libtiff \
 	--with-x
@@ -401,6 +420,13 @@ rm -rf $RPM_BUILD_ROOT
 %files gtk
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gsx
+%endif
+
+%if %{with svga}
+%files svga
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/%{name}/%{version}/lvga256.so
+%attr(755,root,root) %{_libdir}/%{name}/%{version}/vgalib.so
 %endif
 
 %files x11
