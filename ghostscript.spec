@@ -17,17 +17,17 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.05
+Version:	9.06
 Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	8bcef1f33ddf8a4d12b2cf8da385c191
+# Source0-md5:	46f9ebe40dc52755287b30704270db11
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
-Patch2:		%{name}-time_h.patch
+
 Patch3:		%{name}-svga-shared.patch
 Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
@@ -210,7 +210,7 @@ Statyczna wersja biblioteki IJS.
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
+
 %patch3 -p1
 
 %patch5 -p1
@@ -325,7 +325,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc %{_docdir}/%{name}-%{version}
-%attr(755,root,root) %{_bindir}/dumphint
 %attr(755,root,root) %{_bindir}/dvipdf
 %attr(755,root,root) %{_bindir}/eps2eps
 %attr(755,root,root) %{_bindir}/font2c
