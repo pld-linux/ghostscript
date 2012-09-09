@@ -72,7 +72,7 @@ BuildRequires:	tetex-dvips
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zlib-devel >= 1.2.3
-%{?with_system_lcms2:Requires:	lcms2-devel >= 2.3}
+%{?with_system_lcms2:Requires:	lcms2 >= 2.3}
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
 Obsoletes:	ghostscript-gpl
