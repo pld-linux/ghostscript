@@ -1,5 +1,5 @@
---- ghostscript-9.05/configure.ac.orig	2012-02-11 13:01:13.934739538 +0100
-+++ ghostscript-9.05/configure.ac	2012-02-11 14:41:09.408273622 +0100
+--- ghostscript-9.05/base/configure.ac.orig	2012-02-11 13:01:13.934739538 +0100
++++ ghostscript-9.05/base/configure.ac	2012-02-11 14:41:09.408273622 +0100
 @@ -1389,6 +1389,7 @@
  PS_DEVS='psdf psdcmyk psdrgb pdfwrite pswrite ps2write epswrite psgray psmono psrgb bbox txtwrite inkcov'
  MISC_FDEVS='ccr cif inferno mag16 mag256 mgr4 mgr8 mgrgray2 mgrgray4 mgrgray8 mgrmono miff24 plan9bm sgirgb sunhmono bit bitrgb bitrgbtags bitcmyk devicen spotcmyk xcf'

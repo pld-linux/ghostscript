@@ -1,5 +1,5 @@
---- ghostscript-9.02/configure.ac~	2011-06-11 11:51:32.885645350 +0200
-+++ ghostscript-9.02/configure.ac	2011-06-11 11:52:19.970579073 +0200
+--- ghostscript-9.02/base/configure.ac~	2011-06-11 11:51:32.885645350 +0200
++++ ghostscript-9.02/base/configure.ac	2011-06-11 11:52:19.970579073 +0200
 @@ -909,7 +909,7 @@
                  LCUPSINCLUDE="include \$(GLSRCDIR)/lcups.mak"
                  LCUPSIINCLUDE="include \$(GLSRCDIR)/lcupsi.mak"

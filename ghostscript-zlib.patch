@@ -1,5 +1,5 @@
---- ghostscript-9.02/configure.ac~	2011-07-12 22:52:14.000000000 +0200
-+++ ghostscript-9.02/configure.ac	2011-07-12 23:01:05.464937334 +0200
+--- ghostscript-9.02/base/configure.ac~	2011-07-12 22:52:14.000000000 +0200
++++ ghostscript-9.02/base/configure.ac	2011-07-12 23:01:05.464937334 +0200
 @@ -594,6 +594,8 @@
    local directory named 'zlib'. See http://www.gzip.org/zlib/
    for more information.
