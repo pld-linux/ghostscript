@@ -56,8 +56,8 @@ diff -urN espgs-7.07.1rc2.org/lib/pfbtopfa espgs-7.07.1rc2/lib/pfbtopfa
  then
      outfile=`basename "$1" \.pfb`.pfa
 
---- ghostscript/base/configure.ac~	2007-08-06 21:11:16.000000000 +0200
-+++ ghostscript/base/configure.ac	2007-08-06 21:15:25.337043110 +0200
+--- ghostscript/configure.ac~	2007-08-06 21:11:16.000000000 +0200
++++ ghostscript/configure.ac	2007-08-06 21:15:25.337043110 +0200
 @@ -1390,9 +1390,9 @@
  
  while test -n "$drivers"; do

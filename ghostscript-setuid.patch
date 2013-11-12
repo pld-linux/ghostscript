@@ -40,8 +40,8 @@
  
      gs_get_real_stdio(stdfiles);
      arg_init(&args, (const char **)argv, argc,
---- gs/base/gdevl256.c.orig	Mon Jan 11 07:38:07 1999
-+++ gs/base/gdevl256.c	Thu Mar 30 23:03:57 2000
+--- gs/devices/gdevl256.c.orig	Mon Jan 11 07:38:07 1999
++++ gs/devices/gdevl256.c	Thu Mar 30 23:03:57 2000
 @@ -38,6 +38,17 @@
  #include <vga.h>
  #include <vgagl.h>

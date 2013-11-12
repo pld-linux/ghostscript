@@ -17,19 +17,18 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.06
-Release:	3
+Version:	9.10
+Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	46f9ebe40dc52755287b30704270db11
+# Source0-md5:	7179bb1ed4f6f453147e6f7e1f210ce8
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
 
 Patch3:		%{name}-svga-shared.patch
-Patch5:		%{name}-cups-sh.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch7:		%{name}-fPIC.patch
 Patch8:		%{name}-zlib.patch
@@ -37,16 +36,13 @@ Patch8:		%{name}-zlib.patch
 # fedora
 Patch20:	%{name}-scripts.patch
 Patch21:	%{name}-runlibfileifexists.patch
-Patch26:	%{name}-cups-filters.patch
 Patch27:	%{name}-Fontmap.local.patch
 Patch28:	%{name}-iccprofiles-initdir.patch
-Patch29:	%{name}-gdevcups-debug-uninit.patch
 
 URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
 %{?with_cairo:BuildRequires:	cairo-devel >= 1.2.0}
-BuildRequires:	cups-devel
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
@@ -112,18 +108,6 @@ kolorowe), okno X-Window i popularne formaty graficzne.
 GhostScript, PostScript ve PDF uyumlu dosyaları, X penceresinde
 gösterebilir ve birçok yazıcının (renkli yazıcılar dahil) basabileceği
 biçime getirebilir.
-
-%package cups
-Summary:	Ghostscript CUPS files
-Summary(pl.UTF-8):	Pliki Ghostscripta dla CUPS-a
-Group:		Applications/Graphics
-Requires:	%{name} = %{version}-%{release}
-
-%description cups
-This package contains CUPS files provided by ghostscript.
-
-%description cups -l pl.UTF-8
-Ten pakiet zawiera pliki dla CUPS-a dostarczane przez ghostscript.
 
 %package gtk
 Summary:	Ghostscript with GTK+ console
@@ -211,9 +195,10 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 
+%if %{with svga}
 %patch3 -p1
+%endif
 
-%patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
@@ -221,10 +206,8 @@ Statyczna wersja biblioteki IJS.
 %patch20 -p1
 %patch21 -p1
 
-%patch26 -p1
 %patch27 -p1
 %patch28 -p1
-%patch29 -p1
 
 %build
 %if %{with system_jbig2dec}
@@ -234,17 +217,9 @@ Statyczna wersja biblioteki IJS.
 %{__rm} -r libpng zlib
 # jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 # openjpeg is post-1.4 or modified
-# jasper is modified (and not used if openjpeg is not explicitly disabled)
 # lcms is modified, but lcms2 is used by default
 %{__rm} -r lcms
 %{?with_system_lcms2:%{__rm} -r lcms2}
-cd jasper
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-cd ..
 %{__aclocal}
 %{__autoconf}
 %configure \
@@ -255,7 +230,6 @@ cd ..
 	--with-drivers=ALL%{?with_svga:,svga} \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
-	--with-install-cups \
 	--with-jbig2dec \
 	--with-pdftoraster \
 	--with-system-libtiff \
@@ -313,8 +287,6 @@ bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 #mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
-ln -s gstoraster $RPM_BUILD_ROOT%{_ulibdir}/cups/filter/pdftoraster
-ln -s gstoraster $RPM_BUILD_ROOT%{_ulibdir}/cups/filter/pstoraster
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -341,7 +313,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ijs_server_example
 %attr(755,root,root) %{_bindir}/pdf2dsc
 %attr(755,root,root) %{_bindir}/pdf2ps
-%attr(755,root,root) %{_bindir}/pdfopt
 %attr(755,root,root) %{_bindir}/pf2afm
 %attr(755,root,root) %{_bindir}/pfbtopfa
 %attr(755,root,root) %{_bindir}/printafm
@@ -386,7 +357,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/gsnd.1*
 %{_mandir}/man1/pdf2dsc.1*
 %{_mandir}/man1/pdf2ps.1*
-%{_mandir}/man1/pdfopt.1*
 %{_mandir}/man1/pf2afm.1*
 %{_mandir}/man1/pfbtopfa.1*
 %{_mandir}/man1/printafm.1*
@@ -404,16 +374,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_mandir}/es/man1/*
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
-
-%files cups
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_ulibdir}/cups/filter/gstopxl
-%attr(755,root,root) %{_ulibdir}/cups/filter/gstoraster
-%attr(755,root,root) %{_ulibdir}/cups/filter/pdftoraster
-%attr(755,root,root) %{_ulibdir}/cups/filter/pstoraster
-%{_datadir}/cups/model/pxlcolor.ppd
-%{_datadir}/cups/model/pxlmono.ppd
-%{_datadir}/cups/mime/gstoraster.convs
 
 %if %{with gtk}
 %files gtk
