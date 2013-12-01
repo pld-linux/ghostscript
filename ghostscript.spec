@@ -18,7 +18,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.10
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
@@ -162,11 +162,24 @@ Header files for libgs - ghostscript shared library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe libgs - współdzielonej biblioteki ghostscript.
 
+%package ijs
+Summary:	IJS (InkJet Server) shared library
+Summary(pl.UTF-8):	Biblioteka współdzielona IJS (InkJet Server)
+Group:		Libraries
+Conflicts:	ghostscript < 9.10-2
+
+%description ijs
+IJS (InkJet Server) Raster Image Transport Protocol shared library.
+
+%description ijs -l pl.UTF-8
+Biblioteka współdzielona protokołu transportu obrazów rastrowych IJS
+(InkJet Server).
+
 %package ijs-devel
 Summary:	IJS development files
 Summary(pl.UTF-8):	Pliki dla programistów IJS
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-ijs = %{version}-%{release}
 Obsoletes:	ghostscript-afpl-ijs-devel
 Obsoletes:	ghostscript-esp-ijs-devel
 
@@ -294,6 +307,9 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
+%post	ijs -p /sbin/ldconfig
+%postun	ijs -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc %{_docdir}/%{name}-%{version}
@@ -309,8 +325,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gslj
 %attr(755,root,root) %{_bindir}/gslp
 %attr(755,root,root) %{_bindir}/gsnd
-%attr(755,root,root) %{_bindir}/ijs_client_example
-%attr(755,root,root) %{_bindir}/ijs_server_example
 %attr(755,root,root) %{_bindir}/pdf2dsc
 %attr(755,root,root) %{_bindir}/pdf2ps
 %attr(755,root,root) %{_bindir}/pf2afm
@@ -329,7 +343,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/wftopfa
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgs.so.9
-%attr(755,root,root) %{_libdir}/libijs-*.so
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/%{version}
 %dir %{_datadir}/%{name}
@@ -396,6 +409,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgs.so
 %{_includedir}/ghostscript
+
+%files ijs
+%defattr(644,root,root,755)
+%doc ijs/README
+%attr(755,root,root) %{_bindir}/ijs_client_example
+%attr(755,root,root) %{_bindir}/ijs_server_example
+%attr(755,root,root) %{_libdir}/libijs-*.so
 
 %files ijs-devel
 %defattr(644,root,root,755)
