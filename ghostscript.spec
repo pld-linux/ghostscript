@@ -47,7 +47,7 @@ BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel >= 2.0
-%{?with_gtk:BuildRequires:	gtk+2-devel >= 1:2.0.0}
+%{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.3}
 BuildRequires:	libidn-devel
