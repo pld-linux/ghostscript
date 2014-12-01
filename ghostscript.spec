@@ -17,12 +17,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.10
-Release:	2
+Version:	9.15
+Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
-Source0:	http://downloads.sourceforge.net/ghostscript/%{name}-%{version}.tar.bz2
-# Source0-md5:	7179bb1ed4f6f453147e6f7e1f210ce8
+Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
+# Source0-md5:	0ee21d975c67a4883ba66bcc332418f5
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
