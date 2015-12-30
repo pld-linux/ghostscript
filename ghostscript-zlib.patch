@@ -1,6 +1,16 @@
---- ghostscript-9.02/configure.ac~	2011-07-12 22:52:14.000000000 +0200
-+++ ghostscript-9.02/configure.ac	2011-07-12 23:01:05.464937334 +0200
-@@ -594,6 +594,8 @@
+diff -ruN ghostscript-9.18.orig/configure.ac ghostscript-9.18/configure.ac
+--- ghostscript-9.18.orig/configure.ac	2015-10-05 10:21:11.000000000 +0200
++++ ghostscript-9.18/configure.ac	2015-12-30 18:50:49.477074470 +0100
+@@ -917,7 +917,7 @@
+ dnl zlib is needed for language level 3, and libpng
+ # we must define ZLIBDIR regardless because png.mak does a -I$(ZLIBDIR)
+ # this seems a harmless default
+-ZLIBDIR=src
++ZLIBDIR=$includedir
+ AUX_SHARED_ZLIB=
+ 
+ if test -d $srcdir/zlib; then
+@@ -936,6 +936,8 @@
    local directory named 'zlib'. See http://www.gzip.org/zlib/
    for more information.
    ])

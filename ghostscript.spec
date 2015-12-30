@@ -17,12 +17,12 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.15
-Release:	2
+Version:	9.18
+Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
-# Source0-md5:	0ee21d975c67a4883ba66bcc332418f5
+# Source0-md5:	aa125af368d89b3dbd15fc379f13375f
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -231,7 +231,6 @@ Statyczna wersja biblioteki IJS.
 # jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 # openjpeg is post-1.4 or modified
 # lcms is modified, but lcms2 is used by default
-%{__rm} -r lcms
 %{?with_system_lcms2:%{__rm} -r lcms2}
 %{__aclocal}
 %{__autoconf}
