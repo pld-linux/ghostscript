@@ -18,7 +18,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.18
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
@@ -276,6 +276,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} -C ijs install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+cp -p base/gserrors.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/*.sh \
 	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},eps2eps}.1 \
