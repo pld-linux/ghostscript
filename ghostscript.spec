@@ -4,6 +4,7 @@
 #
 # Conditional build:
 %bcond_without	cairo		# disable cairo support (for cairo bootstrap)
+%bcond_without	system_freetype	# build with included freetype
 %bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_without	system_lcms2	# build with included lcms2
 %bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
@@ -46,15 +47,15 @@ BuildRequires:	automake >= 1.6
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
-BuildRequires:	freetype-devel >= 2.0
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.6}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel}
-%{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.3}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.12}
+%{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
 BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 1.2.42
+BuildRequires:	libpng-devel >= 2:1.6.17
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtiff-devel >= 3.9.2
+BuildRequires:	libtiff-devel >= 4.0.1
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 # Required by 'gdevvglb' device.
@@ -67,8 +68,8 @@ BuildRequires:	tetex-dvips
 %endif
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
-BuildRequires:	zlib-devel >= 1.2.3
-%{?with_system_lcms2:Requires:	lcms2 >= 2.3}
+BuildRequires:	zlib-devel >= 1.2.8
+%{?with_system_lcms2:Requires:	lcms2 >= 2.6}
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
 Obsoletes:	ghostscript-gpl
@@ -208,9 +209,7 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 
-%if %{with svga}
 %patch3 -p1
-%endif
 
 %patch6 -p1
 %patch7 -p1
@@ -223,14 +222,16 @@ Statyczna wersja biblioteki IJS.
 %patch28 -p1
 
 %build
-%if %{with system_jbig2dec}
-%{__rm} -r jbig2dec
-%endif
-# use system libs (sources contain unmodified zlib 1.2.3 and libpng 1.2.42)
+# use system libs:
+# freetype 2.5.5 + few pre-2.6 fixes from git
+%{?with_system_freetype:%{__rm} -r freetype}
+# jbig2dec 0.12 + minor updates
+%{?with_system_jbig2dec:%{__rm} -r jbig2dec}
+# (unmodified) libpng 1.6.17 and zlib 1.2.8
 %{__rm} -r libpng zlib
-# jpeg is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
-# openjpeg is post-1.4 or modified
-# lcms is modified, but lcms2 is used by default
+# (unmodified) libjpeg 9a is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# openjpeg is 2.1.0 + fixes; stick to bundled for now
+# lcms2 is 2.6 with some minor future changes (one already in 2.7, two post-2.7, extra_xform.h ???)
 %{?with_system_lcms2:%{__rm} -r lcms2}
 %{__aclocal}
 %{__autoconf}
@@ -297,6 +298,7 @@ echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf12.1
 echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf13.1
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/README.ghostscript-non-english-man-pages
 
 #mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
