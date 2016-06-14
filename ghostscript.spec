@@ -19,7 +19,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.18
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Applications/Graphics
 Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
@@ -162,6 +162,16 @@ Header files for libgs - ghostscript shared library.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe libgs - współdzielonej biblioteki ghostscript.
+
+%package doc
+Summary:	Documentation for ghostscript
+Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
+
+%description doc
+The documentation files that come with ghostscript.
 
 %package ijs
 Summary:	IJS (InkJet Server) shared library
@@ -315,7 +325,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc %{_docdir}/%{name}-%{version}
 %attr(755,root,root) %{_bindir}/dvipdf
 %attr(755,root,root) %{_bindir}/eps2eps
 %attr(755,root,root) %{_bindir}/font2c
@@ -390,6 +399,9 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_mandir}/es/man1/*
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
+
+%files doc
+%doc %{_docdir}/%{name}-%{version}
 
 %if %{with gtk}
 %files gtk
