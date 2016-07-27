@@ -18,12 +18,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.18
-Release:	3
+Version:	9.19
+Release:	1
 License:	GPL v3+
 Group:		Applications/Graphics
-Source0:	http://downloads.ghostscript.com/public/%{name}-%{version}.tar.bz2
-# Source0-md5:	aa125af368d89b3dbd15fc379f13375f
+#Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs919/%{name}-%{version}.tar.bz2
+# Source0-md5:	8dc536f97bff762791709ca6d64fc44c
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -31,7 +32,6 @@ Patch1:		%{name}-setuid.patch
 
 Patch3:		%{name}-svga-shared.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
-Patch7:		%{name}-fPIC.patch
 Patch8:		%{name}-zlib.patch
 
 # fedora
@@ -222,7 +222,6 @@ Statyczna wersja biblioteki IJS.
 %patch3 -p1
 
 %patch6 -p1
-%patch7 -p1
 %patch8 -p1
 
 %patch20 -p1
@@ -434,12 +433,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files ijs-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/ijs-config
 %attr(755,root,root) %{_libdir}/libijs.so
 %{_libdir}/libijs.la
 %{_includedir}/ijs
 %{_pkgconfigdir}/ijs.pc
-%{_mandir}/man1/ijs-config.1*
 
 %files ijs-static
 %defattr(644,root,root,755)

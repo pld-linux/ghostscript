@@ -9,9 +9,9 @@ Fixes:
    though
 
 Jakub Bogusz <qboosh@pld-linux.org>
---- ghostscript-9.04/contrib/gdevcd8.c.orig	2011-08-05 13:12:20.000000000 +0200
-+++ ghostscript-9.04/contrib/gdevcd8.c	2011-08-15 21:10:22.919653641 +0200
-@@ -600,6 +600,7 @@
+--- ghostscript-9.19/contrib/gdevcd8.c.orig	2016-03-23 09:22:48.000000000 +0100
++++ ghostscript-9.19/contrib/gdevcd8.c	2016-07-26 21:15:42.417583552 +0200
+@@ -604,6 +604,7 @@
      StartRasterMode start_raster_mode;	/* output function to start raster mode */
      PrintNonBlankLines print_non_blank_lines;	/* output function to print a non blank line */
      TerminatePage terminate_page;	/* page termination output function */
@@ -19,7 +19,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
  } gx_device_cdj850;
  
  typedef struct {
-@@ -655,7 +656,7 @@
+@@ -659,7 +660,7 @@
      blackcorrect,\
      start_raster_mode,\
      print_non_blank_line,\
@@ -28,7 +28,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
  }
  
  #define cdj_1600_device(procs, dev_name, x_dpi, y_dpi, bpp, print_page, correction, quality, papertype, intensities,ptype,compression,mastergamma,gammavalc,gammavalm,gammavaly,gammavalk,blackcorrect,start_raster_mode,print_non_blank_line,terminate_page)\
-@@ -674,7 +675,7 @@
+@@ -678,7 +679,7 @@
      blackcorrect,\
      start_raster_mode,\
      print_non_blank_line,\
@@ -37,7 +37,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
  }
  
  /* HP2200 and DNJ500 is a RGB printer */
-@@ -694,7 +695,7 @@
+@@ -698,7 +699,7 @@
      blackcorrect,\
      start_raster_mode,\
      print_non_blank_line,\
@@ -46,7 +46,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
  }
  
  #define cmyk_colour_procs(proc_colour_open, proc_get_params, proc_put_params, \
-@@ -1052,6 +1053,7 @@
+@@ -1056,6 +1057,7 @@
      if (code < 0 ||
          (code = param_write_int(plist, "Quality", &cdj850->quality)) < 0 ||
          (code = param_write_int(plist, "Papertype", &cdj850->papertype)) < 0 ||
@@ -54,7 +54,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
          (code = param_write_float(plist, "MasterGamma", &cdj850->gammavalc))
          < 0 ||
          (code = param_write_float(plist, "GammaValC", &cdj850->gammavalc)) <
-@@ -1075,6 +1077,7 @@
+@@ -1079,6 +1081,7 @@
  {
      int quality = cdj850->quality;
      int papertype = cdj850->papertype;
@@ -62,7 +62,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
      float mastergamma = cdj850->mastergamma;
      float gammavalc = cdj850->gammavalc;
      float gammavalm = cdj850->gammavalm;
-@@ -1087,6 +1090,7 @@
+@@ -1091,6 +1094,7 @@
      code = cdj_put_param_int(plist, "BitsPerPixel", &bpp, 1, 32, code);
      code = cdj_put_param_int(plist, "Quality", &quality, 0, 2, code);
      code = cdj_put_param_int(plist, "Papertype", &papertype, 0, 4, code);
@@ -70,7 +70,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
      code = cdj_put_param_float(plist, "MasterGamma", &mastergamma, 0.1, 9.0, code);
      code = cdj_put_param_float(plist, "GammaValC", &gammavalc, 0.0, 9.0, code);
      code = cdj_put_param_float(plist, "GammaValM", &gammavalm, 0.0, 9.0, code);
-@@ -1103,6 +1107,7 @@
+@@ -1107,6 +1111,7 @@
  
      cdj850->quality = quality;
      cdj850->papertype = papertype;
@@ -78,7 +78,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
      cdj850->mastergamma = mastergamma;
      cdj850->gammavalc = gammavalc;
      cdj850->gammavalm = gammavalm;
-@@ -1155,7 +1160,13 @@
+@@ -1159,7 +1164,13 @@
                          gx_device_printer * pdev,
                          struct error_val_field *error_values);
  static int
@@ -93,7 +93,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
             const byte * cvalues, const byte * mvalues,
             const byte * yvalues, const int *kcorrect,
             word * inword);
-@@ -2018,7 +2029,10 @@
+@@ -2024,7 +2035,10 @@
          }
          /* Skip blank lines if any */
          if (num_blank_lines > 0) {
@@ -104,7 +104,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
              memset(data_ptrs->plane_data[0][0], 0,
                     (misc_vars->plane_size * 2 * misc_vars->num_comps));
              memset(data_ptrs->plane_data_c[0][0], 0,
-@@ -2028,7 +2042,10 @@
+@@ -2034,7 +2048,10 @@
          /* all blank lines printed, now for the non-blank lines */
          if (cdj850->yscal && odd(lnum)) {
              /* output a blank black plane for odd lines */
@@ -115,7 +115,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
          }
          /* now output all non blank lines */
          while (lnum < lend && llen != 0) {
-@@ -2054,9 +2071,11 @@
+@@ -2060,9 +2077,11 @@
      int out_count = gdev_pcl_mode9compress(plane_size, curr, prev, out_data);
  
      /* and output the data */
@@ -128,7 +128,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
      }
  }
  
-@@ -2113,15 +2132,22 @@
+@@ -2121,15 +2140,22 @@
      byte *dp = data_ptrs->data[misc_vars->scan + 2];
      int *ep = data_ptrs->errors[misc_vars->scan];
  
@@ -153,7 +153,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
  
      /* dithering the black-plane */
      FSDlinebw(misc_vars->scan, misc_vars->plane_size,
-@@ -2191,15 +2217,22 @@
+@@ -2199,15 +2225,22 @@
      byte *dp = data_ptrs->data[misc_vars->scan + 2];
      int *ep = data_ptrs->errors[misc_vars->scan];
  
@@ -178,7 +178,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
  
      /* dithering the black-plane */
      FSDlinebw(misc_vars->scan, misc_vars->plane_size,
-@@ -2408,7 +2441,7 @@
+@@ -2410,7 +2443,7 @@
     do real color separation, here we try a real grey component
     replacement */
  static int
@@ -187,7 +187,16 @@ Jakub Bogusz <qboosh@pld-linux.org>
         const byte cvalues[256], const byte mvalues[256],
         const byte yvalues[256], const int kcorrect[256],
         word * inword)
-@@ -2449,11 +2482,12 @@
+@@ -2420,7 +2453,7 @@
+   word last_color_value = 0;
+   word *last_color;
+ 
+-  /* initialise *last_color with a dummmy value */
++  /* initialise *last_color with a dummy value */
+   last_color = &last_color_value;
+   /* Grey component replacement */
+   for (i = 0; i < bytecount; i += 4) {
+@@ -2450,11 +2483,12 @@
        /* Test whether we 've already computet the value */
        if (*inword == last_color_value) {
          /* save a copy of the current color before it will be modified */
@@ -201,19 +210,19 @@ Jakub Bogusz <qboosh@pld-linux.org>
          /* save a copy of the current color before it will be modified */
          last_color_value = *inword;
    NOBLACK(cyan, magenta, yellow, black);
-@@ -2490,6 +2524,7 @@
-       debug_print_string(output, strlen(output));
-     }
+@@ -2492,6 +2526,7 @@
+           debug_print_string(output, strlen(output));
+         }
  #endif /* 0 */
-+          /* XXX: how byte could be >255??? --q */
-           if (   *cyan > 255)    *cyan = 255;
-           if (*magenta > 255) *magenta = 255;
-           if ( *yellow > 255)  *yellow = 255;
-@@ -2497,6 +2532,95 @@
-           *cyan = *(cvalues + *cyan);
-           *magenta = *(mvalues + *magenta);
-           *yellow = *(yvalues + *yellow);
-+	  last_color =  inword; /* save pointer */
++        /* XXX: how byte could be >255??? --q */
+         if (   *cyan > 255)    *cyan = 255;
+         if (*magenta > 255) *magenta = 255;
+         if ( *yellow > 255)  *yellow = 255;
+@@ -2499,6 +2534,96 @@
+         *cyan = *(cvalues + *cyan);
+         *magenta = *(mvalues + *magenta);
+         *yellow = *(yvalues + *yellow);
++        last_color =  inword; /* save pointer */
 +      }/* end current_color */
 +    }			/* end of if c+m+y > 0 */
 +    *black = *(kvalues + *black);
@@ -233,15 +242,14 @@ Jakub Bogusz <qboosh@pld-linux.org>
 +  byte *black, *cyan, *magenta, *yellow;
 +  word last_color_value = 0;
 +  word *last_color;
-+  char output[255], out2[128];
 +
-+  /* initialise *last_color with a dummmy value */
++  /* initialise *last_color with a dummy value */
 +  last_color = &last_color_value;
 +  /* Grey component replacement */
 +  for (i = 0; i < bytecount; i += 4) {
-+    
++
 +    /* Assign to black the current address of  inbyte */
-+    black = inbyte++;	
++    black = inbyte++;
 +    cyan = inbyte++;
 +    magenta = inbyte++;
 +    yellow = inbyte++;
@@ -251,14 +259,15 @@ Jakub Bogusz <qboosh@pld-linux.org>
 +#if 0
 +      if ((*cyan > 0) && (*magenta > 0) && (*yellow > 0))
 +      {
-+        sprintf(output, "%3d %3d %3d %3d - ", *cyan, *magenta, *yellow, *black);
++        char output[255];
++        gs_sprintf(output, "%3d %3d %3d %3d - ", *cyan, *magenta, *yellow, *black);
 +        debug_print_string(output, strlen(output));
 +      }
 +#endif /* 0 */
-+      
++
 +      is_color = 1;
 +
-+      /* Test whether we've already computed the value */
++      /* Test whether we 've already computet the value */
 +      if (*inword == last_color_value) {
 +/*	debug_print_string("\n", 1);*/
 +        /* copy the result of the old value onto the new position */
@@ -268,7 +277,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
 +        last_color_value = *inword;
 +        if ((*cyan >= *magenta)
 +            && (*magenta >= *yellow)
-+            && (*yellow > 0)) { /* if any grey component */
++            && (*yellow > 0)) {	/* if any grey component */
 +          DOGCR(cyan, magenta, yellow, black);
 +        } else if ((*cyan >= *yellow)
 +                   && (*yellow >= *magenta)
@@ -290,18 +299,19 @@ Jakub Bogusz <qboosh@pld-linux.org>
 +                   && (*cyan >= *yellow)
 +                   && (*yellow > 0)) {
 +          DOGCR(magenta, cyan, yellow, black);
-+        } else {                /* do gamma only if no black */
++        } else {		/* do gamma only if no black */
 +        }
 +#if 0
-+          if (ucr > 0)
-+          {
-+      sprintf(output, "%3d %3d %3d %3d - %5d\n", *cyan, *magenta, *yellow, *black, ucr);
-+      debug_print_string(output, strlen(output));
-+    }
++        if (ucr > 0)
++        {
++          char output[255];
++          gs_sprintf(output, "%3d %3d %3d %3d - %5d\n", *cyan, *magenta, *yellow, *black, ucr);
++          debug_print_string(output, strlen(output));
++        }
 +#endif /* 0 */
-+          *cyan = *(cvalues + *cyan);
-+          *magenta = *(mvalues + *magenta);
-+          *yellow = *(yvalues + *yellow);
-           last_color =  inword; /* save pointer */
++        *cyan = *(cvalues + *cyan);
++        *magenta = *(mvalues + *magenta);
++        *yellow = *(yvalues + *yellow);
+         last_color =  inword; /* save pointer */
        }/* end current_color */
      }			/* end of if c+m+y > 0 */
