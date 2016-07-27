@@ -20,7 +20,7 @@ Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	9.19
 Release:	1
-License:	GPL v3+
+License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
 Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs919/%{name}-%{version}.tar.bz2
