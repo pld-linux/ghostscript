@@ -18,13 +18,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.19
+Version:	9.20
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs919/%{name}-%{version}.tar.bz2
-# Source0-md5:	8dc536f97bff762791709ca6d64fc44c
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs920/%{name}-%{version}.tar.xz
+# Source0-md5:	8f3d383d48da22345937b66b01ab2960
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -68,6 +68,7 @@ BuildRequires:	tetex-dvips
 %endif
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
+BuildRequires:	xz
 BuildRequires:	zlib-devel >= 1.2.8
 %{?with_system_lcms2:Requires:	lcms2 >= 2.6}
 Obsoletes:	ghostscript-afpl
