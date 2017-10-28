@@ -18,19 +18,19 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.20
-Release:	2
+Version:	9.22
+Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs920/%{name}-%{version}.tar.xz
-# Source0-md5:	8f3d383d48da22345937b66b01ab2960
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs922/%{name}-%{version}.tar.xz
+# Source0-md5:	684c5371e52215f7289d2c32737e4def
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-setuid.patch
 Patch2:		ijs-pkgconfig.patch
-Patch3:		%{name}-svga-shared.patch
+
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch8:		%{name}-zlib.patch
 
@@ -221,7 +221,6 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %patch6 -p1
 %patch8 -p1
@@ -328,7 +327,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/dvipdf
 %attr(755,root,root) %{_bindir}/eps2eps
-%attr(755,root,root) %{_bindir}/font2c
 %attr(755,root,root) %{_bindir}/ghostscript
 %attr(755,root,root) %{_bindir}/gs
 %attr(755,root,root) %{_bindir}/gsbj
@@ -353,7 +351,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ps2ps
 %attr(755,root,root) %{_bindir}/ps2ps2
 %attr(755,root,root) %{_bindir}/pphs
-%attr(755,root,root) %{_bindir}/wftopfa
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgs.so.9
 %dir %{_libdir}/%{name}
@@ -372,7 +369,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{version}/lib/*.x[bp]m
 %{_mandir}/man1/dvipdf.1*
 %{_mandir}/man1/eps2eps.1*
-%{_mandir}/man1/font2c.1*
 %{_mandir}/man1/ghostscript.1*
 %{_mandir}/man1/gs.1*
 %{_mandir}/man1/gsbj.1*
@@ -394,7 +390,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ps2pdf14.1*
 %{_mandir}/man1/ps2pdfwr.1*
 %{_mandir}/man1/ps2ps.1*
-%{_mandir}/man1/wftopfa.1*
 %lang(cs) %{_mandir}/cs/man1/*
 %lang(de) %{_mandir}/de/man1/*
 %lang(es) %{_mandir}/es/man1/*

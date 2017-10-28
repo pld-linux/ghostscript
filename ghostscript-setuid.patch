@@ -40,43 +40,4 @@
  
      gs_get_real_stdio(stdfiles);
      arg_init(&args, (const char **)argv, argc,
---- gs/devices/gdevl256.c.orig	Mon Jan 11 07:38:07 1999
-+++ gs/devices/gdevl256.c	Thu Mar 30 23:03:57 2000
-@@ -38,6 +38,17 @@
- #include <vga.h>
- #include <vgagl.h>
- 
-+/* Change by Torsten Landschoff <torsten@debian.org>:
-+ * I changed imainarg.c to drop privileges as soon as possible when 
-+ * running setuid. We need to get back elevated rights when we want 
-+ * to open the vga library. Declare the two variables from imainarg.c
-+ * holding the privileges and include unistd.h for user management.
-+ *  -- Thu, 30 Mar 2000 22:59:53 +0200 */
-+
-+#include <unistd.h>
-+extern uid_t privileged_uid;
-+extern gid_t privileged_gid;
-+
- /* The color map for dynamically assignable colors. */
- #define first_dc_index 64
- private int next_dc_index;
-@@ -107,7 +118,19 @@
-     int vgamode;
-     int width, height;
- 
-+    /* Change by Torsten Landschoff <torsten@debian.org>:
-+     * We need to restore the privileges we gave up in imainarg.c to open
-+     * the vga device. 
-+     * -- Thu, 30 Mar 2000 23:03:12 +0200 */
-+
-+    /* re-obtain privileges */
-+    seteuid( privileged_uid );	setegid( privileged_gid );
-     vga_init();
-+    /* give away privileges */
-+    seteuid( getuid() );	setegid( getgid() );
-+
-+    /* --- end change --- */
-+
-     vgamode = vga_getdefaultmode();
-     if (vgamode == -1)
- 	vgamode = G320x200x256;
+
