@@ -6,7 +6,7 @@
 %bcond_without	cairo		# disable cairo support (for cairo bootstrap)
 %bcond_without	system_freetype	# build with included freetype
 %bcond_without	system_jbig2dec	# build with included jbig2dec
-%bcond_without	system_lcms2	# build with included lcms2
+%bcond_with	system_lcms2	# build with included lcms2 (which is thread safe)
 %bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
 %bcond_without	gtk		# gsx (GTK+ based frontend)
 %bcond_without	texdocs		# skip tetex BRs
@@ -18,13 +18,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.22
+Version:	9.24
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs922/%{name}-%{version}.tar.xz
-# Source0-md5:	684c5371e52215f7289d2c32737e4def
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs924/%{name}-%{version}.tar.xz
+# Source0-md5:	258c73e4ec0da94c95ea3cbd2968889a
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -241,8 +241,8 @@ Statyczna wersja biblioteki IJS.
 %{__rm} -r libpng zlib
 # (unmodified) libjpeg 9a is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 # openjpeg is 2.1.0 + fixes; stick to bundled for now
-# lcms2 is 2.6 with some minor future changes (one already in 2.7, two post-2.7, extra_xform.h ???)
-%{?with_system_lcms2:%{__rm} -r lcms2}
+# lcms2mt is thread safe version of lcms2
+%{?with_system_lcms2:%{__rm} -r lcms2mt}
 %{__aclocal}
 %{__autoconf}
 %configure \
@@ -360,7 +360,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{version}/Resource
 %{_datadir}/%{name}/%{version}/iccprofiles
 %dir %{_datadir}/%{name}/%{version}/lib
-%{_datadir}/%{name}/%{version}/examples
 %{_datadir}/%{name}/%{version}/lib/*.ppd
 %{_datadir}/%{name}/%{version}/lib/*.ps
 %{_datadir}/%{name}/%{version}/lib/*.rpd
