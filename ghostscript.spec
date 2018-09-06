@@ -7,7 +7,6 @@
 %bcond_without	system_freetype	# build with included freetype
 %bcond_without	system_jbig2dec	# build with included jbig2dec
 %bcond_with	system_lcms2	# build with included lcms2 (which is thread safe)
-%bcond_with	svga		# svgalib display support (vgalib,lvga256 devices) [broken in sources]
 %bcond_without	gtk		# gsx (GTK+ based frontend)
 %bcond_without	texdocs		# skip tetex BRs
 
@@ -28,12 +27,10 @@ Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
-Patch1:		%{name}-setuid.patch
 Patch2:		ijs-pkgconfig.patch
 
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch8:		%{name}-zlib.patch
-
 
 # fedora
 Patch20:	%{name}-scripts.patch
@@ -45,22 +42,21 @@ URL:		http://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake >= 1.6
 %{?with_cairo:BuildRequires:	cairo-devel >= 1.2.0}
+BuildRequires:	cups-devel >= 1.5
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.6}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.9.1}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.12}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.15}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
 BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 2:1.6.17
+BuildRequires:	libpng-devel >= 2:1.6.34
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel >= 4.0.1
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
-# Required by 'gdevvglb' device.
-%{?with_svga:BuildRequires:	svgalib-devel}
 BuildRequires:	tar >= 1:1.22
 # for documentation regeneration
 %if %{with texdocs}
@@ -70,11 +66,16 @@ BuildRequires:	tetex-dvips
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
-BuildRequires:	zlib-devel >= 1.2.8
+BuildRequires:	zlib-devel >= 1.2.11
+%{?with_system_freetype:Requires:	freetype >= 1:2.9.1}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.15}
 %{?with_system_lcms2:Requires:	lcms2 >= 2.6}
+Requires:	libpng >= 2:1.6.34
+Requires:	zlib >= 1.2.11
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
 Obsoletes:	ghostscript-gpl
+Obsoletes:	ghostscript-svga
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_ulibdir        %{_prefix}/lib
@@ -126,18 +127,6 @@ Ghostscript with GTK+ console.
 
 %description gtk -l pl.UTF-8
 Ghostscript z konsolą GTK+.
-
-%package svga
-Summary:	SVGAlib drivers for Ghostscript
-Summary(pl.UTF-8):	Sterowniki SVGAlib dla Ghostscripta
-Group:		Applications/Graphics
-Requires:	%{name} = %{version}-%{release}
-
-%description svga
-SVGAlib output drivers for Ghostscript: lvga256, vgalib.
-
-%description svga -l pl.UTF-8
-Sterowniki wyjściowe SVGAlib dla Ghostscripta: lvga256, vgalib.
 
 %package x11
 Summary:	X Window System drivers for Ghostscript
@@ -219,7 +208,6 @@ Statyczna wersja biblioteki IJS.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 
 %patch6 -p1
@@ -233,14 +221,14 @@ Statyczna wersja biblioteki IJS.
 
 %build
 # use system libs:
-# freetype 2.5.5 + few pre-2.6 fixes from git
+# freetype 2.9.1 + 2 git fixes (e0015f7612cf07ff80561475321ce1f98c7c2b88 + f1458d2e44d89e8bc7c0db068f1cbc54b74b9d98)
 %{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.12 + minor updates
+# jbig2dec 0.15 just before version bump
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
-# (unmodified) libpng 1.6.17 and zlib 1.2.8
+# (unmodified) libpng 1.6.34 and zlib 1.2.11
 %{__rm} -r libpng zlib
-# (unmodified) libjpeg 9a is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
-# openjpeg is 2.1.0 + fixes; stick to bundled for now
+# libjpeg (9c without CLAMP_DC fixes) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# openjpeg is 2.3.0 + few custom fixes; stick to bundled for now
 # lcms2mt is thread safe version of lcms2
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
 %{__aclocal}
@@ -250,7 +238,7 @@ Statyczna wersja biblioteki IJS.
 	%{!?with_cairo:--disable-cairo} \
 	--disable-compile-inits \
 	--enable-dynamic \
-	--with-drivers=ALL%{?with_svga:,svga} \
+	--with-drivers=ALL \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
 	--with-jbig2dec \
@@ -290,6 +278,8 @@ rm -rf $RPM_BUILD_ROOT
 
 cp -p base/gserrors.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
+cp -p LICENSE $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/*.sh \
 	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},eps2eps}.1 \
 	$RPM_BUILD_ROOT%{_mandir}/de/man1/{ps2pdf1{2,3},eps2eps}.1
@@ -310,7 +300,6 @@ echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf13.1
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/README.ghostscript-non-english-man-pages
 
-#mv -f $RPM_BUILD_ROOT%{_bindir}/{gsc,gs}
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/gsc
 ln -sf gs $RPM_BUILD_ROOT%{_bindir}/ghostscript
 
@@ -396,19 +385,13 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_mandir}/pl/man1/*
 
 %files doc
+%defattr(644,root,root,755)
 %doc %{_docdir}/%{name}-%{version}
 
 %if %{with gtk}
 %files gtk
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gsx
-%endif
-
-%if %{with svga}
-%files svga
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}/%{version}/lvga256.so
-%attr(755,root,root) %{_libdir}/%{name}/%{version}/vgalib.so
 %endif
 
 %files x11
