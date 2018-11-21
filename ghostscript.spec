@@ -17,13 +17,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.25
+Version:	9.26
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs925/%{name}-%{version}.tar.xz
-# Source0-md5:	d5ac3f3d76cf82a549bafdf86d58395b
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/%{name}-%{version}.tar.xz
+# Source0-md5:	d86d8e0b368473ca955a94faa5c390d4
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
