@@ -39,7 +39,7 @@ Patch27:	%{name}-Fontmap.local.patch
 Patch28:	%{name}-iccprofiles-initdir.patch
 
 URL:		http://www.ghostscript.com/
-BuildRequires:	autoconf >= 2.57
+BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1.6
 %{?with_cairo:BuildRequires:	cairo-devel >= 1.2.0}
 BuildRequires:	cups-devel >= 1.5
@@ -54,7 +54,7 @@ BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 2:1.6.34
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtiff-devel >= 4.0.1
+BuildRequires:	libtiff-devel >= 4.0.9
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
@@ -63,6 +63,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	tetex
 BuildRequires:	tetex-dvips
 %endif
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
@@ -71,6 +72,7 @@ BuildRequires:	zlib-devel >= 1.2.11
 %{?with_system_jbig2dec:Requires:	jbig2dec >= 0.15}
 %{?with_system_lcms2:Requires:	lcms2 >= 2.6}
 Requires:	libpng >= 2:1.6.34
+Requires:	libtiff >= 4.0.9
 Requires:	zlib >= 1.2.11
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
@@ -223,7 +225,7 @@ Statyczna wersja biblioteki IJS.
 # use system libs:
 # freetype 2.9.1 + 2 git fixes (e0015f7612cf07ff80561475321ce1f98c7c2b88 + f1458d2e44d89e8bc7c0db068f1cbc54b74b9d98)
 %{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.15 just before version bump
+# jbig2dec 0.15 with some logging improvements + signedness fixes
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
 # (unmodified) libpng 1.6.34 and zlib 1.2.11
 %{__rm} -r libpng zlib
