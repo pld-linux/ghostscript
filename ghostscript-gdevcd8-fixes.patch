@@ -93,36 +93,36 @@ Jakub Bogusz <qboosh@pld-linux.org>
             const byte * cvalues, const byte * mvalues,
             const byte * yvalues, const int *kcorrect,
             word * inword);
-@@ -2024,7 +2035,10 @@
+@@ -2035,7 +2035,10 @@ send_scan_lines(gx_device_printer * pdev
          }
          /* Skip blank lines if any */
          if (num_blank_lines > 0) {
-+          if(cdj850->ptype == DJ880C)
-             fprintf(prn_stream, "\033*b%dY", num_blank_lines / (cdj850->yscal + 1));
-+          else /* still in *b if not dj880 */
-+            fprintf(prn_stream, "%dy", num_blank_lines / (cdj850->yscal + 1));
++            if(cdj850->ptype == DJ880C)
+             gp_fprintf(prn_stream, "\033*b%dY", num_blank_lines / (cdj850->yscal + 1));
++            else /* still in *b if not dj880 */
++                fprintf(prn_stream, "%dy", num_blank_lines / (cdj850->yscal + 1));
              memset(data_ptrs->plane_data[0][0], 0,
                     (misc_vars->plane_size * 2 * misc_vars->num_comps));
              memset(data_ptrs->plane_data_c[0][0], 0,
-@@ -2034,7 +2048,10 @@
+@@ -2045,7 +2048,10 @@ send_scan_lines(gx_device_printer * pdev
          /* all blank lines printed, now for the non-blank lines */
          if (cdj850->yscal && odd(lnum)) {
              /* output a blank black plane for odd lines */
-+       	  if(cdj850->ptype == DJ880C)
-             fprintf(prn_stream, "\033*b0V");
-+          else /* still in *b if not dj880 */
-+       	    putc('v', prn_stream);
++            if(cdj850->ptype == DJ880C)
+             gp_fprintf(prn_stream, "\033*b0V");
++            else /* still in *b if not dj880 */
++                putc('v', prn_stream);
          }
          /* now output all non blank lines */
          while (lnum < lend && llen != 0) {
-@@ -2060,9 +2077,11 @@
+@@ -2077,9 +2077,11 @@ print_c9plane(gp_file * prn_stream, char
      int out_count = gdev_pcl_mode9compress(plane_size, curr, prev, out_data);
  
      /* and output the data */
--        fprintf(prn_stream, "%d%c", out_count, plane_code);
+-        gp_fprintf(prn_stream, "%d%c", out_count, plane_code);
      if (out_count > 0) {
-+        fprintf(prn_stream, "%d%c", out_count, plane_code);
-         fwrite(out_data, sizeof(byte), out_count, prn_stream);
++        gp_fprintf(prn_stream, "%d%c", out_count, plane_code);
+         gp_fwrite(out_data, sizeof(byte), out_count, prn_stream);
 +    } else { /* single plane_code is sufficient for cdj850 */
 +        putc(plane_code, prn_stream);
      }

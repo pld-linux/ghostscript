@@ -17,13 +17,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.26
-Release:	2
+Version:	9.50
+Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/%{name}-%{version}.tar.xz
-# Source0-md5:	d86d8e0b368473ca955a94faa5c390d4
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs950/%{name}-%{version}.tar.xz
+# Source0-md5:	6cea6bae4a7cdfac6ccb09f07f0caf8c
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -34,7 +34,7 @@ Patch8:		%{name}-zlib.patch
 
 # fedora
 Patch20:	%{name}-scripts.patch
-Patch21:	%{name}-runlibfileifexists.patch
+
 Patch27:	%{name}-Fontmap.local.patch
 Patch28:	%{name}-iccprofiles-initdir.patch
 
@@ -48,7 +48,7 @@ BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
 %{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.9.1}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.15}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.16}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
 BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
@@ -69,7 +69,7 @@ BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
 BuildRequires:	zlib-devel >= 1.2.11
 %{?with_system_freetype:Requires:	freetype >= 1:2.9.1}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.15}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.16}
 %{?with_system_lcms2:Requires:	lcms2 >= 2.6}
 Requires:	libpng >= 2:1.6.34
 Requires:	libtiff >= 4.0.9
@@ -216,7 +216,6 @@ Statyczna wersja biblioteki IJS.
 %patch8 -p1
 
 %patch20 -p1
-%patch21 -p1
 
 %patch27 -p1
 %patch28 -p1
