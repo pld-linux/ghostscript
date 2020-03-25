@@ -46,15 +46,15 @@ BuildRequires:	cups-devel >= 1.5
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.9.1}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.1}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.16}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.18}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
 BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 2:1.6.34
+BuildRequires:	libpng-devel >= 2:1.6.37
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtiff-devel >= 4.0.9
+BuildRequires:	libtiff-devel >= 4.1.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
@@ -68,11 +68,11 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
 BuildRequires:	zlib-devel >= 1.2.11
-%{?with_system_freetype:Requires:	freetype >= 1:2.9.1}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.16}
+%{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.18}
 %{?with_system_lcms2:Requires:	lcms2 >= 2.6}
-Requires:	libpng >= 2:1.6.34
-Requires:	libtiff >= 4.0.9
+Requires:	libpng >= 2:1.6.37
+Requires:	libtiff >= 4.1.0
 Requires:	zlib >= 1.2.11
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
@@ -222,14 +222,14 @@ Statyczna wersja biblioteki IJS.
 
 %build
 # use system libs:
-# freetype 2.9.1 + 2 git fixes (e0015f7612cf07ff80561475321ce1f98c7c2b88 + f1458d2e44d89e8bc7c0db068f1cbc54b74b9d98)
+# freetype 2.10.1
 %{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.15 with some logging improvements + signedness fixes
+# jbig2dec 0.18 with some logging improvements + signedness fixes
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
-# (unmodified) libpng 1.6.34 and zlib 1.2.11
+# (unmodified) libpng 1.6.37 and zlib 1.2.11
 %{__rm} -r libpng zlib
 # libjpeg (9c without CLAMP_DC fixes) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
-# openjpeg is 2.3.0 + few custom fixes; stick to bundled for now
+# openjpeg is 2.3.1 + few custom fixes; stick to bundled for now
 # lcms2mt is thread safe version of lcms2
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
 %{__aclocal}
