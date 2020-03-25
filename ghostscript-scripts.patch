@@ -1,8 +1,8 @@
---- ghostscript-9.50/lib/dvipdf~	2020-02-08 14:08:18.000000000 +0100
-+++ ghostscript-9.50/lib/dvipdf	2020-02-08 14:08:59.816231793 +0100
-@@ -43,4 +43,4 @@ fi
+--- ghostscript-9.52/lib/dvipdf.orig	2020-03-25 20:13:05.661055134 +0100
++++ ghostscript-9.52/lib/dvipdf	2020-03-25 20:14:25.977286690 +0100
+@@ -43,4 +43,4 @@
  
  # We have to include the options twice because -I only takes effect if it
  # appears before other options.
--exec dvips -Ppdf $DVIPSOPTIONS -q -f "$infile" | $GS_EXECUTABLE $OPTIONS -q -P- -dSAFER -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sstdout=%stderr -sOutputFile="$outfile" $OPTIONS
-+exec dvips -R -Ppdf $DVIPSOPTIONS -q -f "$infile" | $GS_EXECUTABLE $OPTIONS -q -P- -dSAFER -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sstdout=%stderr -sOutputFile="$outfile" $OPTIONS
+-exec dvips -Ppdf $DVIPSOPTIONS -q -f "$infile" | $GS_EXECUTABLE $OPTIONS -q -P- -dSAFER -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sstdout=%stderr -sOutputFile="$outfile" $OPTIONS -
++exec dvips -R -Ppdf $DVIPSOPTIONS -q -f "$infile" | $GS_EXECUTABLE $OPTIONS -q -P- -dSAFER -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sstdout=%stderr -sOutputFile="$outfile" $OPTIONS -
