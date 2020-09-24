@@ -1,11 +1,14 @@
 # TODO:
+# - tesseract OCR support (experimental)
 # - add djvu driver:
 #   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
 #
 # Conditional build:
-%bcond_without	cairo		# disable cairo support (for cairo bootstrap)
-%bcond_without	system_freetype	# build with included freetype
-%bcond_without	system_jbig2dec	# build with included jbig2dec
+%bcond_without	cairo		# cairo support (disable for cairo bootstrap)
+%bcond_without	system_freetype	# system freetype
+%bcond_without	system_jbig2dec	# system jbig2dec
+%bcond_with	system_libjpeg	# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
+%bcond_with	system_libtiff	# system libtiff (incompatible with modified libjpeg)
 %bcond_with	system_lcms2	# build with included lcms2 (which is thread safe)
 %bcond_without	gtk		# gsx (GTK+ based frontend)
 %bcond_without	texdocs		# skip tetex BRs
@@ -17,13 +20,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.52
-Release:	2
+Version:	9.53.1
+Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/%{name}-%{version}.tar.xz
-# Source0-md5:	2dd455dba172010b46225819a5485389
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9531/%{name}-%{version}.tar.xz
+# Source0-md5:	3052b8787050a5d33eb2c2e9c9723766
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -47,13 +50,14 @@ BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
 %{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.1}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.18}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.19}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
 BuildRequires:	libidn-devel
+%{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9c}
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 2:1.6.37
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtiff-devel >= 4.1.0
+%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.1.0}
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	tar >= 1:1.22
@@ -68,10 +72,11 @@ BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
 BuildRequires:	zlib-devel >= 1.2.11
 %{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.18}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.19}
 %{?with_system_lcms2:Requires:	lcms2 >= 2.6}
+%{?with_system_libjpeg:Requires:	libjpeg >= 9c}
 Requires:	libpng >= 2:1.6.37
-Requires:	libtiff >= 4.1.0
+%{?with_system_libtiff:Requires:	libtiff >= 4.1.0}
 Requires:	zlib >= 1.2.11
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
@@ -222,11 +227,12 @@ Statyczna wersja biblioteki IJS.
 # use system libs:
 # freetype 2.10.1
 %{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.18 with some logging improvements + signedness fixes
+# jbig2dec 0.19
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
 # (unmodified) libpng 1.6.37 and zlib 1.2.11
 %{__rm} -r libpng zlib
 # libjpeg (9c without CLAMP_DC fixes) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+%{?with_system_libjpeg:%{__rm} -r jpeg}
 # openjpeg is 2.3.1 + few custom fixes; stick to bundled for now
 # lcms2mt is thread safe version of lcms2
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
@@ -242,7 +248,7 @@ Statyczna wersja biblioteki IJS.
 	--with-ijs \
 	--with-jbig2dec \
 	--with-pdftoraster \
-	--with-system-libtiff \
+	%{?with_system_libtiff:--with-system-libtiff} \
 	--with-x
 
 cd ijs
@@ -351,7 +357,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/%{version}/lib/*.ppd
 %{_datadir}/%{name}/%{version}/lib/*.ps
 %{_datadir}/%{name}/%{version}/lib/*.rpd
-%{_datadir}/%{name}/%{version}/lib/*.src
 %{_datadir}/%{name}/%{version}/lib/*.upp
 %{_datadir}/%{name}/%{version}/lib/*.x[bp]m
 %{_mandir}/man1/dvipdf.1*
