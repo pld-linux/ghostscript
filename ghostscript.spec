@@ -37,6 +37,7 @@ Patch8:		%{name}-zlib.patch
 
 # fedora
 Patch20:	%{name}-scripts.patch
+Patch21:	%{name}-9.53.3-drop-ft-callback-def.patch
 
 Patch28:	%{name}-iccprofiles-initdir.patch
 
@@ -220,6 +221,7 @@ Statyczna wersja biblioteki IJS.
 %patch8 -p1
 
 %patch20 -p1
+%patch21 -p1
 
 %patch28 -p1
 
