@@ -225,7 +225,6 @@ Statyczna wersja biblioteki IJS.
 
 %patch28 -p1
 
-%build
 # use system libs:
 # freetype 2.10.1
 %{?with_system_freetype:%{__rm} -r freetype}
@@ -238,6 +237,8 @@ Statyczna wersja biblioteki IJS.
 # openjpeg is 2.3.1 + few custom fixes; stick to bundled for now
 # lcms2mt is thread safe version of lcms2
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
+
+%build
 %{__aclocal}
 %{__autoconf}
 %configure \
