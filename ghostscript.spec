@@ -164,9 +164,7 @@ Pliki nagłówkowe libgs - współdzielonej biblioteki ghostscript.
 %package doc
 Summary:	Documentation for ghostscript
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description doc
 The documentation files that come with ghostscript.
