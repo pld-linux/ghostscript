@@ -1,5 +1,4 @@
 # TODO:
-# - tesseract OCR support (experimental)
 # - add djvu driver:
 #   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
 #
@@ -9,6 +8,7 @@
 %bcond_without	system_jbig2dec	# system jbig2dec
 %bcond_with	system_libjpeg	# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
 %bcond_with	system_libtiff	# system libtiff (incompatible with modified libjpeg)
+%bcond_without	system_openjp2	# system openjpeg2
 %bcond_with	system_lcms2	# build with included lcms2 (which is thread safe)
 %bcond_without	gtk		# gsx (GTK+ based frontend)
 %bcond_without	texdocs		# skip tetex BRs
@@ -20,24 +20,25 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.53.1
+Version:	9.54.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9531/%{name}-%{version}.tar.xz
-# Source0-md5:	3052b8787050a5d33eb2c2e9c9723766
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9540/%{name}-%{version}.tar.xz
+# Source0-md5:	72535d31018129a1a8ff636a47ba1f92
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
+Patch1:		%{name}-a4.patch
 Patch2:		ijs-pkgconfig.patch
+Patch3:		%{name}-tiff.patch
 
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch8:		%{name}-zlib.patch
 
 # fedora
 Patch20:	%{name}-scripts.patch
-Patch21:	%{name}-9.53.3-drop-ft-callback-def.patch
 
 Patch28:	%{name}-iccprofiles-initdir.patch
 
@@ -49,7 +50,7 @@ BuildRequires:	cups-devel >= 1.5
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.1}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.4}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.19}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
@@ -58,9 +59,10 @@ BuildRequires:	libidn-devel
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 2:1.6.37
 BuildRequires:	libstdc++-devel
-%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.1.0}
+%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.2.0}
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	tar >= 1:1.22
 # for documentation regeneration
 %if %{with texdocs}
@@ -72,12 +74,12 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
 BuildRequires:	zlib-devel >= 1.2.11
-%{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
+%{?with_system_freetype:Requires:	freetype >= 1:2.10.4}
 %{?with_system_jbig2dec:Requires:	jbig2dec >= 0.19}
 %{?with_system_lcms2:Requires:	lcms2 >= 2.6}
 %{?with_system_libjpeg:Requires:	libjpeg >= 9c}
 Requires:	libpng >= 2:1.6.37
-%{?with_system_libtiff:Requires:	libtiff >= 4.1.0}
+%{?with_system_libtiff:Requires:	libtiff >= 4.2.0}
 Requires:	zlib >= 1.2.11
 Obsoletes:	ghostscript-afpl
 Obsoletes:	ghostscript-esp
@@ -213,18 +215,19 @@ Statyczna wersja biblioteki IJS.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %patch6 -p1
 %patch8 -p1
 
 %patch20 -p1
-%patch21 -p1
 
 %patch28 -p1
 
 # use system libs:
-# freetype 2.10.1
+# freetype 2.10.4
 %{?with_system_freetype:%{__rm} -r freetype}
 # jbig2dec 0.19
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
@@ -232,15 +235,17 @@ Statyczna wersja biblioteki IJS.
 %{__rm} -r libpng zlib
 # libjpeg (9c without CLAMP_DC fixes) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 %{?with_system_libjpeg:%{__rm} -r jpeg}
-# openjpeg is 2.3.1 + few custom fixes; stick to bundled for now
-# lcms2mt is thread safe version of lcms2
+# lcms2mt is thread safe version of lcms2 2.10
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
+# leptonica 1.81.0-git (for tesseract), no switch to use system
+# openjpeg 2.4.0
+%{?with_system_openjp2:%{__rm} -r openjpeg}
+# tesseract 5.0.0-alpha, no switch to use system
 
 %build
 %{__aclocal}
 %{__autoconf}
 %configure \
-	CFLAGS="%{rpmcflags} -DA4" \
 	%{!?with_cairo:--disable-cairo} \
 	--disable-compile-inits \
 	--enable-dynamic \

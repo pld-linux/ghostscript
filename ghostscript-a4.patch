@@ -1,0 +1,22 @@
+--- ghostscript-9.54.0/devices/devs.mak.orig	2021-03-30 09:40:28.000000000 +0200
++++ ghostscript-9.54.0/devices/devs.mak	2021-04-25 13:07:07.222881582 +0200
+@@ -24,7 +24,7 @@
+ DEVI_=$(DEVGENDIR) $(II)$(GLSRCDIR) $(II)$(GLGENDIR) $(II)$(DEVSRCDIR)
+ DEVF_=
+ 
+-DEVCCFLAGS=$(I_)$(DEVI_)$(_I) $(I_)$(DEVVEC)$(_I) $(D_)OCR_VERSION=$(OCR_VERSION)$(_D) $(DEVF_)
++DEVCCFLAGS=$(I_)$(DEVI_)$(_I) $(I_)$(DEVVEC)$(_I) $(D_)OCR_VERSION=$(OCR_VERSION)$(_D) $(DEVF_) $(D_)A4$(_D)
+ DEVCC=$(CC_) $(DEVCCFLAGS)
+ XPSDEVCC=$(CC_) $(XPSPRINTCFLAGS) $(DEVCCFLAGS)
+ 
+--- ghostscript-9.54.0/base/gxdevice.h.orig	2021-03-30 09:40:28.000000000 +0200
++++ ghostscript-9.54.0/base/gxdevice.h	2021-04-25 13:16:24.576528805 +0200
+@@ -55,7 +55,7 @@
+ #define DEFAULT_WIDTH_10THS_A4 82.6389f
+ #define DEFAULT_HEIGHT_10THS_A4 116.9444f
+ /* Choose a default.  A4 may be set in the makefile. */
+-#ifdef A4
++#ifndef DEFAULT_TO_US_LETTER
+ #  define DEFAULT_WIDTH_10THS DEFAULT_WIDTH_10THS_A4
+ #  define DEFAULT_HEIGHT_10THS DEFAULT_HEIGHT_10THS_A4
+ #else
