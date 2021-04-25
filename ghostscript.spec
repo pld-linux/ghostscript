@@ -81,10 +81,10 @@ BuildRequires:	zlib-devel >= 1.2.11
 Requires:	libpng >= 2:1.6.37
 %{?with_system_libtiff:Requires:	libtiff >= 4.2.0}
 Requires:	zlib >= 1.2.11
-Obsoletes:	ghostscript-afpl
-Obsoletes:	ghostscript-esp
-Obsoletes:	ghostscript-gpl
-Obsoletes:	ghostscript-svga
+Obsoletes:	ghostscript-afpl < 8.54
+Obsoletes:	ghostscript-esp < 8.50
+Obsoletes:	ghostscript-gpl < 8.51
+Obsoletes:	ghostscript-svga < 9.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_ulibdir        %{_prefix}/lib
@@ -127,9 +127,9 @@ Summary:	Ghostscript with GTK+ console
 Summary(pl.UTF-8):	Ghostscript z konsolą GTK+
 Group:		Applications/Graphics
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	ghostscript-afpl-gtk
-Obsoletes:	ghostscript-esp-gtk
-Obsoletes:	ghostscript-gpl-gtk
+Obsoletes:	ghostscript-afpl-gtk < 8.54
+Obsoletes:	ghostscript-esp-gtk < 8.50
+Obsoletes:	ghostscript-gpl-gtk < 8.51
 
 %description gtk
 Ghostscript with GTK+ console.
@@ -154,8 +154,8 @@ Summary:	libgs header files
 Summary(pl.UTF-8):	Pliki nagłówkowe libgs
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	ghostscript-afpl-devel
-Obsoletes:	ghostscript-esp-devel
+Obsoletes:	ghostscript-afpl-devel < 8.54
+Obsoletes:	ghostscript-esp-devel < 8.50
 
 %description devel
 Header files for libgs - ghostscript shared library.
@@ -189,8 +189,8 @@ Summary:	IJS development files
 Summary(pl.UTF-8):	Pliki dla programistów IJS
 Group:		Development/Libraries
 Requires:	%{name}-ijs = %{version}-%{release}
-Obsoletes:	ghostscript-afpl-ijs-devel
-Obsoletes:	ghostscript-esp-ijs-devel
+Obsoletes:	ghostscript-afpl-ijs-devel < 8.54
+Obsoletes:	ghostscript-esp-ijs-devel < 8.50
 
 %description ijs-devel
 IJS development files.
@@ -203,8 +203,8 @@ Summary:	Static libijs library
 Summary(pl.UTF-8):	Statyczna biblioteka IJS
 Group:		Development/Libraries
 Requires:	%{name}-ijs-devel = %{version}-%{release}
-Obsoletes:	ghostscript-afpl-ijs-static
-Obsoletes:	ghostscript-esp-ijs-static
+Obsoletes:	ghostscript-afpl-ijs-static < 8.54
+Obsoletes:	ghostscript-esp-ijs-static < 8.50
 
 %description ijs-static
 Static libijs library.
