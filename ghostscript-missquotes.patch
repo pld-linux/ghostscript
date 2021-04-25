@@ -19,17 +19,16 @@ diff -urN espgs-7.07.1rc2.org/lib/dvipdf espgs-7.07.1rc2/lib/dvipdf
  fi
  
  # We have to include the options twice because -I only takes effect if it
-diff -urN espgs-7.07.1rc2.org/lib/pdf2dsc espgs-7.07.1rc2/lib/pdf2dsc
---- espgs-7.07.1rc2.org/lib/pdf2dsc	Sun Sep 14 18:43:09 2003
-+++ espgs-7.07.1rc2/lib/pdf2dsc	Sun Sep 14 18:43:26 2003
-@@ -20,7 +20,7 @@
+--- ghostscript-9.54.0/lib/pdf2dsc.orig	2021-04-25 20:34:00.760212192 +0200
++++ ghostscript-9.54.0/lib/pdf2dsc	2021-04-25 20:44:48.926966311 +0200
+@@ -28,7 +28,7 @@ fi
  
  pdffile=$1
  dscfile=$2
 -: ${dscfile:=`echo $pdffile | sed 's,\.[^/.]*,,'`.dsc}
 +: ${dscfile:=`echo "$pdffile" | sed 's,\.[^/.]*,,'`.dsc}
  
- exec gs -q -dNODISPLAY -dSAFER -dDELAYSAFER\
+ exec "$GS_EXECUTABLE" -q -dNODISPLAY -P- -dSAFER -dDELAYSAFER\
      -sPDFname="$pdffile" -sDSCname="$dscfile" pdf2dsc.ps -c quit
 diff -urN espgs-7.07.1rc2.org/lib/pdf2ps espgs-7.07.1rc2/lib/pdf2ps
 --- espgs-7.07.1rc2.org/lib/pdf2ps	Sun Sep 14 18:43:09 2003
