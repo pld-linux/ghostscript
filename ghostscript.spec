@@ -20,19 +20,18 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.54.0
+Version:	9.55.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9540/%{name}-%{version}.tar.xz
-# Source0-md5:	72535d31018129a1a8ff636a47ba1f92
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/%{name}-%{version}.tar.xz
+# Source0-md5:	92aa46e75c4f32eb11d9c975053d876c
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-a4.patch
 Patch2:		ijs-pkgconfig.patch
-Patch3:		%{name}-tiff.patch
 
 Patch6:		%{name}-gdevcd8-fixes.patch
 Patch8:		%{name}-zlib.patch
@@ -217,7 +216,6 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %patch6 -p1
 %patch8 -p1
@@ -233,7 +231,7 @@ Statyczna wersja biblioteki IJS.
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
 # (unmodified) libpng 1.6.37 and zlib 1.2.11
 %{__rm} -r libpng zlib
-# libjpeg (9c without CLAMP_DC fixes) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# libjpeg (9d with additional CLAMP_DC) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 %{?with_system_libjpeg:%{__rm} -r jpeg}
 # lcms2mt is thread safe version of lcms2 2.10
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
