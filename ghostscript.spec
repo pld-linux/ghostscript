@@ -60,6 +60,7 @@ BuildRequires:	libpng-devel >= 2:1.6.37
 BuildRequires:	libstdc++-devel
 %{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.2.0}
 BuildRequires:	libtool
+%{?with_system_openjp2:BuildRequires:	openjpeg2-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	tar >= 1:1.22
