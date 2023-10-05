@@ -20,13 +20,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	9.56.1
+Version:	10.02.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9561/%{name}-%{version}.tar.xz
-# Source0-md5:	46dabbb1554391a3d0d95ce8304363f0
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10020/%{name}-%{version}.tar.xz
+# Source0-md5:	80c1cdfada72f2eb5987dc0d590ea5b2
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -34,7 +34,6 @@ Patch1:		%{name}-a4.patch
 Patch2:		ijs-pkgconfig.patch
 
 Patch6:		%{name}-gdevcd8-fixes.patch
-Patch8:		%{name}-zlib.patch
 
 # fedora
 Patch20:	%{name}-scripts.patch
@@ -219,7 +218,6 @@ Statyczna wersja biblioteki IJS.
 %patch2 -p1
 
 %patch6 -p1
-%patch8 -p1
 
 %patch20 -p1
 
@@ -247,7 +245,7 @@ Statyczna wersja biblioteki IJS.
 %configure \
 	%{!?with_cairo:--disable-cairo} \
 	--disable-compile-inits \
-	--enable-dynamic \
+        --enable-dynamic --disable-hidden-visibility \
 	--with-drivers=ALL \
 	--with-fontpath="%{_datadir}/fonts:%{_datadir}/fonts/Type1" \
 	--with-ijs \
@@ -291,8 +289,7 @@ cp -p base/gserrors.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
 cp -p LICENSE $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/*.sh \
-	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},eps2eps}.1 \
-	$RPM_BUILD_ROOT%{_mandir}/de/man1/{ps2pdf1{2,3},eps2eps}.1
+	$RPM_BUILD_ROOT%{_mandir}/man1/{ps2pdf1{2,3},eps2eps}.1
 
 echo ".so gs.1"     > $RPM_BUILD_ROOT%{_mandir}/man1/ghostscript.1
 echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/man1/ps2pdf12.1
@@ -302,10 +299,6 @@ echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsbj.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsdj.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gsdj500.1
 echo ".so gslp.1"   > $RPM_BUILD_ROOT%{_mandir}/man1/gslj.1
-
-echo ".so ps2ps.1"  > $RPM_BUILD_ROOT%{_mandir}/de/man1/eps2eps.1
-echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf12.1
-echo ".so ps2pdf.1" > $RPM_BUILD_ROOT%{_mandir}/de/man1/ps2pdf13.1
 
 bzip2 -dc %{SOURCE1} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/README.ghostscript-non-english-man-pages
@@ -351,9 +344,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ps2ps2
 %attr(755,root,root) %{_bindir}/pphs
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgs.so.9
-%dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/%{version}
+%attr(755,root,root) %ghost %{_libdir}/libgs.so.10
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/%{version}
 %{_datadir}/%{name}/%{version}/Resource
@@ -388,7 +379,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/ps2pdfwr.1*
 %{_mandir}/man1/ps2ps.1*
 %lang(cs) %{_mandir}/cs/man1/*
-%lang(de) %{_mandir}/de/man1/*
 %lang(es) %{_mandir}/es/man1/*
 %lang(fr) %{_mandir}/fr/man1/*
 %lang(pl) %{_mandir}/pl/man1/*
