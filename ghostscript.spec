@@ -10,6 +10,7 @@
 %bcond_with	system_libtiff	# system libtiff (incompatible with modified libjpeg)
 %bcond_without	system_openjp2	# system openjpeg2
 %bcond_with	system_lcms2	# build with included lcms2 (which is thread safe)
+%bcond_without	system_tesseract	# system tesseract+leptonlib
 %bcond_without	gtk		# gsx (GTK+ based frontend)
 %bcond_without	texdocs		# skip tetex BRs
 
@@ -48,21 +49,22 @@ BuildRequires:	cups-devel >= 1.5
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.4}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.13.0}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.19}
-%{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.20}
+%{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.10}
 BuildRequires:	libidn-devel
-%{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9c}
+%{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9e}
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 2:1.6.37
+BuildRequires:	libpng-devel >= 2:1.6.39
 BuildRequires:	libstdc++-devel
-%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.2.0}
+%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.5.0}
 BuildRequires:	libtool
-%{?with_system_openjp2:BuildRequires:	openjpeg2-devel}
+%{?with_system_openjp2:BuildRequires:	openjpeg2-devel >= 2.4.0}
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	tar >= 1:1.22
+%{?with_system_tesseract:BuildRequires:	tesseract-devel >= 4.1.0}
 # for documentation regeneration
 %if %{with texdocs}
 BuildRequires:	tetex
@@ -72,14 +74,14 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
-BuildRequires:	zlib-devel >= 1.2.11
-%{?with_system_freetype:Requires:	freetype >= 1:2.10.4}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.19}
-%{?with_system_lcms2:Requires:	lcms2 >= 2.6}
-%{?with_system_libjpeg:Requires:	libjpeg >= 9c}
-Requires:	libpng >= 2:1.6.37
-%{?with_system_libtiff:Requires:	libtiff >= 4.2.0}
-Requires:	zlib >= 1.2.11
+BuildRequires:	zlib-devel >= 1.2.13
+%{?with_system_freetype:Requires:	freetype >= 1:2.13.0}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.20}
+%{?with_system_lcms2:Requires:	lcms2 >= 2.10}
+%{?with_system_libjpeg:Requires:	libjpeg >= 9e}
+Requires:	libpng >= 2:1.6.39
+%{?with_system_libtiff:Requires:	libtiff >= 4.5.0}
+Requires:	zlib >= 1.2.13
 Obsoletes:	ghostscript-afpl < 8.54
 Obsoletes:	ghostscript-esp < 8.50
 Obsoletes:	ghostscript-gpl < 8.51
@@ -224,20 +226,22 @@ Statyczna wersja biblioteki IJS.
 %patch28 -p1
 
 # use system libs:
-# freetype 2.10.4
+# freetype 2.13.0
 %{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.19
+# jbig2dec 0.20
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
-# (unmodified) libpng 1.6.37 and zlib 1.2.11
+# (unmodified) libpng 1.6.39 and zlib 1.2.13
 %{__rm} -r libpng zlib
-# libjpeg (9d with additional CLAMP_DC) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# libjpeg (9e with additional CLAMP_DC) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 %{?with_system_libjpeg:%{__rm} -r jpeg}
 # lcms2mt is thread safe version of lcms2 2.10
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
-# leptonica 1.81.0-git (for tesseract), no switch to use system
 # openjpeg 2.4.0
 %{?with_system_openjp2:%{__rm} -r openjpeg}
-# tesseract 5.0.0-alpha, no switch to use system
+# tesseract 5.0.0-alpha-20201231, leptonica 1.81.0
+%{?with_system_tesseract:%{__rm} -r tesseract leptonica}
+# libtiff 4.5.0rc2
+%{?with_system_libtiff:%{__rm} -r tiff}
 
 %build
 %{__aclocal}
