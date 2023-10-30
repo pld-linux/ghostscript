@@ -22,7 +22,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	10.02.0
-Release:	2
+Release:	3
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
@@ -399,6 +399,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files x11
 %defattr(644,root,root,755)
+%dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/%{version}
 %attr(755,root,root) %{_libdir}/%{name}/%{version}/X11.so
 
