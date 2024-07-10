@@ -33,7 +33,8 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-a4.patch
 Patch2:		ijs-pkgconfig.patch
-
+Patch3:		gdevescp-fwrite.patch
+Patch4:		pdf_sec.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 
 # fedora
@@ -218,6 +219,8 @@ Statyczna wersja biblioteki IJS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+%patch4 -p1
 
 %patch6 -p1
 
