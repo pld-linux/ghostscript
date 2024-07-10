@@ -100,7 +100,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
 +            if(cdj850->ptype == DJ880C)
              gp_fprintf(prn_stream, "\033*b%dY", num_blank_lines / (cdj850->yscal + 1));
 +            else /* still in *b if not dj880 */
-+                fprintf(prn_stream, "%dy", num_blank_lines / (cdj850->yscal + 1));
++                gp_fprintf(prn_stream, "%dy", num_blank_lines / (cdj850->yscal + 1));
              memset(data_ptrs->plane_data[0][0], 0,
                     (misc_vars->plane_size * 2 * misc_vars->num_comps));
              memset(data_ptrs->plane_data_c[0][0], 0,
@@ -111,7 +111,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
 +            if(cdj850->ptype == DJ880C)
              gp_fprintf(prn_stream, "\033*b0V");
 +            else /* still in *b if not dj880 */
-+                putc('v', prn_stream);
++                gp_fputc('v', prn_stream);
          }
          /* now output all non blank lines */
          while (lnum < lend && llen != 0) {
@@ -124,7 +124,7 @@ Jakub Bogusz <qboosh@pld-linux.org>
 +        gp_fprintf(prn_stream, "%d%c", out_count, plane_code);
          gp_fwrite(out_data, sizeof(byte), out_count, prn_stream);
 +    } else { /* single plane_code is sufficient for cdj850 */
-+        putc(plane_code, prn_stream);
++        gp_fputc(plane_code, prn_stream);
      }
  }
  
