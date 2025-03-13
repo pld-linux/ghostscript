@@ -214,15 +214,15 @@ Statyczna wersja biblioteki IJS.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 
-%patch6 -p1
+%patch -P6 -p1
 
-%patch20 -p1
+%patch -P20 -p1
 
-%patch28 -p1
+%patch -P28 -p1
 
 # use system libs:
 # freetype 2.13.0
