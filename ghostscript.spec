@@ -21,13 +21,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	10.04.0
+Version:	10.05.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10040/%{name}-%{version}.tar.xz
-# Source0-md5:	a86a78cac91b6e1fc674c7961e760c3f
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10050/%{name}-%{version}.tar.xz
+# Source0-md5:	917dd03b426d37de0b5105f76178a21f
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -331,7 +331,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gslj
 %attr(755,root,root) %{_bindir}/gslp
 %attr(755,root,root) %{_bindir}/gsnd
-%attr(755,root,root) %{_bindir}/pdf2dsc
 %attr(755,root,root) %{_bindir}/pdf2ps
 %attr(755,root,root) %{_bindir}/pf2afm
 %attr(755,root,root) %{_bindir}/pfbtopfa
@@ -370,7 +369,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/gslj.1*
 %{_mandir}/man1/gslp.1*
 %{_mandir}/man1/gsnd.1*
-%{_mandir}/man1/pdf2dsc.1*
 %{_mandir}/man1/pdf2ps.1*
 %{_mandir}/man1/pf2afm.1*
 %{_mandir}/man1/pfbtopfa.1*
