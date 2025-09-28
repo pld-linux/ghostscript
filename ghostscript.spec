@@ -1,18 +1,18 @@
 # TODO:
 # - add djvu driver:
-#   http://dl.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
+#   https://downloads.sourceforge.net/djvu/gsdjvu-1.3.tar.gz (or newer)
 #
 # Conditional build:
-%bcond_without	cairo		# cairo support (disable for cairo bootstrap)
-%bcond_without	system_freetype	# system freetype
-%bcond_without	system_jbig2dec	# system jbig2dec
-%bcond_with	system_libjpeg	# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
-%bcond_with	system_libtiff	# system libtiff (incompatible with modified libjpeg)
-%bcond_without	system_openjp2	# system openjpeg2
-%bcond_with	system_lcms2	# build with included lcms2 (which is thread safe)
+%bcond_without	cairo			# cairo support (disable for cairo bootstrap)
+%bcond_without	system_freetype		# system freetype
+%bcond_without	system_jbig2dec		# system jbig2dec
+%bcond_with	system_libjpeg		# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
+%bcond_with	system_libtiff		# system libtiff (incompatible with modified libjpeg)
+%bcond_without	system_openjp2		# system openjpeg2
+%bcond_with	system_lcms2		# build with included lcms2 (which is thread safe)
 %bcond_without	system_tesseract	# system tesseract+leptonlib
-%bcond_without	gtk		# gsx (GTK+ based frontend)
-%bcond_without	texdocs		# skip tetex BRs
+%bcond_without	gtk			# gsx (GTK+ based frontend)
+%bcond_without	texdocs			# skip tetex BRs
 
 Summary:	PostScript & PDF interpreter and renderer
 Summary(de.UTF-8):	PostScript & PDF Interpreter und Renderer
@@ -21,13 +21,13 @@ Summary(ja.UTF-8):	PostScript インタープリタ・レンダラー
 Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
-Version:	10.05.1
+Version:	10.06.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10051/%{name}-%{version}.tar.xz
-# Source0-md5:	c26a0415b3f18d7ca7825ce64f0ca6c4
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10060/%{name}-%{version}.tar.xz
+# Source0-md5:	de467eb7ceb58c0b41537fb28ea2eb40
 Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-man-pages.tar.bz2
 # Source1-md5:	9b5953aa0cc155f4364f20036b848585
 Patch0:		%{name}-missquotes.patch
@@ -40,7 +40,7 @@ Patch20:	%{name}-scripts.patch
 
 Patch28:	%{name}-iccprofiles-initdir.patch
 
-URL:		http://www.ghostscript.com/
+URL:		https://www.ghostscript.com/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1.6
 %{?with_cairo:BuildRequires:	cairo-devel >= 1.2.0}
@@ -48,22 +48,22 @@ BuildRequires:	cups-devel >= 1.5
 BuildRequires:	dbus-devel
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	fontconfig-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.13.0}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.13.3}
 %{?with_gtk:BuildRequires:	gtk+3-devel >= 3.0}
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.20}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.10}
 BuildRequires:	libidn-devel
 %{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9e}
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 2:1.6.39
+BuildRequires:	libpng-devel >= 2:1.6.50
 BuildRequires:	libstdc++-devel
-%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.5.0}
+%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.7.0}
 BuildRequires:	libtool
-%{?with_system_openjp2:BuildRequires:	openjpeg2-devel >= 2.4.0}
+%{?with_system_openjp2:BuildRequires:	openjpeg2-devel >= 2.5.3}
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	tar >= 1:1.22
-%{?with_system_tesseract:BuildRequires:	tesseract-devel >= 4.1.0}
+%{?with_system_tesseract:BuildRequires:	tesseract-devel >= 5.5.0}
 # for documentation regeneration
 %if %{with texdocs}
 BuildRequires:	tetex
@@ -73,14 +73,14 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
-BuildRequires:	zlib-devel >= 1.2.13
-%{?with_system_freetype:Requires:	freetype >= 1:2.13.0}
+BuildRequires:	zlib-devel >= 1.3.1
+%{?with_system_freetype:Requires:	freetype >= 1:2.13.3}
 %{?with_system_jbig2dec:Requires:	jbig2dec >= 0.20}
 %{?with_system_lcms2:Requires:	lcms2 >= 2.10}
 %{?with_system_libjpeg:Requires:	libjpeg >= 9e}
-Requires:	libpng >= 2:1.6.39
-%{?with_system_libtiff:Requires:	libtiff >= 4.5.0}
-Requires:	zlib >= 1.2.13
+Requires:	libpng >= 2:1.6.50
+%{?with_system_libtiff:Requires:	libtiff >= 4.7.0}
+Requires:	zlib >= 1.3.1
 Obsoletes:	ghostscript-afpl < 8.54
 Obsoletes:	ghostscript-esp < 8.50
 Obsoletes:	ghostscript-gpl < 8.51
@@ -225,21 +225,21 @@ Statyczna wersja biblioteki IJS.
 %patch -P28 -p1
 
 # use system libs:
-# freetype 2.13.0
+# freetype 2.13.3
 %{?with_system_freetype:%{__rm} -r freetype}
 # jbig2dec 0.20
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
-# (unmodified) libpng 1.6.39 and zlib 1.2.13
+# (unmodified) libpng 1.6.50 and zlib 1.3.1
 %{__rm} -r libpng zlib
-# libjpeg (9e with additional CLAMP_DC) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# libjpeg (9f) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 %{?with_system_libjpeg:%{__rm} -r jpeg}
 # lcms2mt is thread safe version of lcms2 2.10
 %{?with_system_lcms2:%{__rm} -r lcms2mt}
-# openjpeg 2.4.0
+# openjpeg 2.5.3
 %{?with_system_openjp2:%{__rm} -r openjpeg}
-# tesseract 5.0.0-alpha-20201231, leptonica 1.81.0
+# tesseract 5.5,0, leptonica 1.85.0
 %{?with_system_tesseract:%{__rm} -r tesseract leptonica}
-# libtiff 4.5.0rc2
+# libtiff 4.7.0rc2
 %{?with_system_libtiff:%{__rm} -r tiff}
 
 %build
@@ -286,6 +286,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} -C ijs install \
 	DESTDIR=$RPM_BUILD_ROOT
+
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libijs.la
 
 cp -p base/gserrors.h $RPM_BUILD_ROOT%{_includedir}/ghostscript
 
@@ -347,7 +350,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ps2ps2
 %attr(755,root,root) %{_bindir}/pphs
 %attr(755,root,root) %{_libdir}/libgs.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libgs.so.10
+%ghost %{_libdir}/libgs.so.10
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/%{version}
 %dir %{_datadir}/%{name}
@@ -403,7 +406,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgs.so
+%{_libdir}/libgs.so
 %{_includedir}/ghostscript
 
 %files ijs
@@ -411,12 +414,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc ijs/README
 %attr(755,root,root) %{_bindir}/ijs_client_example
 %attr(755,root,root) %{_bindir}/ijs_server_example
-%attr(755,root,root) %{_libdir}/libijs-*.so
+%attr(755,root,root) %{_libdir}/libijs-0.35.so
 
 %files ijs-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libijs.so
-%{_libdir}/libijs.la
+%{_libdir}/libijs.so
 %{_includedir}/ijs
 %{_pkgconfigdir}/ijs.pc
 
