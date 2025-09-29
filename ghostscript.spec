@@ -22,7 +22,7 @@ Summary(pl.UTF-8):	Bezpłatny interpreter i renderer PostScriptu i PDF
 Summary(tr.UTF-8):	PostScript & PDF yorumlayıcı ve gösterici
 Name:		ghostscript
 Version:	10.06.0
-Release:	1
+Release:	2
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
@@ -33,6 +33,7 @@ Source1:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/%{name}-non-english-ma
 Patch0:		%{name}-missquotes.patch
 Patch1:		%{name}-a4.patch
 Patch2:		ijs-pkgconfig.patch
+Patch3:		%{name}-types.patch
 Patch6:		%{name}-gdevcd8-fixes.patch
 
 # fedora
@@ -217,6 +218,7 @@ Statyczna wersja biblioteki IJS.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
 
 %patch -P6 -p1
 
